@@ -8,7 +8,9 @@ Règles
                                                     -1 torpilleur (2 cases).
                                                     
 - Les participants jouent chacun leur tour, ils selectionnent une case appartenant à la matrice 
-- Si un bâteau est touché, a
+Si un joueur tire sur un navire ennemi, l’adversaire doit le signaler en disant « touché ». Il peut pas jouer deux fois de suite et doit attendre le tour de l’autre joueur.
+Si le joueur ne touche pas de navire, l’adversaire le signale en disant « raté » .
+Si le navire est entièrement touché l’adversaire doit dire « touché coulé ».
 
 Annexe :
 subtilités : deux navires ne doivent pas se toucher
