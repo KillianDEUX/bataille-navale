@@ -1,7 +1,7 @@
 CAHIER DES CHARGES
 
 Règles 
-- Placer dans une matrice 10x10 (1 à 10 et A à J) : -1 porte avion (5 cases), 
+- Placer dans une matrice de taille voulue :10x10 (1 à 10 et A à J) : -1 porte avion (5 cases), 
                                                     -1 croiseur (4 cases), 
                                                     -1 contre torpilleur (3 cases), 
                                                     -1 sous-marin (3 cases),
