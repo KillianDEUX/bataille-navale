@@ -4,7 +4,8 @@ Règles
 - Placer dans une matrice de taille voulue NxN : 
                 ex :10x10 (1 à 10 et A à J) 
                 
-              Bateaux: 
+             Choix des Bateaux: 
+              ex:
                 -1 porte avion (5 cases), 
                 -1 croiseur (4 cases), 
                 -1 contre torpilleur (3 cases), 
