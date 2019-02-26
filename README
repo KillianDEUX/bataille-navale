@@ -21,6 +21,7 @@ Règles
 Subtilités : - Deux navires ne doivent pas se toucher.
              - On ne peut pas tirer sur une case contenant un pion.
              - Les bâteaux ne peuvent pas être mis en diagonale.
+             - peut-être timer
 
 Structure :
 4 matrices
@@ -48,11 +49,20 @@ Traitement:
  -IA:
         -alea_bateau
         -choix_case
-SDL
+        
+SDL:
+  - 2 grilles / matrices
+  - affichage des bateaux
+  - affichage des pions
+  - affichage des messages
+  - gèle de la grille quand c'est pas son tour
 
 
-Mise en réseau
+Mise en réseau:
+ ???
 
 
+Limites:
 
-Limites
+  - remplacement par l'IA si perte de réseau ou inactivité du joueur.
+  
