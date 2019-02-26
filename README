@@ -14,9 +14,13 @@ Règles
 - Si le joueur ne touche pas de navire, l’adversaire le signale en disant « raté » .
 - Si le navire est entièrement touché l’adversaire doit dire « touché coulé ».
 - Chaque joueur dispose de 2 grilles : une avec ses bâteaux et l'autre avec la grille adverse.
-Annexe :
+- Sur sa deuxième grille le joueur marque les cases sur lesquelles il a tiré, un pion blanc s'il a raté, un pion rouge s'il a réussi.
+- Lorsqu'il y a un navire de coulé, toutes les cases adjacentes sont marqués de pions blancs.
 
-subtilités : deux navires ne doivent pas se toucher
+
+Subtilités : - Deux navires ne doivent pas se toucher.
+             - On ne peut pas tirer sur une case contenant un pion.
+             - Les bâteaux ne peuvent pas être mis en diagonale.
 
 Structure
 
