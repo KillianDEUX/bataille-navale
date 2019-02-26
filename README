@@ -22,12 +22,32 @@ Subtilités : - Deux navires ne doivent pas se toucher.
              - On ne peut pas tirer sur une case contenant un pion.
              - Les bâteaux ne peuvent pas être mis en diagonale.
 
-Structure
+Structure :
+4 matrices
+4 structures (1 par taille de bateau)
+1 structure pour les pions
 
 
-Fonctions
-
-
+Fonctions:
+Interaction avec l'interface
+  -placer_bateau()
+  -tourner_bateau()
+  -placer_pion()
+  -afficher_etat()
+  -toucher_bateau()
+  -couler_bateau()
+  -rater()
+  -tour_joueur()
+  -
+  
+Traitement:
+ -primitive des matrices:
+        - init_mat
+        - creer_mat
+        - vider_mat
+ -IA:
+        -alea_bateau
+        -choix_case
 SDL
 
 
