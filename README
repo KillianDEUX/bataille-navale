@@ -59,7 +59,7 @@ SDL:
 
 
 Mise en réseau:
- ???
+ socket
 
 
 Limites:
