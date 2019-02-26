@@ -1,11 +1,15 @@
 CAHIER DES CHARGES
 
 Règles 
-- Placer dans une matrice de taille voulue :10x10 (1 à 10 et A à J) : -1 porte avion (5 cases), 
-                                                    -1 croiseur (4 cases), 
-                                                    -1 contre torpilleur (3 cases), 
-                                                    -1 sous-marin (3 cases),
-                                                    -1 torpilleur (2 cases).
+- Placer dans une matrice de taille voulue : 
+                ex :10x10 (1 à 10 et A à J) 
+                
+              Bateaux: 
+                -1 porte avion (5 cases), 
+                -1 croiseur (4 cases), 
+                -1 contre torpilleur (3 cases), 
+                -1 sous-marin (3 cases),
+                -1 torpilleur (2 cases).
                                                     
 - Les participants jouent chacun leur tour, ils selectionnent une case appartenant à la matrice.
 - Un joueur ne peut pas jouer deux fois de suite et doit attendre le tour de l’autre joueur.
