@@ -36,6 +36,8 @@ void init_matrice_adv (int taille){
 	}
 }
 
+// Remplacer tous les ptr par ptr[0] 
+
 void ajout_pion_matrice( int taille, int abs, int ord ){
 
 	if( etat_tir(taille, abs, ord)==0){            // Si le tir tombe dans l'eau
