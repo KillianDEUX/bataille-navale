@@ -4,36 +4,40 @@
 
 #define N 10
 
-typedef enum couleur { aucune, blanc, rouge }
+typedef enum couleur { aucune, blanc, rouge } couleur_t;
 
 typedef struct pion {
-		couleur c;	
+		couleur_t c;	
 } pion_t;
 
-void init_matrice_adv (int taille){
+int init_matrice_adv (int taille){
 	
 pion **ptr;
+
 ptr = malloc(taille * sizeof(*ptr)); 
 if(ptr == NULL){ 
 	return 1;
 } 
-for(i=0 ; i < taille ; i++){
-     ptr[i] = malloc(taille * sizeof(**ptr) );
-     if(ptr[i] == NULL){
+ ptr[0]= malloc(taille * taille * sizeof(*pts));
+     if(ptr[0]== NULL){
 	return 1;
      }
+	
 }
-
-    for(int i=0; i<taille ; i++)
+for(int i=1; i<taille ; i++){
+	ptr[i]== ptr[i-1]+taille;
+}
+	
+for(int i=0; i<taille ; i++)
         for(int j=0; j<taille ; j++){
-            (ptr+i*taille+j).c= "aucune" ;
+            (ptr+i*taille+j).c= aucune;
 	}
 }
 
 void ajout_pion_matrice( int taille, int abs, int ord ){
 
 	if( etat_tir(taille, abs, ord)==0){            // Si le tir tombe dans l'eau
-		 (ptr+abs*taille+ord).c= "blanc" ;     // Placer un pion blanc sur la matrice
+		 (ptr+abs*taille+ord).c= blanc ;     // Placer un pion blanc sur la matrice
 	}else if( etat_tir(taille, abs, ord)==1){      // Si le tir touche une cible
 		(ptr+abs*taille+ord).c= "rouge" ;      // Placer un pion rouge sur la matrice
 	}else{					       // Si le tir coule une cible
