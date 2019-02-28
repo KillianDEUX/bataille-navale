@@ -8,7 +8,7 @@ void choixbateau(int N, int M){
        char fich[20] = 'bateau.txt';
        FILE * fic1;
        int nbbat=0;
-       int nbmaxbat = (N*M)/2;
+       int nbmaxbat = (0,06 * (M*N)) - (0,3 * N) +2;
        fic1= fopen(fich, "w");
        while(nbbat<= 0 || nbbat > nbmaxbat){
               printf("Combien de bâteau voulez-vous avoir ?(différent de 0 et inférieur à la moitié du nombre de case du terrain de jeu) : ");
