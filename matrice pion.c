@@ -9,11 +9,11 @@ typedef enum couleur { aucune, blanche, rouge }
 typedef struct pion {
 		couleur c;
 		int x;
-		char y;
+		int y;
 } pion_t;
 
 void init_matrice_adv (int taille){
-
+	
 pion **ptr;
 ptr = malloc(taille * sizeof(*ptr)); 
 if(ptr == NULL){ 
@@ -27,51 +27,162 @@ for(i=0 ; i < taille ; i++){
 }
 
     for(int i=0; i<taille ; i++)
-        for(int j=0; j<taille ; j++)
+        for(int j=0; j<taille ; j++){
             (ptr+i*taille+j).c= "aucune" ;
-    	    (ptr+i*taille+j).x='a'+i;
+    	    (ptr+i*taille+j).x=i;
 	    (ptr+i*taille+j).y=j;
+	}
 }
 
-void ajout_pion_matrice( int taille, int abs, char ord ){
+void ajout_pion_matrice( int taille, int abs, int ord ){
 
-	if( etat_tir(taille, abs, ord)==0){
-		 (ptr+abs*taille+ord).c= "aucune" ;
-		
-
-
-
-
-
-
-
-
-void init_matrice_joueur (int mat_j [N][N]){
-
-    for(int i=0; i<N ; i++)
-        for(int j=0; j<N ; j++)
-	    mat_j [i][j]= 0;
+	if( etat_tir(taille, abs, ord)==0){            // Si le tir tombe dans l'eau
+		 (ptr+abs*taille+ord).c= "blanc" ;     // Placer un pion blanc sur la matrice
+	}else if( etat_tir(taille, abs, ord)==1){      // Si le tir touche une cible
+		(ptr+abs*taille+ord).c= "rouge" ;      // Placer un pion rouge sur la matrice
+	}else{					       // Si le tir coule une cible
+		(ptr+abs*taille+ord).c= "rouge" ;      // Placer un pion rouge sur la matrice
+		eauautourcoule(taille, abs, ord);      // Placer des pion blancs tout autour sur la matrice
+	}
+	
+void danslagrille(int taille, int abs, int ord ){
+	
+	if( abs >= taille || ord >= taille || abs < 1 ||ord < 1 )
+		return 1;
+	return 0;
 }
-
-
-
-
-int **ptr;
-ptr = malloc(taille * sizeof(*ptr)); 
-if(ptr == NULL){ 
-	return 1;
-} 
-for(i=0 ; i < taille ; i++){
-     ptr[i] = malloc(taille * sizeof(**ptr) );
-     if(ptr[i] == NULL){
-	return 1;
-     }
+	
+	
+void eauautourcoule( int taille, int abs, int ord ){
+	// Lorsque le bateau est dirigé vers le nord
+	int ordtemp=ord+1;
+	int abstemp=abs;
+	if ( danslagrille(taille, abstemp, ordtemp)== 0){
+		if( (ptr+abstemp*taille+(ordtemp)).c= "aucune"){
+			(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+		}else if ((ptr+abstemp*taille+(ordtemp)).c= "rouge"){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+(ordtemp)).c= "rouge")){
+				abstemp=abs+1;
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+				}
+				abstemp=abs-1;
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+				}
+				ordtemp++;
+			}
+			abstemp=abs+1;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+			}
+			abstemp=abs-1;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+			}
+			abstemp=abs;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+			}
+		}
+	}
+	// Lorsque le bateau est dirigé vers le sud
+	int ordtemp=ord-1; 									// Changement 
+	int abstemp=abs;
+	if ( danslagrille(taille, abstemp, ordtemp)== 0){
+		if( (ptr+abstemp*taille+ordtemp).c= "aucune"){
+			(ptr+abstemp*taille+ordtemp).c= "blanc";
+		}else if ((ptr+abstemp*taille+ordtemp).c= "rouge"){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= "rouge")){
+				abstemp=abs+1;
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+ordtemp).c= "blanc";
+				}
+				abstemp=abs-1;
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+ordtemp).c= "blanc";
+				}
+				ordtemp--;                   					// Changement 
+			}
+			abstemp=abs+1;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+			abstemp=abs-1;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+			abstemp=abs;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+		}
+	}
+	// Lorsque le bateau est dirigé vers l'est
+	int ordtemp=ord;                   				                        // Changement 			
+	int abstemp=abs+1;                  					                // Changement 
+	if ( danslagrille(taille, abstemp, ordtemp)== 0){
+		if( (ptr+abstemp*taille+ordtemp).c= "aucune"){
+			(ptr+abstemp*taille+ordtemp).c= "blanc";
+		}else if ((ptr+abstemp*taille+ordtemp).c= "rouge"){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= "rouge")){
+				ordtemp=ord+1;							// Changement
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+				}
+				ordtemp=ord-1;							// Changement
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+ordtemp).c= "blanc";
+				}
+				abstemp++;							// Changement                   					
+			}
+			ordtemp=ord+1;								// Changement
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+			ordtemp=ord-1;								// Changement
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+			ordtemp=ord;								// Changement
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+		}
+	}
+	// Lorsque le bateau est dirigé vers l'ouest
+	int ordtemp=ord;                   				                        		
+	int abstemp=abs-1;                  					                // Changement 
+	if ( danslagrille(taille, abstemp, ordtemp)== 0){
+		if( (ptr+abstemp*taille+ordtemp).c= "aucune"){
+			(ptr+abstemp*taille+ordtemp).c= "blanc";
+		}else if ((ptr+abstemp*taille+ordtemp).c= "rouge"){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= "rouge")){
+				ordtemp=ord+1;							
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+(ordtemp)).c= "blanc";
+				}
+				ordtemp=ord-1;							
+				if(danslagrille(taille, abstemp, ordtemp)== 0){
+					(ptr+abstemp*taille+ordtemp).c= "blanc";
+				}
+				abstemp--;							// Changement                   					
+			}
+			ordtemp=ord+1;								
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+			ordtemp=ord-1;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+			ordtemp=ord;
+			if(danslagrille(taille, abstemp, ordtemp)== 0){
+				(ptr+abstemp*taille+ordtemp).c= "blanc";
+			}
+		}
+	}
 }
-
-
-
-
-
 
 
 
