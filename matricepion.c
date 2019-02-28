@@ -4,12 +4,10 @@
 
 #define N 10
 
-typedef enum couleur { aucune, blanche, rouge }
+typedef enum couleur { aucune, blanc, rouge }
 
 typedef struct pion {
-		couleur c;
-		int x;
-		int y;
+		couleur c;	
 } pion_t;
 
 void init_matrice_adv (int taille){
@@ -29,8 +27,6 @@ for(i=0 ; i < taille ; i++){
     for(int i=0; i<taille ; i++)
         for(int j=0; j<taille ; j++){
             (ptr+i*taille+j).c= "aucune" ;
-    	    (ptr+i*taille+j).x=i;
-	    (ptr+i*taille+j).y=j;
 	}
 }
 
@@ -61,7 +57,7 @@ void eauautourcoule( int taille, int abs, int ord ){
 		if( (ptr+abstemp*taille+(ordtemp)).c= "aucune"){
 			(ptr+abstemp*taille+(ordtemp)).c= "blanc";
 		}else if ((ptr+abstemp*taille+(ordtemp)).c= "rouge"){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+(ordtemp)).c= "rouge")){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= "rouge")){
 				abstemp=abs+1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
 					(ptr+abstemp*taille+(ordtemp)).c= "blanc";
