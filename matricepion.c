@@ -41,11 +41,11 @@ void init_matrice_adv (int taille){
 void ajout_pion_matrice( int taille, int abs, int ord ){
 
 	if( etat_tir(taille, abs, ord)==0){            // Si le tir tombe dans l'eau
-		 (ptr+abs*taille+ord).c= blanc ;     // Placer un pion blanc sur la matrice
+		 (ptr[0]+abs*taille+ord).c= blanc ;     // Placer un pion blanc sur la matrice
 	}else if( etat_tir(taille, abs, ord)==1){      // Si le tir touche une cible
-		(ptr+abs*taille+ord).c= rouge ;      // Placer un pion rouge sur la matrice
+		(ptr[0]+abs*taille+ord).c= rouge ;      // Placer un pion rouge sur la matrice
 	}else{					       // Si le tir coule une cible
-		(ptr+abs*taille+ord).c= rouge ;      // Placer un pion rouge sur la matrice
+		(ptr[0]+abs*taille+ord).c= rouge ;      // Placer un pion rouge sur la matrice
 		eauautourcoule(taille, abs, ord);      // Placer des pion blancs tout autour sur la matrice
 	}
 	
@@ -62,31 +62,31 @@ void eauautourcoule( int taille, int abs, int ord ){
 	int ordtemp=ord+1;
 	int abstemp=abs;
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr+abstemp*taille+(ordtemp)).c= aucune){
-			(ptr+abstemp*taille+(ordtemp)).c= blanc;
-		}else if ((ptr+abstemp*taille+(ordtemp)).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= rouge)){
+		if( (ptr[0]+abstemp*taille+(ordtemp)).c= aucune){
+			(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
+		}else if ((ptr[0]+abstemp*taille+(ordtemp)).c= rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
 				abstemp=abs+1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+(ordtemp)).c= blanc;
+					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 				}
 				abstemp=abs-1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+(ordtemp)).c= blanc;
+					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 				}
 				ordtemp++;
 			}
 			abstemp=abs+1;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+(ordtemp)).c= blanc;
+				(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 			}
 			abstemp=abs-1;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+(ordtemp)).c= blanc;
+				(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 			}
 			abstemp=abs;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+(ordtemp)).c= blanc;
+				(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 			}
 		}
 	}
@@ -94,9 +94,9 @@ void eauautourcoule( int taille, int abs, int ord ){
 	int ordtemp=ord-1; 									// Changement 
 	int abstemp=abs;
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr+abstemp*taille+ordtemp).c= aucune){
-			(ptr+abstemp*taille+ordtemp).c= blanc;
-		}else if ((ptr+abstemp*taille+ordtemp).c= rouge){
+		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
+			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
+		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
 			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= rouge)){
 				abstemp=abs+1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
