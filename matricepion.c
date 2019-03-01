@@ -97,28 +97,28 @@ void eauautourcoule( int taille, int abs, int ord ){
 		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
 			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= rouge)){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
 				abstemp=abs+1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+ordtemp).c= blanc;
+					(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 				}
 				abstemp=abs-1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+ordtemp).c= blanc;
+					(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 				}
 				ordtemp--;                   					// Changement 
 			}
 			abstemp=abs+1;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 			abstemp=abs-1;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 			abstemp=abs;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 		}
 	}
@@ -126,31 +126,31 @@ void eauautourcoule( int taille, int abs, int ord ){
 	int ordtemp=ord;                   				                        // Changement 			
 	int abstemp=abs+1;                  					                // Changement 
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr+abstemp*taille+ordtemp).c= aucune){
-			(ptr+abstemp*taille+ordtemp).c= blanc;
-		}else if ((ptr+abstemp*taille+ordtemp).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= rouge)){
+		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
+			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
+		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
 				ordtemp=ord+1;							// Changement
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+(ordtemp)).c= blanc;
+					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 				}
 				ordtemp=ord-1;							// Changement
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+ordtemp).c= blanc;
+					(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 				}
 				abstemp++;							// Changement                   					
 			}
 			ordtemp=ord+1;								// Changement
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 			ordtemp=ord-1;								// Changement
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 			ordtemp=ord;								// Changement
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 		}
 	}
@@ -158,31 +158,31 @@ void eauautourcoule( int taille, int abs, int ord ){
 	int ordtemp=ord;                   				                        		
 	int abstemp=abs-1;                  					                // Changement 
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr+abstemp*taille+ordtemp).c= aucune){
-			(ptr+abstemp*taille+ordtemp).c= blanc;
-		}else if ((ptr+abstemp*taille+ordtemp).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr+abstemp*taille+ordtemp).c= rouge)){
+		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
+			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
+		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
 				ordtemp=ord+1;							
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+(ordtemp)).c= blanc;
+					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
 				}
 				ordtemp=ord-1;							
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
-					(ptr+abstemp*taille+ordtemp).c= blanc;
+					(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 				}
 				abstemp--;							// Changement                   					
 			}
 			ordtemp=ord+1;								
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 			ordtemp=ord-1;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 			ordtemp=ord;
 			if(danslagrille(taille, abstemp, ordtemp)== 0){
-				(ptr+abstemp*taille+ordtemp).c= blanc;
+				(ptr[0]+abstemp*taille+ordtemp).c= blanc;
 			}
 		}
 	}
