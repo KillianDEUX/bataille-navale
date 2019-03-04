@@ -192,10 +192,21 @@ void vider_matrice(int taille){
 	init_matrice_adv (taille);
 }
 
-
-
-
-
+// Voir avec la SDL. Ici version terminal
+void afficher_matrice_pion( int taille){
+	for(int i=0; i<taille ; i++)
+       		for(int j=0; j<taille ; j++){
+           		if((ptr[0]+i*taille+j).c == aucune){
+				printf(". ");
+			}else if((ptr[0]+i*taille+j).c == blanc){
+				printf("0 ");
+			}else{
+				printf("X ");
+			}
+		}
+		printf("\n");
+	}
+}
 
 
 
