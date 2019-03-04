@@ -1,3 +1,5 @@
+// revoir si on change la matrice carrée en rectangulaire
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
