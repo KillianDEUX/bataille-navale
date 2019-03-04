@@ -187,6 +187,10 @@ void eauautourcoule( int taille, int abs, int ord ){
 		}
 	}
 }
+	
+void vider_matrice(int taille){
+	init_matrice_adv (taille);
+}
 
 
 
