@@ -10,14 +10,14 @@ typedef struct case_s {
 
 case_t case_tabtocoord(int taille, int nb){
   case_t cellule;
-  cellule.x=nb%taille;
-  cellule.y=((nb-(cellule.x))/taille)+1;
+  cellule.y=nb%taille;
+  cellule.x=((nb-(cellule.y))/taille)+1;
   return cellule;
 }
 
 int case_coordtotab(int taille, case_t cellule){
   int nb;
-  nb=((cellule.y)*taille+(cellule.x));
+  nb=((cellule.x)*taille+(cellule.y));
   return nb;
 }
 
@@ -41,29 +41,50 @@ int est_autour( int taille, pion_t ptr[]){
 }
 
 int detection_touche (int taille, case_t cell, pion_t ptr[]){
-
+	int ca=0;
 	for(int i=0; i<taille ; i++){
        		for(int j=0; j<taille ; j++){
-           		if((ptr[0]+i*taille+j).c==rouge){
-                if( danslagrille(taille, cell.x, cell.y+(cell.y+1))== 0){
-                  if( (ptr[0]+(cell.x)*taille+(cell.y+1)).c== aucune){
-                    return ptr[0]+(cell.x)*taille+(cell.y+1);
-                  }
-                }else if( danslagrille(taille, cell.x, cell.y+(cell.y-1))== 0){
-                    if( (ptr[0]+(cell.x)*taille+(cell.y-1)).c== aucune){
-                     return ptr[0]+(cell.x)*taille+(cell.y-1);
-                    }
-                }else if ( danslagrille(taille, cell.x+1, cell.y)== 0){
-                   if( (ptr[0]+((cell.x)+1)*taille+cell.y).c== aucune){
-                     return ptr[0]+((cell.x)+1)*taille+cell.y;
-                    }
-                }else if ( danslagrille(taille, cell.x-1, cell.y)== 0){
-                   if( (ptr[0]+((cell.x)-1)*taille+cell.y).c== aucune){
-                     return ptr[0]+((cell.x)-1)*taille+cell.y;
-                    }
-                }
-              }
-          }
+			if((ptr[0]+i*taille+j).c==rouge){
+				if( danslagrille(taille, cell.x, (cell.y+1))== 0){
+                			if( (ptr[0]+(cell.x)*taille+(cell.y+1)).c== rouge){
+                  				  return ptr[0]+(cell.x)*taille+(cell.y+1);
+                 			 }
+               			 }else if( danslagrille(taille, cell.x, (cell.y-1))== 0){
+                   			 if( (ptr[0]+(cell.x)*taille+(cell.y-1)).c== rouge){
+                  				  return ptr[0]+(cell.x)*taille+(cell.y-1);
+                  			  }
+             			 }else if ( danslagrille(taille, cell.x+1, cell.y)== 0){
+                 			  if( (ptr[0]+((cell.x)+1)*taille+cell.y).c== rouge){
+                   				  return ptr[0]+((cell.x)+1)*taille+cell.y;
+                 			   }
+            			 }else if ( danslagrille(taille, cell.x-1, cell.y)== 0){
+                  			   if( (ptr[0]+((cell.x)-1)*taille+cell.y).c== rouge){
+                    				 return ptr[0]+((cell.x)-1)*taille+cell.y;
+					   }
+              			}
+				
+				
+				
+				
+                		if( danslagrille(taille, cell.x, (cell.y+1))== 0){
+                			if( (ptr[0]+(cell.x)*taille+(cell.y+1)).c== aucune){
+                  				  return ptr[0]+(cell.x)*taille+(cell.y+1);
+                 			 }
+               			 }else if( danslagrille(taille, cell.x, (cell.y-1))== 0){
+                   			 if( (ptr[0]+(cell.x)*taille+(cell.y-1)).c== aucune){
+                  				  return ptr[0]+(cell.x)*taille+(cell.y-1);
+                  			  }
+             			 }else if ( danslagrille(taille, cell.x+1, cell.y)== 0){
+                 			  if( (ptr[0]+((cell.x)+1)*taille+cell.y).c== aucune){
+                   				  return ptr[0]+((cell.x)+1)*taille+cell.y;
+                 			   }
+            			 }else if ( danslagrille(taille, cell.x-1, cell.y)== 0){
+                  			   if( (ptr[0]+((cell.x)-1)*taille+cell.y).c== aucune){
+                    				 return ptr[0]+((cell.x)-1)*taille+cell.y;
+					   }
+              			}
+             		 }
+          	}
 	}
 	return 0;
 }
