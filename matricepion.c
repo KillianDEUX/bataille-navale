@@ -74,10 +74,10 @@ void eauautourcoule( int taille, int abs, int ord, pion_t ptr[] ){
 	int ordtemp=ord+1;
 	int abstemp=abs;
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr[0]+abstemp*taille+(ordtemp)).c= aucune){
+		if( (ptr[0]+abstemp*taille+(ordtemp)).c== aucune){
 			(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
-		}else if ((ptr[0]+abstemp*taille+(ordtemp)).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
+		}else if ((ptr[0]+abstemp*taille+(ordtemp)).c== rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c== rouge)){
 				abstemp=abs+1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
 					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
@@ -106,10 +106,10 @@ void eauautourcoule( int taille, int abs, int ord, pion_t ptr[] ){
 	int ordtemp=ord-1; 									// Changement 
 	int abstemp=abs;
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
+		if( (ptr[0]+abstemp*taille+ordtemp).c== aucune){
 			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
-		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
+		}else if ((ptr[0]+abstemp*taille+ordtemp).c== rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c== rouge)){
 				abstemp=abs+1;
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
 					(ptr[0]+abstemp*taille+ordtemp).c= blanc;
@@ -138,10 +138,10 @@ void eauautourcoule( int taille, int abs, int ord, pion_t ptr[] ){
 	int ordtemp=ord;                   				                        // Changement 			
 	int abstemp=abs+1;                  					                // Changement 
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
+		if( (ptr[0]+abstemp*taille+ordtemp).c== aucune){
 			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
-		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
+		}else if ((ptr[0]+abstemp*taille+ordtemp).c== rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c== rouge)){
 				ordtemp=ord+1;							// Changement
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
 					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
@@ -170,10 +170,10 @@ void eauautourcoule( int taille, int abs, int ord, pion_t ptr[] ){
 	int ordtemp=ord;                   				                        		
 	int abstemp=abs-1;                  					                // Changement 
 	if ( danslagrille(taille, abstemp, ordtemp)== 0){
-		if( (ptr[0]+abstemp*taille+ordtemp).c= aucune){
+		if( (ptr[0]+abstemp*taille+ordtemp).c== aucune){
 			(ptr[0]+abstemp*taille+ordtemp).c= blanc;
-		}else if ((ptr[0]+abstemp*taille+ordtemp).c= rouge){
-			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c= rouge)){
+		}else if ((ptr[0]+abstemp*taille+ordtemp).c== rouge){
+			while((danslagrille(taille, abstemp, ordtemp)== 0) && ((ptr[0]+abstemp*taille+ordtemp).c== rouge)){
 				ordtemp=ord+1;							
 				if(danslagrille(taille, abstemp, ordtemp)== 0){
 					(ptr[0]+abstemp*taille+(ordtemp)).c= blanc;
