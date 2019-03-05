@@ -24,7 +24,58 @@ void choixbateau(int N, int M){
        }
 }
        
+typedef struct bateau {
+		int b;	
+} bateau_t;
 
+int creer_matrice_bateau (int taille){
+	
+	bateau_t **bat;
+
+	bat = malloc(taille * sizeof(*bat)); 
+	if(ptr == NULL){ 
+		return 1;
+	} 
+	 bat[0]= malloc(taille * taille * sizeof(**bat));
+	     if(bat[0]== NULL){
+		return 1;
+	     }
+
+	}
+	for(int i=1; i<taille ; i++){
+		bat[i]== bat[i-1]+taille;
+	}
+
+}
+
+
+int init_matrice_bat (int taille, bateau_t bat[]){
+
+	for(int i=0; i<taille ; i++)
+       		for(int j=0; j<taille ; j++){
+           		(bat[0]+i*taille+j).c= aucune;
+	}
+	return 0;
+}
+void vider_matrice(int taille){
+	init_matrice_adv (taille);
+}
+
+// Voir avec la SDL. Ici version terminal
+void afficher_matrice_pion( int taille){
+	for(int i=0; i<taille ; i++)
+       		for(int j=0; j<taille ; j++){
+           		if((ptr[0]+i*taille+j).c == aucune){
+				printf(". ");
+			}else if((ptr[0]+i*taille+j).c == blanc){
+				printf("0 ");
+			}else{
+				printf("X ");
+			}
+		}
+		printf("\n");
+	}
+}
 
 void placerbateau(int mat[N][M], int N, int M, int n_bateau, char dir, int x, int y){
               
