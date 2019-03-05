@@ -32,6 +32,22 @@ case_t autorisation_case(int taille, int pluspetitbat){
   return cellule;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+int est_autour( int taille, pion ptr[]){
+// Verifier si il y a déjà des pions blancs à proximité
+}
+
+int detection_touche (int taille, pion ptr[]){
+ // Verifie si il y a déjà un bateau touché non coulé
+}
+
+t_case choix_autour_touche (int taille, pion ptr[]){
+ // Choisis une case adjacente au bateau touché non coulé dans sa continuité
+}
+
 case_t choisir_case(int taille){
-  
+  // Choix final de la case
 }
