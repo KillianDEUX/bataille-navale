@@ -29,7 +29,7 @@ int creer_matrice_adv (int taille){
 	for(int i=1; i<taille ; i++){
 		ptr[i]= ptr[i-1]+taille;
 	}
-
+	return 0;
 }
 
 
