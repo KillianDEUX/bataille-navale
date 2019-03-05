@@ -32,7 +32,7 @@ int creer_matrice_adv (int taille){
 
 	}
 	for(int i=1; i<taille ; i++){
-		ptr[i]== ptr[i-1]+taille;
+		ptr[i]= ptr[i-1]+taille;
 	}
 
 }
@@ -81,6 +81,16 @@ int ajout_pion_matrice( int taille, int abs, int ord, pion_t ptr[] ){
 	return 0;
 }
 	
+
+int init_matrice_bat (int taille, bateau_t bat[]){
+
+	for(int i=0; i<taille ; i++)
+       		for(int j=0; j<taille ; j++){
+           		(bat[0]+i*taille+j).c= aucune;
+	}
+	return 0;
+}
+
 	
 void danslagrille(int taille, int abs, int ord ){
 	
