@@ -17,7 +17,7 @@ case_t case_tabtocoord(int taille, int nb){
 
 int case_coordtotab(int taille, case_t cellule){
   int nb;
-  nb=((cellule.x)*taille+(cellule.y));
+  nb=(((cellule.x)-1)*taille+(cellule.y));
   return nb;
 }
 
@@ -41,25 +41,31 @@ int est_autour( int taille, pion_t ptr[]){
 }
 
 int detection_touche (int taille, case_t cell, pion_t ptr[]){
-	int ca=0;
+	int ca=1;
 	for(int i=0; i<taille ; i++){
        		for(int j=0; j<taille ; j++){
 			if((ptr[0]+i*taille+j).c==rouge){
-				if( danslagrille(taille, cell.x, (cell.y+1))== 0){
-                			if( (ptr[0]+(cell.x)*taille+(cell.y+1)).c== rouge){
-                  				  return ptr[0]+(cell.x)*taille+(cell.y+1);
+				if( danslagrille(taille, cell.x, (cell.y+ca))== 0){
+                			while( (ptr[0]+(cell.x)*taille+(cell.y+ca)).c== rouge){
+                  				  ca++;
                  			 }
-               			 }else if( danslagrille(taille, cell.x, (cell.y-1))== 0){
-                   			 if( (ptr[0]+(cell.x)*taille+(cell.y-1)).c== rouge){
-                  				  return ptr[0]+(cell.x)*taille+(cell.y-1);
-                  			  }
-             			 }else if ( danslagrille(taille, cell.x+1, cell.y)== 0){
-                 			  if( (ptr[0]+((cell.x)+1)*taille+cell.y).c== rouge){
-                   				  return ptr[0]+((cell.x)+1)*taille+cell.y;
+					 if( danslagrille(taille, cell.x, (cell.y+ca))== 0 && (ptr[0]+(cell.x)*taille+(cell.y+ca)).c== aucune)){
+						 return ptr[0]+(cell.x)*taille+(cell.y+ca);
+					 }
+               			 }else if( danslagrille(taille, cell.x, (cell.y-ca))== 0){
+                   			 while( (ptr[0]+(cell.x)*taille+(cell.y-ca)).c== rouge){
+                  				  ca--;
+                 			 }
+					 if( danslagrille(taille, cell.x, (cell.y-ca))== 0 && (ptr[0]+(cell.x)*taille+(cell.y-ca)).c== aucune)){
+						 return ptr[0]+(cell.x)*taille+(cell.y-ca);
+					 }
+             			 }else if ( danslagrille(taille, cell.x+ca, cell.y)== 0){
+                 			  if( (ptr[0]+((cell.x)+ca)*taille+cell.y).c== rouge){
+                   				  return ptr[0]+((cell.x)+ca)*taille+cell.y;
                  			   }
-            			 }else if ( danslagrille(taille, cell.x-1, cell.y)== 0){
-                  			   if( (ptr[0]+((cell.x)-1)*taille+cell.y).c== rouge){
-                    				 return ptr[0]+((cell.x)-1)*taille+cell.y;
+            			 }else if ( danslagrille(taille, cell.x-ca, cell.y)== 0){
+                  			   if( (ptr[0]+((cell.x)-ca)*taille+cell.y).c== rouge){
+                    				 return ptr[0]+((cell.x)-ca)*taille+cell.y;
 					   }
               			}
 				
