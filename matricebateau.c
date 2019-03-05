@@ -31,12 +31,13 @@ int init_matrice_bat (int taille, bateau_t bat[]){
 
 	for(int i=0; i<taille ; i++)
        		for(int j=0; j<taille ; j++){
-           		(bat[0]+i*taille+j).c= aucune;
-	}
+           		(bat[0]+i*taille+j).p= 0;
+		}
 	return 0;
 }
+
 void vider_matrice(int taille){
-	init_matrice_adv (taille);
+	init_matrice_bat (taille);
 }
 
 
@@ -66,21 +67,53 @@ void choixbateau(int taille){
 
 
 // Voir avec la SDL. Ici version terminal
-void afficher_matrice_pion( int taille){
+void afficher_matrice_bat( int taille){
 	for(int i=0; i<taille ; i++)
        		for(int j=0; j<taille ; j++){
-           		if((ptr[0]+i*taille+j).c == aucune){
+           		if((bat[0]+i*taille+j).p == 0){
 				printf(". ");
-			}else if((ptr[0]+i*taille+j).c == blanc){
-				printf("0 ");
-			}else{
-				printf("X ");
+			}
+			else{
+				printf(" [] ");
 			}
 		}
 		printf("\n");
 	}
 }
 
-void placerbateau(int mat[N][M], int N, int M, int n_bateau, char dir, int x, int y){
-              
-              
+void placerbateau(bateau_t bat[], int taille, int n_bateau, char dir, case_t emp){
+	FILE *fic;
+	int entier, nb_bateau;
+	int nb_case_bateau = 0; 
+	fic = fopen("bateau.txt", "r");
+	for(int i=; !feof(fic); i++){
+		fscanf(fic, "%i", &entier);
+		if(i == 0){
+			nb_bateau = entier;
+		}
+		else if(i == n_bateau){
+			 nb_case_bateau = entier;
+		}
+		if(nb_bateau < n_bateau){
+			printf("Ce bateau n'existe pas");
+			exit 0;	
+		}
+	}
+	
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
