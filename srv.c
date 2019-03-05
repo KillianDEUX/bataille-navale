@@ -3,11 +3,11 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-
+#define PORT 32000
 void tcp_connection_server(int * server_fd, int * client_fd)
 {
     struct sockaddr_in server_addr, client_addr;    
-    int client_addr_len, port_no=100000;
+    int client_addr_len, port_no=PORT;
 
 
     *server_fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -23,6 +23,12 @@ void tcp_connection_server(int * server_fd, int * client_fd)
     }
 
     printf("\n -- EN ATTENTE --\n");
+
+  
+ 
+    printf("Host IP: %s", INADDR_ANY); 
+
+
     if( listen(*server_fd, 5) < 0)
     {
         perror("Erorr in Listen()\n");
@@ -38,14 +44,15 @@ void tcp_connection_server(int * server_fd, int * client_fd)
         exit(0);
     }
 
-    printf(" -- CLIENT CONNNECTE --\n");
+    printf(" -- 1 CLIENT CONNNECTE --\n");
+
 }
 
 int main(){
 
 int server_fd, client_fd;
 
-    tcp_connection_server(&server_fd, &client_fd);
+   	tcp_connection_server(&server_fd, &client_fd);
 	int reponse=1;
 	int question;
 
