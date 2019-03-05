@@ -54,19 +54,25 @@ int detection_touche (int taille, case_t cell, pion_t ptr[]){
 					 }
                			 }else if( danslagrille(taille, cell.x, (cell.y-ca))== 0){
                    			 while( (ptr[0]+(cell.x)*taille+(cell.y-ca)).c== rouge){
-                  				  ca--;
+                  				  ca++;
                  			 }
 					 if( danslagrille(taille, cell.x, (cell.y-ca))== 0 && (ptr[0]+(cell.x)*taille+(cell.y-ca)).c== aucune)){
 						 return ptr[0]+(cell.x)*taille+(cell.y-ca);
 					 }
              			 }else if ( danslagrille(taille, cell.x+ca, cell.y)== 0){
-                 			  if( (ptr[0]+((cell.x)+ca)*taille+cell.y).c== rouge){
-                   				  return ptr[0]+((cell.x)+ca)*taille+cell.y;
-                 			   }
+                 			  while( (ptr[0]+(cell.x+ca)*taille+(cell.y)).c== rouge){
+                  				  ca++;
+                 			 }
+					 if( danslagrille(taille, cell.x+ca, (cell.y))== 0 && (ptr[0]+(cell.x+ca)*taille+(cell.y)).c== aucune)){
+						 return ptr[0]+(cell.x+ca)*taille+(cell.y);
+					 }
             			 }else if ( danslagrille(taille, cell.x-ca, cell.y)== 0){
-                  			   if( (ptr[0]+((cell.x)-ca)*taille+cell.y).c== rouge){
-                    				 return ptr[0]+((cell.x)-ca)*taille+cell.y;
-					   }
+                  			   while( (ptr[0]+(cell.x-ca)*taille+(cell.y)).c== rouge){
+                  				  ca++;
+                 			 }
+					 if( danslagrille(taille, cell.x-ca, (cell.y))== 0 && (ptr[0]+(cell.x-ca)*taille+(cell.y)).c== aucune)){
+						 return ptr[0]+(cell.x-ca)*taille+(cell.y);
+					 }
               			}
 				
 				
