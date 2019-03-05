@@ -7,13 +7,19 @@
 
 typedef enum couleur { aucune, blanc, rouge } couleur_t;
 
-typedef struct pion {
+
+typedef struct {
 		couleur_t c;	
 } pion_t;
 
+typedef struct bateau {
+		int b;	
+} bateau_t;
+
+
 int creer_matrice_adv (int taille){
 	
-	pion **ptr;
+	pion_t **ptr;
 
 	ptr = malloc(taille * sizeof(*ptr)); 
 	if(ptr == NULL){ 
@@ -30,7 +36,27 @@ int creer_matrice_adv (int taille){
 	}
 
 }
-int init_matrice_adv (int taille, pion ptr[]){
+
+int creer_matrice_bateau (int taille){
+	
+	bateau_t **bat;
+
+	bat = malloc(taille * sizeof(*bat)); 
+	if(ptr == NULL){ 
+		return 1;
+	} 
+	 bat[0]= malloc(taille * taille * sizeof(**bat));
+	     if(bat[0]== NULL){
+		return 1;
+	     }
+
+	}
+	for(int i=1; i<taille ; i++){
+		bat[i]== bat[i-1]+taille;
+	}
+
+}
+int init_matrice_adv (int taille, pion_t ptr[]){
 
 	for(int i=0; i<taille ; i++)
        		for(int j=0; j<taille ; j++){
@@ -40,7 +66,7 @@ int init_matrice_adv (int taille, pion ptr[]){
 }
 
 
-int ajout_pion_matrice( int taille, int abs, int ord, pion ptr[] ){
+int ajout_pion_matrice( int taille, int abs, int ord, pion_t ptr[] ){
 
 	if( etat_tir(taille, abs, ord)==0){            // Si le tir tombe dans l'eau
 		 (ptr[0]+abs*taille+ord).c= blanc ;     // Placer un pion blanc sur la matrice
@@ -64,7 +90,7 @@ void danslagrille(int taille, int abs, int ord ){
 }
 	
 	
-void eauautourcoule( int taille, int abs, int ord, pion ptr[] ){
+void eauautourcoule( int taille, int abs, int ord, pion_t ptr[] ){
 	// Lorsque le bateau est dirigé vers le nord
 	int ordtemp=ord+1;
 	int abstemp=abs;
