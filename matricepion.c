@@ -30,26 +30,31 @@ int creer_matrice_adv (int taille){
 	}
 
 }
-void init_matrice_adv (int taille){
+int init_matrice_adv (int taille, pion ptr[]){
 
 	for(int i=0; i<taille ; i++)
        		for(int j=0; j<taille ; j++){
            		(ptr[0]+i*taille+j).c= aucune;
 	}
+	return 0;
 }
 
-// Remplacer tous les ptr par ptr[0] 
 
-void ajout_pion_matrice( int taille, int abs, int ord ){
+int ajout_pion_matrice( int taille, int abs, int ord, pion ptr[] ){
 
 	if( etat_tir(taille, abs, ord)==0){            // Si le tir tombe dans l'eau
 		 (ptr[0]+abs*taille+ord).c= blanc ;     // Placer un pion blanc sur la matrice
 	}else if( etat_tir(taille, abs, ord)==1){      // Si le tir touche une cible
 		(ptr[0]+abs*taille+ord).c= rouge ;      // Placer un pion rouge sur la matrice
-	}else{					       // Si le tir coule une cible
+	}else if( etat_tir(taille, abs, ord)==2){					       // Si le tir coule une cible
 		(ptr[0]+abs*taille+ord).c= rouge ;      // Placer un pion rouge sur la matrice
 		eauautourcoule(taille, abs, ord);      // Placer des pion blancs tout autour sur la matrice
+	}else{
+		return 1;
 	}
+	return 0;
+}
+	
 	
 void danslagrille(int taille, int abs, int ord ){
 	
@@ -59,7 +64,7 @@ void danslagrille(int taille, int abs, int ord ){
 }
 	
 	
-void eauautourcoule( int taille, int abs, int ord ){
+void eauautourcoule( int taille, int abs, int ord, pion ptr[] ){
 	// Lorsque le bateau est dirigé vers le nord
 	int ordtemp=ord+1;
 	int abstemp=abs;
