@@ -36,15 +36,39 @@ case_t autorisation_case(int taille, int pluspetitbat){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-int est_autour( int taille, pion ptr[]){
+int est_autour( int taille, pion_t ptr[]){
 // Verifier si il y a déjà des pions blancs à proximité
 }
 
-int detection_touche (int taille, pion ptr[]){
- // Verifie si il y a déjà un bateau touché non coulé
+int detection_touche (int taille, case_t cell, pion_t ptr[]){
+
+	for(int i=0; i<taille ; i++){
+       		for(int j=0; j<taille ; j++){
+           		if((ptr[0]+i*taille+j).c==rouge){
+                if( danslagrille(taille, cell.x, cell.y+(cell.y+1))== 0){
+                  if( (ptr[0]+(cell.x)*taille+(cell.y+1)).c== aucune){
+                    return ptr[0]+(cell.x)*taille+(cell.y+1);
+                  }
+                }else if( danslagrille(taille, cell.x, cell.y+(cell.y-1))== 0){
+                    if( (ptr[0]+(cell.x)*taille+(cell.y-1)).c== aucune){
+                     return ptr[0]+(cell.x)*taille+(cell.y-1);
+                    }
+                }else if ( danslagrille(taille, cell.x+1, cell.y)== 0){
+                   if( (ptr[0]+((cell.x)+1)*taille+cell.y).c== aucune){
+                     return ptr[0]+((cell.x)+1)*taille+cell.y;
+                    }
+                }else if ( danslagrille(taille, cell.x-1, cell.y)== 0){
+                   if( (ptr[0]+((cell.x)-1)*taille+cell.y).c== aucune){
+                     return ptr[0]+((cell.x)-1)*taille+cell.y;
+                    }
+                }
+              }
+          }
+	}
+	return 0;
 }
 
-t_case choix_autour_touche (int taille, pion ptr[]){
+t_case choix_autour_touche (int taille, pion_t ptr[]){
  // Choisis une case adjacente au bateau touché non coulé dans sa continuité
 }
 
