@@ -24,3 +24,8 @@ void choixbateau(int N, int M){
        }
 }
        
+
+
+void placerbateau(int mat[N][M], int N, int M, int n_bateau, char dir, int x, int y){
+              
+              
