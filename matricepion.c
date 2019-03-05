@@ -12,11 +12,6 @@ typedef struct {
 		couleur_t c;	
 } pion_t;
 
-typedef struct bateau {
-		int b;	
-} bateau_t;
-
-
 int creer_matrice_adv (int taille){
 	
 	pion_t **ptr;
@@ -37,25 +32,8 @@ int creer_matrice_adv (int taille){
 
 }
 
-int creer_matrice_bateau (int taille){
-	
-	bateau_t **bat;
 
-	bat = malloc(taille * sizeof(*bat)); 
-	if(ptr == NULL){ 
-		return 1;
-	} 
-	 bat[0]= malloc(taille * taille * sizeof(**bat));
-	     if(bat[0]== NULL){
-		return 1;
-	     }
 
-	}
-	for(int i=1; i<taille ; i++){
-		bat[i]== bat[i-1]+taille;
-	}
-
-}
 int init_matrice_adv (int taille, pion_t ptr[]){
 
 	for(int i=0; i<taille ; i++)
@@ -81,15 +59,6 @@ int ajout_pion_matrice( int taille, int abs, int ord, pion_t ptr[] ){
 	return 0;
 }
 	
-
-int init_matrice_bat (int taille, bateau_t bat[]){
-
-	for(int i=0; i<taille ; i++)
-       		for(int j=0; j<taille ; j++){
-           		(bat[0]+i*taille+j).c= aucune;
-	}
-	return 0;
-}
 
 	
 void danslagrille(int taille, int abs, int ord ){
@@ -230,7 +199,9 @@ void eauautourcoule( int taille, int abs, int ord, pion_t ptr[] ){
 		}
 	}
 }
-	
+
+
+
 void vider_matrice(int taille){
 	init_matrice_adv (taille);
 }
