@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+
 typedef struct element{bateau_t bateau; 
 	struct element * pred; 
 	struct element * succ
@@ -46,9 +47,9 @@ void precedent(){
 	}		
 }
 
-void valeur_elt(int * v){
+void valeur_elt(bateau_t * bat_v){
 	if(!hors_liste()){
-		*v=ec->bateau;
+		*bat_v=ec->bateau;
 	}
 }
 
@@ -72,25 +73,25 @@ void oter_elt(){
 	}
 }
 
-void ajout_droit(int v){
+void ajout_droit(bateau_t bat_v){
 	t_element * nouveau;
 	if(!hors_liste()){
 		nouveau=malloc(sizeof(t_element));
 		nouveau->pred=ec->bateau;
 		nouveau->succ=ec->succ;
-		ec->succ=v;
-		(nouveau->succ)->pred=v;
+		ec->succ=bat_v;
+		(nouveau->succ)->pred=bat_v;
 	}
 }
 
 
-void ajout_gauche(int v){
+void ajout_gauche(bateau_t bat_v){
 	t_element * nouveau;
 	if(!hors_liste()){
 		nouveau=malloc(sizeof(t_element));
 		nouveau->pred=ec->pred;
 		nouveau->succ=ec->bateau;
-		ec->pred=v;
-		(nouveau->pred)->succ=v;
+		ec->pred=bat_v;
+		(nouveau->pred)->succ=bat_v;
 	}
 }
