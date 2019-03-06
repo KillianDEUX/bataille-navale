@@ -1,10 +1,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-typedef struct element{bateau_t bateau; 
+typedef struct element{
+	bateau_t bateau; 
 	struct element * pred; 
 	struct element * succ
-	}t_element;
+}t_element;
+	
 t_element * drapeau;
 t_element * ec;
 
