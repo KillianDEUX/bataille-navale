@@ -20,6 +20,7 @@ int main(){
 	int j_atk;
 	int nb_joueur;
 	int nb_joueur_atk;
+	server_fd = malloc(sizeof(int));
 
 	system("clear");
 	printf("\n -- BATAILLE NAVALE EN RESEAU - SERVEUR --\n");
@@ -63,7 +64,7 @@ int main(){
 
 	    printf(" -- NOUVEAU CLIENT CONNNECTE --\n\n");
 	}
-
+	
 	for(i=0; i<nb_cli; i++){
 		send(client_fd[i], &nb_cli, sizeof(nb_cli), 0);
 	}
