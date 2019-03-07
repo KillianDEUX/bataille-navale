@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-
+#include "liste.h"
 typedef struct element{
 	bateau_t bateau; 
 	struct element * pred; 
@@ -55,7 +55,7 @@ void valeur_elt(bateau_t * bat_v){
 	}
 }
 
-void modif_elt(int * v){
+void modif_elt(bateau_t * bat_v){
 	if(!hors_liste()){	
 		ec->bateau->taille= v;
 		(ec->pred)->succ=v;
