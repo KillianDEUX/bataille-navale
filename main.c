@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-int main(){
-  int nb_joueurs =  // voir sur le serveur
+#define TAILLE_MAT_DEF 10
+
+int demi_main( int nb_joueurs){
+
+  int taille_mat= TAILLE_MAT_DEF;
    switch( nb_joueurs){
      case 5 :  t_liste joueur5;
      case 4 :  t_liste joueur4;
