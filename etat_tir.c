@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int etat_tir( int taille, case_t cell){
-	bateau_t * actuel;
+int etat_tir( int taille, case_t cell, bateau_t * actuel){
 	
 	if(toucheunbateau(taille, cell, actuel)){
 		actuel->nb_touche++;
