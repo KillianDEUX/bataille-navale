@@ -23,40 +23,40 @@ typedef struct bateau {
 }bateau_t;
 
 
-void type_bateau(){
-	en_tete();
+void type_bateau(t_liste joueur){
+	en_tete(&joueur);
 	bateau_t *actuel;
-	while(!hors_liste()){
-		valeur_elt(*actuel);
-		if(actuel->taille == 1){
-			actuel->type = mine;
+	while(!hors_liste(&joueur)){
+		valeur_elt(&joueur, *actuel);
+		if(joueur->actuel->taille == 1){
+			joueur->actuel->type = mine;
 		}
-		if(actuel->taille == 2){
-			actuel->type = torpilleur;
+		if(joueur->actuel->taille == 2){
+			joueur->actuel->type = torpilleur;
 		}
-		if(actuel->taille == 3){
-			actuel->type = sousmarin;
+		if(joueur->actuel->taille == 3){
+			joueur->actuel->type = sousmarin;
 		}
-		if(actuel->taille == 4){
-			actuel->type = croiseur;
+		if(joueur->actuel->taille == 4){
+			joueur->actuel->type = croiseur;
 		}
-		if(actuel->taille == 5){
-			actuel->type = porteavion;
+		if(joueur->actuel->taille == 5){
+			joueur->actuel->type = porteavion;
 		}
-		suivant();
+		suivant(&joueur);
 	}
 		
 }
 
 
-void choixbateau(int taille){
-       init_liste();
+void choixbateau(t_liste joueur, int taille){
+       init_liste(&joueur);
        int nbbat=0;
        int t;
        bateau_t nouveau;
        int nbmaxbat = (0,06 * (taille*taille)) - (0,3 * taille) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bÃƒÂ¢teau voulez-vous avoir ?(diffÃƒÂ©rent de 0 et infÃƒÂ©rieur ÃƒÂ  la moitiÃƒÂ© du nombre de case du terrain de jeu) : ");
+              printf("Combien de bâteau voulez-vous avoir ?(différent de 0 et inférieur à : %i) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
        
@@ -64,43 +64,43 @@ void choixbateau(int taille){
               printf("Ecrire la taille du %i bateau(entre 1 et 5) : ",i);
               if(i<=5 && i>=1){
                      scanf("%i", &t);
-                     en_tete();
-                     nouveau.taille = t;
-                     nouveau.coord.x = -1;
-                     nouveau.coord.y = -1;
-                     nouveau.dir = aucun;
-                     nouveau.type = aucun;
-                     nouveau.etat = flotte;
-                     nouveau.nb_touche = 0;
-                     ajout_droit(nouveau);
+                     en_tete(&joueur);
+                     joueur->nouveau.taille = t;
+                     joueur->nouveau.coord.x = -1;
+                     joueur->nouveau.coord.y = -1;
+                     joueur->nouveau.dir = aucun;
+                     joueur->nouveau.type = aucun;
+                     joueur->nouveau.etat = flotte;
+                     joueur->nouveau.nb_touche = 0;
+                     ajout_droit(&joueur, nouveau);
               }
        }
 }
        
-int fin_bateau_vertical(bateau_t *bateau){
-	return (bateau->coord.y + bateau->taille);
+int fin_bateau_vertical(t_liste* joueur, bateau_t *bateau){
+	return (joueur->bateau->coord.y + joueur->bateau->taille);
 }
        
-int fin_bateau_horizontal(bateau_t *bateau){
-	return (bateau->coord.x + bateau->taille); 
+int fin_bateau_horizontal(t_liste* joueur, bateau_t *bateau){
+	return (joueur->bateau->coord.x + joueur->bateau->taille); 
 }
 
 // Voir avec la SDL. Ici version terminal
-void afficher_matrice_bateau(int taille){
+void afficher_matrice_bateau((t_liste joueur, int taille){
 	bateau_t * actuel;
 	for(int i=0; i<taille ; i++){
        		for(int j=0; j<taille ; j++){
-       			en_tete();
-       			while(!hors_liste()){
-       				valeur_elt(*actuel);
+       			en_tete(&joueur);
+       			while(!hors_liste(&joueur)){
+       				valeur_elt(&joueur, *actuel);
        				if(i==actuel->coord.x && j==actuel->coord.y){
 	       				if(actuel->dir == vertical){
-	       					for(int k=j; k< (fin_bateau_vertical(actuel)); k++){
+	       					for(int k=j; k< (fin_bateau_vertical(&joueur, actuel)); k++){
 	       						printf("[.]");
 	       					}
 	       				}
 	       				if(actuel->dir == horizontal){
-	       					for(int k=j; k< (fin_bateau_horizontal(actuel)); k++){
+	       					for(int k=j; k< (fin_bateau_horizontal(&joueur, actuel)); k++){
 	       						printf("[.]");
 	       					}
 	       				}
@@ -116,14 +116,14 @@ void afficher_matrice_bateau(int taille){
 }
 
 /*  */
-void cases_prises(case_t* case_nonlibres, int taille){
+void cases_prises(t_liste joueur, case_t* case_nonlibres, int taille){
 	bateau_t *bat;	
 	int fin_bat;
 	int i, compteur;
 	case_t actuel;
 	en_tete();  
-	while(!hors_liste()){
-		valeur_elt(*bat);
+	while(!hors_liste(&joueur)){
+		valeur_elt(&joueur, *bat);
 		if(bat->dir == vertical){
 	       		fin_bat = fin_bateau_vertical(bat);
 	       		for(i=bat->coord.y,compteur =0;i<=fin_bat; i++){
@@ -298,7 +298,7 @@ void cases_prises(case_t* case_nonlibres, int taille){
 }
 
 
-int placement_bateau(bateau_t * bat, dir_t dir, case_t emp, int taille_mat){
+int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, case_t emp, int taille_mat){
 	int i, j;
 	int result= 1;
 	case_t *casesprises = malloc(sizeof(case_t)*taille_mat*taille_mat);
@@ -307,7 +307,7 @@ int placement_bateau(bateau_t * bat, dir_t dir, case_t emp, int taille_mat){
 		for(i=emp.y; i<(bat->taille+emp.y) && result; i++){
 			for(j=0; casesprises[j].y != -1 && result; j++){
 				if(casesprises[j].y == i && casesprises[j].x == emp.x){
-					printf("Erreur : le bateau ne peut pas Ãªtre placÃ© ici");
+					printf("Erreur : le bateau ne peut pas être placé ici");
 					result = 0;
 				}
 			}
@@ -317,29 +317,29 @@ int placement_bateau(bateau_t * bat, dir_t dir, case_t emp, int taille_mat){
 		for(i=emp.x; i<(bat->taille+emp.x) && result; i++){
 			for(j=0; casesprises[j].x != -1 && result; j++){
 				if(casesprises[j].x == i && casesprises[j].y == emp.y){
-					printf("Erreur : le bateau ne peut pas Ãªtre placÃ© ici");
+					printf("Erreur : le bateau ne peut pas être placé ici");
 					result = 0;
 				}
 			}
 		}
     }
     if(result){
-	    bat->coord.x = emp.x;
-	    bat->coord.y = emp.y;
-	    bat->dir = dir;
-	    bat->etat = flotte;
-	    bat->nb_touche = 0;
-	    en_tete();
-	    while(!hors_liste());
-	    precedent();
-	    ajout_droit(bat);
+	    joueur->bat->coord.x = emp.x;
+	    joueur-> bat->coord.y = emp.y;
+	    joueur->bat->dir = dir;
+	    joueur-> bat->etat = flotte;
+	    joueur->bat->nb_touche = 0;
+	    en_tete(&joueur);
+	    while(!hors_liste(&joueur));
+	    precedent(&joueur);
+	    ajout_droit(&joueur, bat);
 	}
 	free(casesprises);    
     return result;
 }
 
 	
-void placer_bateau(int taille_mat){
+void placer_bateau(t_liste joueur, int taille_mat){
 	type_t nom_bat;
 	int dir_donne;
 	int type_donne;
@@ -349,31 +349,37 @@ void placer_bateau(int taille_mat){
 	printf("Quel est le nom du bateau que vous voulez placer ?(donner un entier selon : mine=1 ,torpilleur=2, sousmarin=3,  croiseur=4 ou porteavion=5)");
 	scanf("%i", &type_donne);
 	if(type_donne <= 5 && type_donne >= 1){
-		nouv->type = type_donne;
+		joueur->nouv->type = type_donne;
 	}
-	en_tete();
-	valeur_elt(*nouv);
-	while(!hors_liste() || nouv->type == nom_bat){
-		valeur_elt(*nouv);
-		suivant();
+	en_tete(&joueur);
+	valeur_elt(&joueur, *nouv);
+	while(!hors_liste(&joueur) || nouv->type == nom_bat){
+		valeur_elt(&joueur, *nouv);
+		suivant(&joueur);
 	}
-	if(!hors_liste()){
+	if(!hors_liste(&joueur)){
 		printf("Dans quelle direction voulez-vous placer le bateau ?(donner un entier selon : vertical = 1, horizontal = 2)");
 		scanf("%i", &dir_donne);
-		if(dir_donne <= 5 && dir_donne >= 1){
-			nouv->dir = dir_donne;
+		if(dir_donne <= 2 && dir_donne >= 1){
+			direction = dir_donne;
 		}
 		do{
-			printf("Quelles sont les coordonnÃ©es a laquelle vous voulez placer le bateau ?(entre 1 et %i \n x = ", taille_mat);
+			printf("Quelles sont les coordonnées a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", taille_mat);
 			scanf("%i", &emp.x);
 		}while(emp.x <1 || emp.x > taille_mat);
 		
 		do{
-			printf("y = ");
+			printf("\n y = ");
 			scanf("%i", &emp.y);
 		}while(emp.y < 1 || emp.y > taille_mat);
-		if(placement_bateau(nouv, direction, emp, taille_mat)){
-			printf("Le bateau a Ã©tÃ© placÃ©");
+		if(placement_bateau(joueur, nouv, direction, emp, taille_mat)){
+			printf("Le bateau a été placé");
+			free(nouv);
+			return 1;
 		}
-	}		
+		else{
+			printf("Le bateau n'a pas pu être placé");
+			return 0;
+		}
+	}
 }
