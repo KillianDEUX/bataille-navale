@@ -76,7 +76,18 @@ void choixbateau(t_liste joueur, int taille){
               }
        }
 }
-       
+
+void appliquer_bateau(t_liste joueur1, t_liste joueur2){
+		en_tete(&joueur1);
+		en_tete(&joueur2);
+		bateau_t nouveau;
+		while(!hors_liste(&joueur1)){
+			valeur_elt(&joueur1, *nouveau);
+			ajout_droit(&joueur2, *nouveau);
+			suivant(&joueur1);
+			suivant(&joueur2);
+		}
+}
 int fin_bateau_vertical(t_liste* joueur, bateau_t *bateau){
 	return (joueur->bateau->coord.y + joueur->bateau->taille);
 }
