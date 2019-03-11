@@ -7,14 +7,15 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #define PORT 32000
+#define ip "127.0.0.1"
 void tcp_connection_client(int * client_fd)
 {
     struct sockaddr_in serv_addr;
     int port_no=PORT;
-    char *ip = malloc(200);
+    //char *ip = malloc(200);
 
-    printf("\n Entrez l'@IP du serveur : ");
-	scanf("%s", ip);
+    printf("\n Entrez l'@IP du serveur : DEJA FAIT ");
+	//scanf("%s", ip);
 
 
 
@@ -30,22 +31,24 @@ void tcp_connection_client(int * client_fd)
         perror("Connexion impossible, verifiez que le serveur est démarré ! \n");
         exit(0);
     }
-    printf(" -- CONNECTE -- \n");
+    printf("\n -- CONNECTE -- \n");
 }
 
 int main() {
 	system("clear");
 	printf("\n -- BATAILLE NAVALE EN RESEAU - CLIENT --\n");
 
-    int reponse;		
+    int choix_c_atk;		
     int question;
     int server_fd, client_fd;
     int nb_cli;
     int nb_joueur;
     	int tour_atk;
-    	int j_atk;
+    	int choix_j_atk;
 	int i;
 	int nb_joueur_atk;
+	int info_j_atk;
+	int info_c_atk;
 
     
     tcp_connection_client(&client_fd);
@@ -61,26 +64,38 @@ int main() {
 
 
 	while (1){
-	    	recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
-		printf("\n Tour de  %i \n", tour_atk); 
-	
+		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
+		printf("\n \n ----------------------------------------------------------------------------- \n"); 
+		printf(" Tour de  %i \n", tour_atk); 
 		if(tour_atk==nb_joueur+1){
 			printf("\n Qui voulez-vous attaquer ? ");
-			scanf("%i", &j_atk);
+			scanf("%i", &choix_j_atk);
 			printf("\n Quelle case voulez-vous attaquer ? ");
-			scanf("%i", &reponse);
-			send(client_fd, &j_atk, sizeof(j_atk), 0);
-			printf("\n Envoyé ");
-			send(client_fd, &reponse, sizeof(reponse), 0);
-
-			recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
-							
-			
+			scanf("%i", &choix_c_atk);
+			send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
+			send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
+			printf("\n Envoyé \n");	
+			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
+			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
+			printf(" ----------------------------------------------------------------------------- \n \n"); 		
 		}
+		else{
+			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
+			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
+			printf("\n Le joueur %i attaque le joueur %i en case n° %i \n", tour_atk, info_j_atk, info_c_atk);
+			printf(" ----------------------------------------------------------------------------- \n \n"); 
+		}
+
+	
+
+
+					
+
+
 	}
 }
-
-   /** while (1==1){
+/**
+   while (1==1){
 
 	
 	
@@ -89,17 +104,17 @@ int main() {
 			scanf("%i", &question);
 			for(i=0; i<nb_cli; i++){
 			    	send(client_fd, &nb_joueur_atk, sizeof(nb_joueur_atk), 0);
-				send(client_fd, &j_atk, sizeof(j_atk), 0);
+				send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
 				send(client_fd, &question, sizeof(question), 0);
 						
 			}
 	}
 
 		
-		while (reponse!=0){
-				printf("\n Le joueur %i attaque le joueur %i en case n° %i \n \n", tour_atk, j_atk, reponse);
-				reponse=0;
-				/** printf("A mon tour, quelle case voulez-vous attaquer ? ");
+		while (choix_c_atk!=0){
+				printf("\n Le joueur %i attaque le joueur %i en case n° %i \n \n", tour_atk, choix_j_atk, choix_c_atk);
+				choix_c_atk=0;
+				 printf("A mon tour, quelle case voulez-vous attaquer ? ");
 				scanf("%i", &question);
 				send(client_fd, &question, sizeof(question), 0);
 				printf("\n");
@@ -110,19 +125,19 @@ int main() {
 
 }
 
-		recv(client_fd, &reponse, sizeof(reponse), 0);
+		recv(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
 		printf("A mon tour, quelle case voulez-vous attaquer ? ");
 		scanf("%i", &question);
 		send(client_fd, &question, sizeof(question), 0);
 		while (1==1){
 		
-			recv(client_fd, &reponse, sizeof(reponse), 0);
+			recv(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
 		
 
-			while (reponse!=0){
+			while (choix_c_atk!=0){
 
-				printf(" AIE ! - j'ai mal à la case : \n %i \n \n", reponse);
-				reponse=0;
+				printf(" AIE ! - j'ai mal à la case : \n %i \n \n", choix_c_atk);
+				choix_c_atk=0;
 				printf("A mon tour, quelle case voulez-vous attaquer ? ");
 				scanf("%i", &question);
 				send(client_fd, &question, sizeof(question), 0);
