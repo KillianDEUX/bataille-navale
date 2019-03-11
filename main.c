@@ -4,7 +4,7 @@
 
 #define TAILLE_MAT_DEF 10
 
-int demi_main( int nb_joueurs){
+int test_main( int nb_joueurs){
 
   int taille_mat= TAILLE_MAT_DEF;
    switch( nb_joueurs){
