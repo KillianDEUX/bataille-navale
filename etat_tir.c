@@ -2,29 +2,30 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int etat_tir( int taille, case_t cell, bateau_t * actuel){
-	
-	if(toucheunbateau(taille, cell, actuel)){
-		actuel->nb_touche++;
-		if(actuel->nb_touche == actuel->taille){
-			actuel->etat = coule;
+int etat_tir( int taille, case_t cell, t_liste joueur){
+	if(toucheunbateau(taille, cell, joueur)==2){
 			return 2;
-		}else{
+	}else if(toucheunbateau(taille, cell, joueur)==1){{
 			return 1;
-		}
 	}else{
 		return 0;
 	}
-	return -1;
 }
 
-int toucheunbateau( int taille, case_t cell, bateau_t * actuel){
-	bateau_t * actueltemp= actuel;
-	while(!hors_liste()){
-		valeur_elt(*actueltemp);
+int toucheunbateau( int taille, case_t cell, t_liste joueur){
+	bateau_t * actueltemp;
+	en_tete(&joueur);
+	
+	while(!hors_liste(&joueur)){
+		valeur_elt(&joueur,actueltemp);
 		if(actueltemp->dir=vertical){
 			for(int i=0; i<taille; i++){
 				if (cell.x== actueltemp->coord->x && cell.y == actueltemp->coord->y){
+					actueltemp->nb_touche++;
+					if(actueltemp->nb_touche == actueltemp->taille){
+						actueltemp->etat = coule;
+						return 2;
+					}
 					return 1;
 				}
 				actueltemp->coord->y++;
@@ -32,12 +33,17 @@ int toucheunbateau( int taille, case_t cell, bateau_t * actuel){
 		}else{
 			for(int i=0; i<taille; i++){
 				if (cell.x== actueltemp->coord->x && cell.y == actueltemp->coord->y){
+					actueltemp->nb_touche++;
+					if(actueltemp->nb_touche == actueltemp->taille){
+						actueltemp->etat = coule;
+						return 2;
+					}
 					return 1;
 				}
 				actueltemp->coord->x++;
 			}
 		}
-		suivant();
+		suivant(&joueur);
 	}
 	return 0;
 }

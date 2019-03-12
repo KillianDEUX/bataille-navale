@@ -190,14 +190,14 @@ void eauautourcoule( int taille, case_t cell, case_t** ptr ){
 
 
 
-int ajout_pion_matrice( int taille, case_t cell, case_t **ptr, bateau_t * actuel){
+int ajout_pion_matrice( int taille, case_t cell, case_t **ptr, t_liste actuel ){
 
-	if( etat_tir(taille, cell, actuel)==0){        				  // Si le tir tombe dans l'eau
-		(ptr[cell.x][cell.y]).c= blanc ;    	 // Placer un pion blanc sur la matrice
-	}else if( etat_tir(taille, cell, actuel)==1){  			  // Si le tir touche une cible
-		(ptr[cell.x][cell.y]).c= rouge ;       // Placer un pion rouge sur la matrice
+	if( etat_tir(taille, cell, actuel)==0){        			// Si le tir tombe dans l'eau
+		(ptr[cell.x][cell.y]).c= blanc ;    				// Placer un pion blanc sur la matrice
+	}else if( etat_tir(taille, cell, actuel)==1){  			 // Si le tir touche une cible
+		(ptr[cell.x][cell.y]).c= rouge ;    			   // Placer un pion rouge sur la matrice
 	}else if( etat_tir(taille, cell, actuel)==2){	 		// Si le tir coule une cible
-		(ptr[cell.x][cell.y]).c= rouge ; 	 // Placer un pion rouge sur la matrice
+		(ptr[cell.x][cell.y]).c= rouge ; 				 // Placer un pion rouge sur la matrice
 		eauautourcoule(taille, cell, ptr);       		 // Placer des pion blancs tout autour sur la matrice
 	}else{
 		return 1;
