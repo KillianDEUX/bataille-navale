@@ -2,30 +2,15 @@
 #include <stdlib.h>
 #include "liste.h"
 
-typedef enum couleur { aucune, blanc, rouge } couleur_t;
-
-typedef struct case_s {
-	int x;
-	int y;
-	couleur_t c;
-}case_t;
-typedef enum type_bat {none, mine ,torpilleur, sousmarin,  croiseur, porteavion}type_t;
-typedef enum dir_bat {aucun, vertical, horizontal}dir_t;
-typedef enum etat_bat {flotte, coule}etat_t;
-
-typedef struct bateau {
-	type_t type;
-	case_t coord;
-	int taille;
-	dir_t dir;
-	etat_t etat;
-	int nb_touche;
-}bateau_t;
 
 
-void type_bateau(t_liste joueur){
+
+int type_bateau(t_liste joueur){
 	en_tete(&joueur);
 	bateau_t *actuel;
+	if(liste_vide(&joueur1)){
+			return 0;
+	}
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, *actuel);
 		if(joueur->actuel->taille == 1){
@@ -45,7 +30,7 @@ void type_bateau(t_liste joueur){
 		}
 		suivant(&joueur);
 	}
-		
+	return 1;
 }
 
 
@@ -77,17 +62,22 @@ void choixbateau(t_liste joueur, int taille){
        }
 }
 
-void appliquer_bateau(t_liste joueur1, t_liste joueur2){
+int appliquer_bateau(t_liste joueur1, t_liste joueur2){
 		en_tete(&joueur1);
 		en_tete(&joueur2);
 		bateau_t nouveau;
+		if(liste_vide(&joueur1)){
+			return 0;
+		}
 		while(!hors_liste(&joueur1)){
 			valeur_elt(&joueur1, *nouveau);
 			ajout_droit(&joueur2, *nouveau);
 			suivant(&joueur1);
 			suivant(&joueur2);
 		}
+		return 1;
 }
+
 int fin_bateau_vertical(t_liste* joueur, bateau_t *bateau){
 	return (joueur->bateau->coord.y + joueur->bateau->taille);
 }
@@ -340,9 +330,7 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, case_t emp, int 
 	    joueur->bat->dir = dir;
 	    joueur-> bat->etat = flotte;
 	    joueur->bat->nb_touche = 0;
-	    en_tete(&joueur);
-	    while(!hors_liste(&joueur));
-	    precedent(&joueur);
+	    en_queue(&joueur);
 	    ajout_droit(&joueur, bat);
 	}
 	free(casesprises);    
@@ -350,7 +338,7 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, case_t emp, int 
 }
 
 	
-void placer_bateau(t_liste joueur, int taille_mat){
+int placer_bateau(t_liste joueur, int taille_mat){
 	type_t nom_bat;
 	int dir_donne;
 	int type_donne;

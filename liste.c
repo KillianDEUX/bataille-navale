@@ -1,72 +1,64 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "liste.h"
-typedef struct element{
-	bateau_t bateau; 
-	struct element * pred; 
-	struct element * succ
-}t_element;
 
-typedef struct {
-	t_element * drapeau;
-	t_element * ec;
-}t_liste;
 
-void init_liste(liste* p){
+void init_liste(t_liste* p){
 	p->drapeau= malloc(sizeof(t_element));
 	p->drapeau->pred= p->drapeau;
 	p->drapeau->succ=p->drapeau;
 	p->ec=p->drapeau;
 }
 
-int liste_vide(liste* p){
+int liste_vide(t_liste* p){
 	return (p->drapeau->succ == p->drapeau);
 }
 
-int hors_liste(liste* p){
+int hors_liste(t_liste* p){
 	return (p->ec==p->drapeau);
 }
 
-void en_tete(liste* p){
+void en_tete(t_liste* p){
 	if(!liste_vide(p)){
 		p->ec=p->drapeau->succ;
 	}
 }
 
-void en_queue(liste* p){
+void en_queue(t_liste* p){
 	if(!liste_vide(p)){
 		p->ec=p->drapeau->pred;
 	}
 }
 
-void suivant(liste* p){
+void suivant(t_liste* p){
 	if(!hors_liste(p)){
 		p->ec=p->ec->succ;
 	}
 }
 
-void precedent(liste* p){
+void precedent(t_liste* p){
 	if(!hors_liste(p)){
 		p->ec=p->ec->pred;
 	}		
 }
 
-void valeur_elt(liste* p, bateau_t * bat_v){
+void valeur_elt(t_liste* p, bateau_t * bat_v){
 	if(!hors_liste(p)){
 		*bat_v=p->ec->bateau;
 	}
 }
 
-void modif_elt(liste* p, bateau_t * bat_v){
+void modif_elt(t_liste* p, bateau_t * bat_v){
 	if(!hors_liste(p)){	
-		p->ec->bateau->taille= bat_v;
-		(p->ec->pred)->succ=bat_v;
-		(p->ec->succ)->pred=bat_v;		
+		p->ec->bateau= *bat_v;
+		(p->ec->pred)->succ=*bat_v;
+		(p->ec->succ)->pred=*bat_v;		
 	}
 }
 
 	
-void oter_elt(liste* p){
+void oter_elt(t_liste* p){
+
 	t_element * ancien;
 	if(!hors_liste(p)){
 		(p->ec->pred)->succ=p->ec->pred;
@@ -77,25 +69,25 @@ void oter_elt(liste* p){
 	}
 }
 
-void ajout_droit(liste* p, bateau_t bat_v){
+void ajout_droit(t_liste* p, bateau_t bat_v){
 	t_element * nouveau;
 	if(!hors_liste(p)){
-		p->nouveau=malloc(sizeof(t_element));
-		p->nouveau->pred=p->ec->bateau;
-		p->nouveau->succ=p->ec->succ;
+		nouveau=malloc(sizeof(t_element));
+		nouveau->pred=p->ec->bateau;
+		nouveau->succ=p->ec->succ;
 		p->ec->succ=bat_v;
-		(p->nouveau->succ)->pred=bat_v;
+		(nouveau->succ)->pred=bat_v;
 	}
 }
 
 
-void ajout_gauche(liste* p, bateau_t bat_v){
+void ajout_gauche(t_liste* p, bateau_t bat_v){
 	t_element * nouveau;
 	if(!hors_liste(p)){
-		p->nouveau=malloc(sizeof(t_element));
-		p->nouveau->pred=p->ec->pred;
-		p->nouveau->succ=p->ec->bateau;
+		nouveau=malloc(sizeof(t_element));
+		nouveau->pred=p->ec->pred;
+		nouveau->succ=p->ec->bateau;
 		p->ec->pred=bat_v;
-		(p->nouveau->pred)->succ=bat_v;
+		(nouveau->pred)->succ=bat_v;
 	}
 }
