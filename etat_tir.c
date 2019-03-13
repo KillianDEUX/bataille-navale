@@ -47,3 +47,20 @@ int toucheunbateau( int taille, case_t cell, t_liste joueur){
 	}
 	return 0;
 }
+
+
+int bateaux_coules( t_liste joueur, int nb_bat){
+	bateau_t * bateau;
+	int c_bat_coul=0;
+	while(!hors_liste(&joueur)){
+		valeur_elt(&joueur,bateau);
+		if( bateau->etat=coule){
+			c_bat_coul++;
+		}
+		suivant(&joueur);
+	}
+	if(c_bat_coul==nb_bat){
+		return 1;
+	}
+	return 0;
+}

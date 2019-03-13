@@ -145,8 +145,9 @@ int detection_touche (int taille, case_t **ptr){
 }
 
 
-case_t choisir_case(int taille, int pluspetitbat, case_t **ptr){
+case_t choisir_case(int taille, case_t **ptr, t_liste joueur){
 	case_t cell;
+	int pluspetitbat=bateau_plus_petit( joueur );
 	int t = detection_touche ( taille, ptr);
 	if (t!= -1){
 		cell=case_tabtocoord(taille, t);
