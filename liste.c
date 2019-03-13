@@ -51,8 +51,8 @@ void valeur_elt(t_liste* p, bateau_t * bat_v){
 void modif_elt(t_liste* p, bateau_t * bat_v){
 	if(!hors_liste(p)){	
 		p->ec->bateau= *bat_v;
-		(p->ec->pred)->succ=*bat_v;
-		(p->ec->succ)->pred=*bat_v;		
+		(p->ec->pred)->succ= bat_v;
+		(p->ec->succ)->pred= bat_v;		
 	}
 }
 
@@ -71,23 +71,27 @@ void oter_elt(t_liste* p){
 
 void ajout_droit(t_liste* p, bateau_t bat_v){
 	t_element * nouveau;
-	if(!hors_liste(p)){
+	if(liste_vide(p) || !hors_liste(p)){
 		nouveau=malloc(sizeof(t_element));
-		nouveau->pred=p->ec->bateau;
+		nouveau->bateau = bat_v;
+		nouveau->pred=p->ec;
 		nouveau->succ=p->ec->succ;
-		p->ec->succ=bat_v;
-		(nouveau->succ)->pred=bat_v;
+		(p->ec->succ)->pred = nouveau;
+		p->ec->succ= nouveau;
+		p->ec = nouveau;
 	}
 }
 
 
 void ajout_gauche(t_liste* p, bateau_t bat_v){
 	t_element * nouveau;
-	if(!hors_liste(p)){
+	if(liste_vide(p) || !hors_liste(p)){
 		nouveau=malloc(sizeof(t_element));
+		nouveau->bateau = bat_v;
 		nouveau->pred=p->ec->pred;
-		nouveau->succ=p->ec->bateau;
-		p->ec->pred=bat_v;
-		(nouveau->pred)->succ=bat_v;
+		nouveau->succ=p->ec;
+		(p->ec->pred)->succ = nouveau;
+		p->ec->pred= nouveau;
+		p->ec = nouveau;
 	}
 }
