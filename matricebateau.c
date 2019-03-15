@@ -283,7 +283,7 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, case_t emp, int 
 		for(i=emp.y; i<(bat->taille+emp.y) && result; i++){
 			for(j=0; casesprises[j].y != -1 && result; j++){
 				if(casesprises[j].y == i && casesprises[j].x == emp.x){
-					printf("Erreur : le bateau ne peut pas Ãªtre placÃ© ici");
+					printf("Erreur : le bateau ne peut pas être placé ici");
 					result = 0;
 				}
 			}
@@ -293,7 +293,7 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, case_t emp, int 
 		for(i=emp.x; i<(bat->taille+emp.x) && result; i++){
 			for(j=0; casesprises[j].x != -1 && result; j++){
 				if(casesprises[j].x == i && casesprises[j].y == emp.y){
-					printf("Erreur : le bateau ne peut pas Ãªtre placÃ© ici");
+					printf("Erreur : le bateau ne peut pas être placé ici");
 					result = 0;
 				}
 			}
@@ -338,7 +338,7 @@ int placer_bateau(t_liste joueur, int taille_mat){
 			direction = dir_donne;
 		}
 		do{
-			printf("Quelles sont les coordonnÃ©es a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", taille_mat);
+			printf("Quelles sont les coordonnées a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", taille_mat);
 			scanf("%i", &emp.x);
 		}while(emp.x <1 || emp.x > taille_mat);
 		
@@ -347,12 +347,12 @@ int placer_bateau(t_liste joueur, int taille_mat){
 			scanf("%i", &emp.y);
 		}while(emp.y < 1 || emp.y > taille_mat);
 		if(placement_bateau(joueur, nouv, direction, emp, taille_mat)){
-			printf("Le bateau a Ã©tÃ© placÃ©");
+			printf("Le bateau a été placé");
 			free(nouv);
 			return 1;
 		}
 		else{
-			printf("Le bateau n'a pas pu Ãªtre placÃ©");
+			printf("Le bateau n'a pas pu être placé");
 			return 0;
 		}
 	}
@@ -367,7 +367,7 @@ int choixbateau(t_liste joueur, int taille){
        bateau_t nouveau;
        int nbmaxbat = (0,06 * (taille*taille)) - (0,3 * taille) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bÃ¢teau voulez-vous avoir ?(diffÃ©rent de 0 et infÃ©rieur Ã  : %i) : ", nbmaxbat);
+              printf("Combien de bâteau voulez-vous avoir ?(différent de 0 et inférieur à : %i) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
        
@@ -388,7 +388,6 @@ int choixbateau(t_liste joueur, int taille){
        }
        type_bateau(joueur);
        placer_bateau(joueur, taille);
-	return nbbat;
 }
 
 
