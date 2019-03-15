@@ -1,4 +1,3 @@
-
 typedef enum couleur { aucune, blanc, rouge } couleur_t;
 
 typedef struct case_s {
@@ -31,6 +30,7 @@ typedef struct {
 	t_element * drapeau;
 	t_element * ec;
 }t_liste;
+
 
 void init_liste(t_liste*);
 int liste_vide(t_liste*);

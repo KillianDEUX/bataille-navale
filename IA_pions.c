@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-
+#include "liste.h"
+#include "matricepion.h"
+#include "matricebateau.h"
 case_t case_tabtocoord(int taille, int nb){
 	case_t cellule;
 	cellule.y=nb%taille;
@@ -87,58 +88,25 @@ case_t est_autour( int taille,case_t  **ptr){
 	return cell;
 }
 
-int detection_touche (int taille, case_t **ptr){
+
+/* vérifie si un bateau est touché quelque part, et essaye de viser une case qui est à coté */
+case_t detection_touche (int taille, case_t **ptr){
 	int ca=1;
-	for(int i=0; i<taille ; i++){
-       	for(int j=0; j<taille ; j++){
-			if(ptr[i][j].c==rouge){
-				if( danslagrille(taille, i,j+ca)){
-                	while( (ptr[i][j+ca]).c== rouge){
+	case_t celltemp;
+	for(int celltemp.x=0; celltemp.x<taille ; celltemp.x++){
+       	for(int celltemp.y=0; celltemp.y<taille ; celltemp.y++){
+			if(ptr[celltemp.x][celltemp.y].c==rouge){
+				for(dir=direction_debut; dir!=direction_debut ;direction_suivante(dir)){
+					celltemp=direction_avancer( dir,celltemp, ca );
+					while(danslagrille(taille,celltemp) && ptr[celltemp.x][celltemp.y].c==rouge){
                   		ca++;
+                  		celltemp=direction_avancer( dir,celltemp, ca );
                		}
-					if( danslagrille(taille, i, j+ca) && ptr[i][j+ca].c== aucune){
-						return (i)*taille+(j+ca);
+					if(danslagrille(taille, celltemp) && ptr[celltemp.x][celltemp.y].c==aucune){
+						return celltemp;
 					}
-               	}else if( danslagrille(taille, i, j-ca)){
-                   	while( ptr[i][j-ca].c== rouge){
-                  		ca++;
-                 	}
-					if( danslagrille(taille, i, j-ca) && ptr[i][j-ca].c== aucune){
-						return (i)*taille+(j-ca);
-					}
-             	}else if ( danslagrille(taille, i+ca, j)){
-                 	while( ptr[i+ca][j].c== rouge){
-                  		ca++;
-                 	}
-					if( danslagrille(taille, i+ca,j) && ptr[i+ca][j].c== aucune){
-						return (i+ca)*taille+(j);
-					}
-            	}else if ( danslagrille(taille, i-ca, j)){
-                  	while( ptr[i-ca][j].c== rouge){
-                  		ca++;
-                 	}
-					if( danslagrille(taille, i-ca, j) && ptr[i-ca][j].c== aucune){
-						return (i-ca)*taille+(j);
-					}
-              	}
-				if( danslagrille(taille, i, j+1)){
-                	if( ptr[i][j+1].c== aucune){
-                  		return i*taille+(j+1);
-                 	}
-               	}else if( danslagrille(taille, i, j-1)){
-                   	if( ptr[i][j-1].c== aucune){
-                  		return i*taille+(j-1);
-                  	}
-             	}else if ( danslagrille(taille, i+1, j)){
-                 	if( ptr[i+1][j].c== aucune){
-                   		return (i+1)*taille+j;
-                 	}
-            	}else if ( danslagrille(taille, i-1, j)){
-                  	if( ptr[i-1][j].c== aucune){
-                    		return (i-1)*taille+j;
+				}
 			}
-              	}
-            }
         }
 	}
 	return -1;

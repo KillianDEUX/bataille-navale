@@ -1,16 +1,8 @@
-// revoir si on change la matrice carrée en rectangulaire
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "liste.h"
 
-typedef enum couleur { aucune, blanc, rouge } couleur_t;
-
-typedef struct case_s {
-	int x;
-	int y;
-	couleur_t c;
-}case_t;
 
 case_t **creer_matrice_adv (int taille){
 	
@@ -44,7 +36,7 @@ int init_matrice_adv(int taille, case_t** ptr){
         }
 	}
 	return 0;
-}free(ptr);
+}
 
 
 	
