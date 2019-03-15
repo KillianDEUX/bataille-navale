@@ -4,6 +4,7 @@
 #include <time.h>
 #include "liste.h"
 #include "matricebateau.h"
+#include "matricepion.h"
 
 int placer_bateau_ia(t_liste joueur, int taille_mat, t_liste ia){
 	srand(time(NULL));

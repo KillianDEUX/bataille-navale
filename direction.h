@@ -1,5 +1,5 @@
 
-#include "liste.h" //pour case_t
+#include "matricepion.h" //pour case_t
 
 typedef enum { NORD=0, EST, SUD, OUEST} direction_t;
 const int NB_DIRECTION=4;

@@ -4,6 +4,8 @@
 #include "liste.h"
 #include "matricepion.h"
 #include "matricebateau.h"
+#include "direction.h"
+
 case_t case_tabtocoord(int taille, int nb){
 	case_t cellule;
 	cellule.y=nb%taille;

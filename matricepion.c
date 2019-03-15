@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "liste.h"
-
+#include "matricebateau.h"
+#include "matricepion.h"
 
 case_t **creer_matrice_adv (int taille){
 	

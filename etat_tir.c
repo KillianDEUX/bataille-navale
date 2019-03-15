@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "liste.h"
+#include "matricebateau.h"
+#include "matricepion.h"
 
 int etat_tir( int taille, case_t cell, t_liste joueur){
 	if(toucheunbateau(taille, cell, joueur)==2){

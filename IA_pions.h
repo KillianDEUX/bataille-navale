@@ -1,6 +1,4 @@
 
-
-
 case_t case_tabtocoord(int, int);
 int case_coordtotab(int, case_t);
 int autorisation_case(int, int, case_t);

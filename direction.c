@@ -1,8 +1,7 @@
 #include "direction.h"
-#include "matricepion.h"
 
 
-case_t direction_avancer(direction_t dir, case_t depart, int nb_pas, int taille){
+case_t direction_avancer(direction_t dir, case_t depart, int nb_pas){
 	case_t arrivee;
 	if(dir == NORD)
 		arrivee.y += nb_pas; 
@@ -12,8 +11,7 @@ case_t direction_avancer(direction_t dir, case_t depart, int nb_pas, int taille)
 		arrivee.x += nb_pas; 
 	if(dir == OUEST)
 		arrivee.x -= nb_pas; 
-	if(danslagrille(taille,))
-		return arrivee;
+	return arrivee;
 }
 
 direction_t direction_suivante(direction_t dir){

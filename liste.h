@@ -1,24 +1,5 @@
-typedef enum couleur { aucune, blanc, rouge } couleur_t;
-
-typedef struct case_s {
-	int x;
-	int y;
-	couleur_t c;
-}case_t;
-
-typedef enum type_bat {none, mine ,torpilleur, sousmarin,  croiseur, porteavion}type_t;
-typedef enum dir_bat {aucun, vertical, horizontal}dir_t;
-typedef enum etat_bat {flotte, coule}etat_t;
-
-typedef struct bateau {
-	type_t type;
-	case_t coord;
-	int taille;
-	dir_t dir;
-	etat_t etat;
-	int nb_touche;
-}bateau_t;
-
+#ifndef __LISTE_H__
+#define __LISTE_H__
 
 typedef struct element{
 	bateau_t bateau; 
@@ -30,6 +11,10 @@ typedef struct {
 	t_element * drapeau;
 	t_element * ec;
 }t_liste;
+
+#include "matricebateau.h"
+
+
 
 
 void init_liste(t_liste*);
@@ -45,3 +30,4 @@ void oter_elt(t_liste*);
 void ajout_droit(t_liste*, bateau_t);
 void ajout_gauche(t_liste*, bateau_t);
 
+#endif
