@@ -3,6 +3,7 @@
 #include "liste.h"
 #include "listebateau.h"
 #include "matricepion.h"
+#include "bateau.h"
 
 
 // En fonction de la case choisis, renvoie une valeur suivant si le tir touche, coule ou rate
