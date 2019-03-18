@@ -1,13 +1,13 @@
 
 all : executable
 
-executable : srv.o liste.o matricebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o
+executable : srv.o liste.o bateau.o listebateau.h matricepion.o IA_pions.o IA_bateaux.o direction.o
 		gcc -o executable srv.o liste.o matricebateau.o matricepion.o IA_pions.o IA_bateaux.o
 
 srv.o : srv.c
 		gcc -c srv.c
 
-liste.o : liste.c liste.h matricebateau.h
+liste.o : liste.c liste.h bateau.h
 		gcc -c liste.c -o liste.o
 
 bateau.o : bateau.c matricepion.h

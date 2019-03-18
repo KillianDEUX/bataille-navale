@@ -1,4 +1,4 @@
-#include <stdio.h>
+ROUGE#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "liste.h"
@@ -21,7 +21,7 @@ int case_coordtotab(int taille, case_t cellule){
 
 int autorisation_case(int taille, int pluspetitbat, case_t cellule){
 	int casealea=case_coordtotab( taille, cellule);
-	if((casealea%pluspetitbat)!=0 && cellule.c!=aucune){
+	if((casealea%pluspetitbat)!=0 && cellule.c!=AUCUNE){
 		return 0;
 	}
 	return 1;
@@ -32,7 +32,7 @@ case_t pseudo_aleatoire( int taille, int pluspetitbat){
 	case_t cellule;
 	int casealea=rand()%((taille*taille)+1);
 	cellule= case_tabtocoord( taille, casealea);
-	while((casealea%pluspetitbat)!=0 && cellule.c!=aucune){
+	while((casealea%pluspetitbat)!=0 && cellule.c!=AUCUNE){
 		casealea=rand()%((taille*taille)+1);
 	}
 	cellule= case_tabtocoord( taille, casealea);
@@ -44,11 +44,11 @@ int pseudo_aleatoire_autorisation( int taille, int pluspetitbat){
 	case_t cellule;
 	int casealea=rand()%((taille*taille)+1);
 	cellule= case_tabtocoord( taille, casealea);
-	for(int i=0;((casealea%pluspetitbat)!=0 && cellule.c!=aucune) || i<100;i++, casealea=rand()%((taille*taille)+1),
+	for(int i=0;((casealea%pluspetitbat)!=0 && cellule.c!=AUCUNE) || i<100;i++, casealea=rand()%((taille*taille)+1),
 	cellule= case_tabtocoord( taille, casealea) ){ // test sur 100 valeurs
 
 		return 1;
-	
+
 	}
 		return  0;
 }
@@ -59,7 +59,7 @@ case_t aleatoire( int taille){
 	case_t cellule;
 	int casealea=rand()%((taille*taille)+1);
 	cellule= case_tabtocoord( taille, casealea);
-	while(cellule.c!=aucune ){
+	while(cellule.c!=AUCUNE ){
 		casealea=rand()%((taille*taille)+1);
 	}
 	cellule= case_tabtocoord( taille, casealea);
@@ -67,14 +67,14 @@ case_t aleatoire( int taille){
 }
 
 case_t est_autour( int taille,case_t  **ptr){
-	
+
 	int compt=0;
 	int comptmax=0;
 	int pion;
 	case_t cell;
 	for (int i=0;i<taille;i++){
 		for(int j=0; j<taille;j++){
-			if(ptr[i][j].c==aucune){
+			if(ptr[i][j].c==AUCUNE){
 				 compt++;
 				 if(compt>comptmax){
 				 	comptmax=compt;
@@ -97,14 +97,14 @@ case_t detection_touche (int taille, case_t **ptr){
 	case_t celltemp;
 	for(int celltemp.x=0; celltemp.x<taille ; celltemp.x++){
        	for(int celltemp.y=0; celltemp.y<taille ; celltemp.y++){
-			if(ptr[celltemp.x][celltemp.y].c==rouge){
+			if(ptr[celltemp.x][celltemp.y].c==ROUGE){
 				for(dir=direction_debut; dir!=direction_debut ;direction_suivante(dir)){
 					celltemp=direction_avancer( dir,celltemp, ca );
-					while(danslagrille(taille,celltemp) && ptr[celltemp.x][celltemp.y].c==rouge){
+					while(danslagrille(taille,celltemp) && ptr[celltemp.x][celltemp.y].c==ROUGE){
                   		ca++;
                   		celltemp=direction_avancer( dir,celltemp, ca );
                		}
-					if(danslagrille(taille, celltemp) && ptr[celltemp.x][celltemp.y].c==aucune){
+					if(danslagrille(taille, celltemp) && ptr[celltemp.x][celltemp.y].c==AUCUNE){
 						return celltemp;
 					}
 				}

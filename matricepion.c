@@ -5,177 +5,179 @@
 #include "listebateau.h"
 #include "matricepion.h"
 
-case_t **creer_matrice_adv (int taille){
-	
-	case_t **ptr;
+matrice_t creer_matrice_adv (int nbl, int nbc){
 
-	ptr = malloc(taille * sizeof(*ptr)); 
-	if(ptr == NULL){ 
-		printf("Code erreur : manque de mémoire");
-	} 
-	ptr[0]= malloc(taille * taille * sizeof(**ptr));
-	if(ptr[0]== NULL){
-		printf("Code erreur : manque de mémoire");
+	matrice_t mat;
+	mat.nbl = nbl;
+	mat.nbc = nbc;
+
+	mat.grille = malloc(nbl * sizeof(*mat.grille));
+	if(mat.grille == NULL){
+		fprintf(stderr, "Code erreur : manque de mémoire");
 	}
-	for(int i=1; i<taille ; i++){
-		ptr[i]= ptr[i-1]+taille;
+	mat.grille[0]= malloc(nbl * nbc * sizeof(**mat.grille));
+	if(mat.grille[0]== NULL){
+		fprintf(stderr, "Code erreur : manque de mémoire");
 	}
-	return ptr;
+	for(int i=1; i<nbl ; i++){
+		mat.grille[i]= mat.grille[i-1]+nbc;
+	}
+	return mat;
 }
 
-void detruire_matrice_adv( case_t **ptr){
-	free(ptr[0]);
-	free(ptr);
+void detruire_matrice_adv( matrice_t mat){
+	free(mat.grille[0]);
+	free(mat.grille);
 }
 
 
-int init_matrice_adv(int taille, case_t** ptr){
+int init_matrice_adv(matrice_t mat){
 
-	for(int i=0; i<taille ; i++){
-       	for(int j=0; j<taille ; j++){
-           	ptr[i][j].c= aucune;
+	for(int i=0; i<mat.nbl ; i++){
+       	for(int j=0; j<mat.nbc ; j++){
+           	mat.grille[i][j].c= AUCUNE;
         }
 	}
 	return 0;
 }
 
 
-	
-int danslagrille(int taille, case_t cell ){
-	
-	if( cell.x >= taille || cell.y >= taille || cell.x < 1 || cell.y < 1 )
+
+int danslagrille(matrice_t mat, coord_t pos ){
+
+	if( pos.x >= mat.nbl || pos.y >= mat.nbc || pos.x < 1 || pos.y < 1 )
 		return 0;
 	return 1;
 }
-	
-	
-void eauautourcoule( int taille, case_t cell, case_t** ptr ){
+
+
+void eauautourcoule( coord_t cell, matrice_t mat ){
 	// Lorsque le bateau est dirigé vers le nord
-	case_t celltemp;
+	coord_t celltemp;
 	celltemp.x=cell.x+1;
 	celltemp.y=cell.y;
-	if ( danslagrille(taille, celltemp)){
-		if( ptr[celltemp.x][celltemp.y].c== aucune){
-			ptr[celltemp.x][celltemp.y].c= blanc;
-		}else if (ptr[celltemp.x][celltemp.y].c== rouge){
-			while((danslagrille(taille, celltemp)) && (ptr[celltemp.x][celltemp.y].c== rouge)){
+	if ( danslagrille(mat, celltemp)){
+		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
+			mat.grille[celltemp.x][celltemp.y].c= BLANC;
+		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
+			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.x=cell.x+1;
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.x=cell.x-1;
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.y++;
 			}
 			celltemp.x=cell.x+1;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x-1;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
 	}
 	// Lorsque le bateau est dirigé vers le sud
-	celltemp.y=cell.y-1; 									// Changement 
+	celltemp.y=cell.y-1; 									// Changement
 	celltemp.x=cell.x;
 	if ( danslagrille(taille, celltemp)){
-		if( ptr[celltemp.x][celltemp.y].c== aucune){
-			ptr[celltemp.x][celltemp.y].c= blanc;
-		}else if (ptr[celltemp.x][celltemp.y].c== rouge){
-			while((danslagrille(taille, celltemp)) && (ptr[celltemp.x][celltemp.y].c== rouge)){
+		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
+			mat.grille[celltemp.x][celltemp.y].c= BLANC;
+		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
+			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.x=cell.x+1;
 				if(danslagrille(taille, celltemp)){
-					(ptr[celltemp.x][celltemp.y]).c= blanc;
+					(mat.grille[celltemp.x][celltemp.y]).c= BLANC;
 				}
 				celltemp.x=cell.x-1;
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
-				celltemp.y--;                   					// Changement 
+				celltemp.y--;                   					// Changement
 			}
 			celltemp.x=cell.x+1;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x-1;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
 	}
 	// Lorsque le bateau est dirigé vers l'est
-	celltemp.y=cell.y;                   				                        // Changement 			
-	celltemp.x=cell.x+1;                 					                // Changement 
+	celltemp.y=cell.y;                   				                        // Changement
+	celltemp.x=cell.x+1;                 					                // Changement
 	if ( danslagrille(taille, celltemp)){
-		if( ptr[celltemp.x][celltemp.y].c== aucune){
-			ptr[celltemp.x][celltemp.y].c= blanc;
-		}else if (ptr[celltemp.x][celltemp.y].c== rouge){
-			while((danslagrille(taille, celltemp)) && (ptr[celltemp.x][celltemp.y].c== rouge)){
+		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
+			mat.grille[celltemp.x][celltemp.y].c= BLANC;
+		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
+			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.y=cell.y+1;							// Changement
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.y=cell.y-1;							// Changement
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
-				celltemp.x++;							// Changement                   					
+				celltemp.x++;							// Changement
 			}
 			celltemp.y=cell.y+1;								// Changement
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y-1;								// Changement
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y;								// Changement
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
 	}
 	// Lorsque le bateau est dirigé vers l'ouest
-	celltemp.y=cell.y;                   				                        		
-	celltemp.x=cell.x-1;                  					                // Changement 
+	celltemp.y=cell.y;
+	celltemp.x=cell.x-1;                  					                // Changement
 	if ( danslagrille(taille, celltemp)){
-		if( ptr[celltemp.x][celltemp.y].c== aucune){
-			ptr[celltemp.x][celltemp.y].c= blanc;
-		}else if (ptr[celltemp.x][celltemp.y].c== rouge){
-			while((danslagrille(taille, celltemp)) && (ptr[celltemp.x][celltemp.y].c== rouge)){
-				celltemp.y=cell.y+1;							
+		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
+			mat.grille[celltemp.x][celltemp.y].c= BLANC;
+		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
+			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
+				celltemp.y=cell.y+1;
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
-				celltemp.y=cell.y-1;							
+				celltemp.y=cell.y-1;
 				if(danslagrille(taille, celltemp)){
-					ptr[celltemp.x][celltemp.y].c= blanc;
+					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
-				celltemp.x--;							// Changement                   					
+				celltemp.x--;							// Changement
 			}
-			celltemp.y=cell.y+1;								
+			celltemp.y=cell.y+1;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y-1;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y;
 			if(danslagrille(taille, celltemp)){
-				ptr[celltemp.x][celltemp.y].c= blanc;
+				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
 	}
@@ -183,15 +185,15 @@ void eauautourcoule( int taille, case_t cell, case_t** ptr ){
 
 
 
-int ajout_pion_matrice( int taille, case_t cell, case_t **ptr, t_liste actuel ){
+int ajout_pion_matrice( case_t cell, matrice_t mat, t_liste actuel ){
 
-	if( etat_tir(taille, cell, actuel)==0){        			// Si le tir tombe dans l'eau
-		(ptr[cell.x][cell.y]).c= blanc ;    				// Placer un pion blanc sur la matrice
-	}else if( etat_tir(taille, cell, actuel)==1){  			 // Si le tir touche une cible
-		(ptr[cell.x][cell.y]).c= rouge ;    			   // Placer un pion rouge sur la matrice
-	}else if( etat_tir(taille, cell, actuel)==2){	 		// Si le tir coule une cible
-		(ptr[cell.x][cell.y]).c= rouge ; 				 // Placer un pion rouge sur la matrice
-		eauautourcoule(taille, cell, ptr);       		 // Placer des pion blancs tout autour sur la matrice
+	if( etat_tir(cell, mat, actuel)==0){        			// Si le tir tombe dans l'eau
+		(mat.grille[cell.x][cell.y]).c= BLANC ;    				// Placer un pion BLANC sur la matrice
+	}else if( etat_tir(cell, mat, actuel)==1){  			 // Si le tir touche une cible
+		(mat.grille[cell.x][cell.y]).c= ROUGE ;    			   // Placer un pion ROUGE sur la matrice
+	}else if( etat_tir(cell, mat, actuel)==2){	 		// Si le tir coule une cible
+		(mat.grille[cell.x][cell.y]).c= ROUGE ; 				 // Placer un pion ROUGE sur la matrice
+		eauautourcoule(cell, mat);       		 // Placer des pion BLANCs tout autour sur la matrice
 	}else{
 		return 1;
 	}
@@ -199,18 +201,18 @@ int ajout_pion_matrice( int taille, case_t cell, case_t **ptr, t_liste actuel ){
 }
 
 
-int vider_matrice(int taille, case_t **ptr){
-	int i=init_matrice_adv(taille, ptr);
+int vider_matrice(matrice_t mat){
+	int i=init_matrice_adv( mat );
 	return i;
 }
 
 // Voir avec la SDL. Ici version terminal
-void afficher_matrice_pion( int taille, case_t **ptr){
-	for(int i=0; i<taille ; i++){
-       		for(int j=0; j<taille ; j++){
-           		if(ptr[i][j].c == aucune){
+void afficher_matrice_pion( matrice_t mat){
+	for(int i=0; i<mat.nbl ; i++){
+       		for(int j=0; j<mat.nbc ; j++){
+           		if(mat.grille[i][j].c == AUCUNE){
 				printf(". ");
-			}else if(ptr[i][j].c == blanc){
+			}else if(mat.grille[i][j].c == BLANC){
 				printf("0 ");
 			}else{
 				printf("X ");
@@ -219,14 +221,3 @@ void afficher_matrice_pion( int taille, case_t **ptr){
 		printf("\n");
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

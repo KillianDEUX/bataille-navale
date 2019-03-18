@@ -17,5 +17,6 @@ int placement_bateau(t_liste, bateau_t *, dir_t, case_t, int);
 void placer_bateau(t_liste, int);
 void choixbateau(t_liste,int);
 int bateau_plus_petit(t_liste);
+void cases_nondisponibles(case_t * cases_nonlibres,bateau_t *bat, case_t actuel, int compteur ,int taille);
 
 #endif

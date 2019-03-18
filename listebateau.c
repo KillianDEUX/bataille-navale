@@ -95,11 +95,11 @@ void affichage_flotte(t_liste joueur, int taille){
 
 /*  */
 void cases_prises(t_liste joueur, case_t* case_nonlibres, int taille){
-	bateau_t *bat;	
+	bateau_t *bat;
 	int fin_bat;
 	int i, compteur;
 	case_t actuel;
-	en_tete(&joueur);  
+	en_tete(&joueur);
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, bat);
 		cases_nondisponibles(cases_nonlibres, bat, actuel, compteur, taille);
@@ -119,11 +119,11 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, case_t emp, int 
 	    en_queue(&joueur);
 	    ajout_droit(&joueur, *bat);
 	}
-	free(casesprises);    
+	free(casesprises);
     return result;
 }
 
-	
+
 int placer_bateau(t_liste joueur, int taille_mat){
 	type_t nom_bat;
 	int dir_donne, type_donne;
@@ -151,7 +151,7 @@ int placer_bateau(t_liste joueur, int taille_mat){
 			printf("Quelles sont les coordonnées a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", taille_mat);
 			scanf("%i", &emp.x);
 		}while(emp.x <1 || emp.x > taille_mat);
-		
+
 		do{
 			printf("\n y = ");
 			scanf("%i", &emp.y);
@@ -178,7 +178,7 @@ int choixbateau(t_liste joueur, int taille){
               printf("Combien de bâteau voulez-vous avoir ?(différent de 0 et inférieur à : %i) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
-       
+
        for(int i=0; i<nbbat;i++){
               printf("Ecrire la taille du %i bateau(entre 1 et 5) : ",i);
               if(i<=5 && i>=1){
@@ -209,3 +209,179 @@ int bateau_plus_petit(t_liste joueur){
 	return min;
 }
 
+
+/* remplit case_non,libres avec les cases occupées
+	-> bouger dans liste bateau
+	OPTION : []-> MAIS faire une fonction cases occupées par le bateau]
+*/
+void cases_nondisponibles(coord_t * cases_nonlibres,bateau_t *bat, coord_t actuel, int compteur, int taille){
+		int i;
+		if(bat->dir == vertical){
+	       		fin_bat = fin_bateau_vertical(bat);
+	       		for(i=bat->coord.y,compteur =0;i<=fin_bat; i++){
+       				actuel.x=bat->coord.x;
+       				actuel.y=bat->coord.y;
+       				if(i==bat->coord.y){
+					actuel.x--;
+					if(danslagrille(taille, actuel)){
+							case_nonlibres[compteur] = actuel;
+							compteur++;
+					}
+					actuel.x++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.x++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+       					actuel.x--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+				else if(i==fin_bat){
+					actuel.x--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.x++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					if(danslagrille(taille, actuel)){
+							case_nonlibres[compteur] = actuel;
+							compteur++;
+					}
+       					actuel.x--;
+					if(danslagrille(taille, actuel)){
+							case_nonlibres[compteur] = actuel;
+							compteur++;
+					}
+					actuel.x--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+				else{
+					case_nonlibres[compteur].x =actuel.x ;
+					case_nonlibres[compteur].y =actuel.y ;
+					actuel.x--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.x++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+			}
+		}
+		if(bat->dir == horizontal){
+			fin_bat = fin_bateau_horizontal(bat);
+       			for(i=bat->coord.x,compteur =0;i<=fin_bat; i++){
+       				actuel.x=bat->coord.x;
+       				actuel.y=bat->coord.y;
+       				if(i==bat->coord.x){
+					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.y++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+       					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+				else if(i==fin_bat){
+					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.y++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+       					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+				else{
+					case_nonlibres[compteur].x =actuel.x ;
+					case_nonlibres[compteur].y =actuel.y ;
+					actuel.y--;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.y++;
+					if(danslagrille(taille, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+			}
+		}
+}

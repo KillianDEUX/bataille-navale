@@ -5,28 +5,28 @@
 
 void modif_type_bat(bateau_t actuel){
 	if(actuel->taille == 1){
-		actuel->type = mine;
+		actuel->type = MINE;
 	}
 	if(actuel->taille == 2){
-		actuel->type = torpilleur;
+		actuel->type = TORPILLEUR;
 	}
 	if(actuel->taille == 3){
-		actuel->type = sousmarin;
+		actuel->type = SOUSMARIN;
 	}
 	if(actuel->taille == 4){
-		actuel->type = croiseur;
+		actuel->type = CROISEUR;
 	}
 	if(actuel->taille == 5){
-		actuel->type = porteavion;
+		actuel->type = PORTEAVION;
 	}
 }
 
-int fin_bateau_vertical(bateau_t *bateau){ 
+int fin_bateau_vertical(bateau_t *bateau){
 	return (bateau->coord.y + bateau->taille);
 }
-       
+
 int fin_bateau_horizontal(bateau_t *bateau){
-	return (bateau->coord.x + bateau->taille); 
+	return (bateau->coord.x + bateau->taille);
 }
 
 void afficher_bateau(bateau_t actuel, int i, int j){
@@ -45,179 +45,6 @@ void afficher_bateau(bateau_t actuel, int i, int j){
 	    else{
 	       	printf("[ ]");
 	    }
-}
-
-
-void cases_nondisponibles(case_t * cases_nonlibres,bateau_t *bat, case_t actuel, int compteur ,int taille){
-		int i;
-		if(bat->dir == vertical){
-	       		fin_bat = fin_bateau_vertical(bat);
-	       		for(i=bat->coord.y,compteur =0;i<=fin_bat; i++){
-       				actuel.x=bat->coord.x;
-       				actuel.y=bat->coord.y;
-       				if(i==bat->coord.y){ 
-					actuel.x--;
-					if(danslagrille(taille, actuel)){
-							case_nonlibres[compteur] = actuel;
-							compteur++;
-					}
-					actuel.x++;		
-					case_nonlibres[compteur] = actuel;
-					compteur++;
-					actuel.x++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-       					actuel.x--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.x--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-				}
-				else if(i==fin_bat){
-					actuel.x--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.x++;
-					case_nonlibres[compteur] = actuel;
-					compteur++;
-					actuel.x++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y++;
-					if(danslagrille(taille, actuel)){
-							case_nonlibres[compteur] = actuel;
-							compteur++;
-					}
-       					actuel.x--;
-					if(danslagrille(taille, actuel)){
-							case_nonlibres[compteur] = actuel;
-							compteur++;
-					}
-					actuel.x--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-				}
-				else{
-					case_nonlibres[compteur].x =actuel.x ;
-					case_nonlibres[compteur].y =actuel.y ; 
-					actuel.x--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.x++;
-					case_nonlibres[compteur] = actuel;
-					compteur++;
-					actuel.x++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-				}
-			}
-		}
-		if(bat->dir == horizontal){
-			fin_bat = fin_bateau_horizontal(bat);
-       			for(i=bat->coord.x,compteur =0;i<=fin_bat; i++){
-       				actuel.x=bat->coord.x;
-       				actuel.y=bat->coord.y;
-       				if(i==bat->coord.x){ 
-					actuel.y--;
-					if(danslagrille(taille, actuel)){	
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y++;
-					case_nonlibres[compteur] = actuel;
-					compteur++;
-					actuel.y++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.x--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-       					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-				}
-				else if(i==fin_bat){
-					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y++;
-					case_nonlibres[compteur] = actuel;
-					compteur++;
-					actuel.y++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.x++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-       					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-				}
-				else{
-					case_nonlibres[compteur].x =actuel.x ;
-					case_nonlibres[compteur].y =actuel.y ; 
-					actuel.y--;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-					actuel.y++;
-					case_nonlibres[compteur] = actuel;
-					compteur++;
-					actuel.y++;
-					if(danslagrille(taille, actuel)){
-						case_nonlibres[compteur] = actuel;
-						compteur++;
-					}
-				}
-			}			
-		}
 }
 
 
@@ -245,11 +72,11 @@ void verif_placement_bateau(bateau_t * bat, case_t *casesprises, int * result){
 		}
 }
 
-void implanter_coordonnee_bateau(bateau_t * bat, case_t emp, dir_t dir){
+void implanter_coordonnee_bateau(bateau_t * bat, coord_t emp, dir_t dir){
 	bat->coord.x = emp.x;
 	bat->coord.y = emp.y;
 	bat->dir = dir;
-	bat->etat = flotte;
+	bat->etat = FLOTTE;
 	bat->nb_touche = 0;
 }
 
@@ -259,14 +86,14 @@ void implanter_nouveau_bateau(int t, bateau_t nouveau){
 	nouveau.coord.y = -1;
 	nouveau.dir = aucun;
 	nouveau.type = aucun;
-	nouveau.etat = flotte;
+	nouveau.etat = FLOTTE;
 	nouveau.nb_touche = 0;
 }
 
 
 // verifie si le bateau est coulé
-int bat_coul(bateau_t bateau, int nb_bat){
-	if( bateau->etat=coule){
+int bat_coul(bateau_t bateau){
+	if( bateau->etat==COULE){
 		return 1;
 	}
 	return 0;
@@ -275,11 +102,11 @@ int bat_coul(bateau_t bateau, int nb_bat){
 
 
 // renvoie 2 si coulé, 1 si touché et 0 si dans l'eau
-int toucheunbateau( int taille, case_t cell, bateau_t actueltemp){
+int toucheunbateau( coord_t cell, bateau_t actueltemp){
 		if (cell.x== actueltemp->coord->x && cell.y == actueltemp->coord->y){
 					actueltemp->nb_touche++;
 					if(actueltemp->nb_touche == actueltemp->taille){
-						actueltemp->etat = coule;
+						actueltemp->etat = COULE;
 						return 2;
 					}
 					return 1;
