@@ -12,7 +12,7 @@ typedef struct {
 	t_element * ec;
 }t_liste;
 
-#include "matricebateau.h"
+#include "bateau.h"
 
 
 
