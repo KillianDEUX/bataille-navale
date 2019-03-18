@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <time.h>
 #include "liste.h"
-#include "matricebateau.h"
+#include "listebateau.h"
 #include "matricepion.h"
 
 int placer_bateau_ia(t_liste joueur, int taille_mat, t_liste ia){
