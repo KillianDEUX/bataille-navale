@@ -1,6 +1,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "bateau.h"
 
 void modif_type_bat(bateau_t actuel){
 	if(actuel->taille == 1){
