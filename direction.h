@@ -1,3 +1,5 @@
+#ifndef __DIRECTION_H__
+#define __DIRECTION_H__
 
 #include "matricepion.h" //pour case_t
 
@@ -13,3 +15,4 @@ direction_t direction_debut();
 
 char* direction_str(direction_t);
 
+#endif
