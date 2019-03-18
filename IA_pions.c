@@ -3,7 +3,7 @@
 #include <time.h>
 #include "liste.h"
 #include "matricepion.h"
-#include "matricebateau.h"
+#include "listebateau.h"
 #include "direction.h"
 
 case_t case_tabtocoord(int taille, int nb){
