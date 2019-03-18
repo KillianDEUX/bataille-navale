@@ -185,15 +185,16 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 
 
 
-int ajout_pion_matrice( case_t cell, matrice_t mat, t_liste actuel ){
+int ajout_pion_matrice( coord_t cell, matrice_t mat, t_liste joueur ){
 
-	if( etat_tir(cell, mat, actuel)==0){        			// Si le tir tombe dans l'eau
+  int etat=etat_tir(cell, mat, joueur);
+	if( etat == 0){        														// Si le tir tombe dans l'eau
 		(mat.grille[cell.x][cell.y]).c= BLANC ;    				// Placer un pion BLANC sur la matrice
-	}else if( etat_tir(cell, mat, actuel)==1){  			 // Si le tir touche une cible
+	}else if( etat == 1){  														 // Si le tir touche une cible
 		(mat.grille[cell.x][cell.y]).c= ROUGE ;    			   // Placer un pion ROUGE sur la matrice
-	}else if( etat_tir(cell, mat, actuel)==2){	 		// Si le tir coule une cible
+	}else if( etat == 2){	 														// Si le tir coule une cible
 		(mat.grille[cell.x][cell.y]).c= ROUGE ; 				 // Placer un pion ROUGE sur la matrice
-		eauautourcoule(cell, mat);       		 // Placer des pion BLANCs tout autour sur la matrice
+		eauautourcoule(cell, mat);       							 // Placer des pion BLANCs tout autour sur la matrice
 	}else{
 		return 1;
 	}

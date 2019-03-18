@@ -6,22 +6,22 @@
 #include "listebateau.h"
 #include "matricepion.h"
 
-int placer_bateau_ia(t_liste joueur, int taille_mat, t_liste ia){
+int placer_bateau_ia(t_liste joueur, matrice_t mat, t_liste ia){
 	srand(time(NULL));
-	case_t emp;
+	coord_t emp;
 	dir_t direction;
-	bateau_t nouv;
-	appliquer_bateau(t_liste joueur, t_liste ia);
+	bateau_t *nouv;
+	appliquer_bateau(joueur, ia);
 	en_tete(&ia);
 	while(!hors_liste(&ia)){
 		do{
 			valeur_elt(&ia,nouv);
 			if(!hors_liste(&ia)){
 				direction= rand()%2+1;
-				emp.y= rand()%taille_mat+1;
-				emp.x= rand()%taille_mat+1;
+				emp.y= rand()%mat.nbc+1;
+				emp.x= rand()%mat.nbl+1;
 			}
-		}while(placement_bateau(ia, nouv, direction, emp, taille_mat));
+		}while(placement_bateau(ia, nouv, direction, emp, mat));
 		suivant(&ia);
 	}
 	return 1;

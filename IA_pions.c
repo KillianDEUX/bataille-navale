@@ -5,47 +5,48 @@ ROUGE#include <stdio.h>
 #include "matricepion.h"
 #include "listebateau.h"
 #include "direction.h"
+#include "commun.h"
 
-case_t case_tabtocoord(int taille, int nb){
-	case_t cellule;
-	cellule.y=nb%taille;
-	cellule.x=((nb-(cellule.y))/taille)+1;
+coord_t case_tabtocoord(matrice_t mat, int nb){
+	coord_t cellule;
+	cellule.y=nb%mat.nbc;
+	cellule.x=((nb-(cellule.y))/mat.nbl)+1;
 	return cellule;
 }
 
-int case_coordtotab(int taille, case_t cellule){
+int case_coordtotab(matrice_t mat, coord_t cellule){
 	int nb;
-	nb=(((cellule.x)-1)*taille+(cellule.y));
+	nb=(((cellule.x)-1)*mat.nbl+(cellule.y));
 	return nb;
 }
 
-int autorisation_case(int taille, int pluspetitbat, case_t cellule){
-	int casealea=case_coordtotab( taille, cellule);
-	if((casealea%pluspetitbat)!=0 && cellule.c!=AUCUNE){
+int autorisation_case(matrice_t mat, int pluspetitbat, coord_t cellule){
+	int casealea=case_coordtotab( mat , cellule);
+	if((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE){
 		return 0;
 	}
 	return 1;
 }
 
-case_t pseudo_aleatoire( int taille, int pluspetitbat){
+coord_t pseudo_aleatoire( matrice_t mat, int pluspetitbat){
 	srand(time(NULL));
-	case_t cellule;
-	int casealea=rand()%((taille*taille)+1);
-	cellule= case_tabtocoord( taille, casealea);
-	while((casealea%pluspetitbat)!=0 && cellule.c!=AUCUNE){
-		casealea=rand()%((taille*taille)+1);
+	coord_t cellule;
+	int casealea=rand()%((mat.nbl*mat.nbc)+1);
+	cellule= case_tabtocoord( mat, casealea);
+	while((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE){
+		casealea=rand()%((mat.nbl*mat.nbc)+1);
 	}
-	cellule= case_tabtocoord( taille, casealea);
+	cellule= case_tabtocoord( mat , casealea);
 	return cellule;
 }
 
-int pseudo_aleatoire_autorisation( int taille, int pluspetitbat){
+int pseudo_aleatoire_autorisation( matrice_t mat, int pluspetitbat){
 	srand(time(NULL));
-	case_t cellule;
-	int casealea=rand()%((taille*taille)+1);
-	cellule= case_tabtocoord( taille, casealea);
-	for(int i=0;((casealea%pluspetitbat)!=0 && cellule.c!=AUCUNE) || i<100;i++, casealea=rand()%((taille*taille)+1),
-	cellule= case_tabtocoord( taille, casealea) ){ // test sur 100 valeurs
+	coord_t cellule;
+	int casealea=rand()%((mat.nbl*mat.nbc)+1);
+	cellule= case_tabtocoord( mat, casealea);
+	for(int i=0;((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE) || i<100;i++, casealea=rand()%((mat.nbl*mat.nbc)+1),
+	cellule= case_tabtocoord( mat, casealea) ){ // test sur 100 valeurs
 
 		return 1;
 
@@ -54,31 +55,31 @@ int pseudo_aleatoire_autorisation( int taille, int pluspetitbat){
 }
 
 
-case_t aleatoire( int taille){
+coord_t aleatoire( matrice_t mat){
 	srand(time(NULL));
-	case_t cellule;
-	int casealea=rand()%((taille*taille)+1);
-	cellule= case_tabtocoord( taille, casealea);
-	while(cellule.c!=AUCUNE ){
-		casealea=rand()%((taille*taille)+1);
+	coord_t cellule;
+	int casealea=rand()%((mat.nbl*tmat.nbc)+1);
+	cellule= case_tabtocoord( mat, casealea);
+	while(mat.grille[cellule.x][cellule.y].c!=AUCUNE ){
+		casealea=rand()%((mat.nbl*mat.nbc)+1);
 	}
-	cellule= case_tabtocoord( taille, casealea);
+	cellule= case_tabtocoord( mat, casealea);
 	return cellule;
 }
 
-case_t est_autour( int taille,case_t  **ptr){
+coord_t est_autour( matrice_t mat){
 
 	int compt=0;
 	int comptmax=0;
 	int pion;
-	case_t cell;
-	for (int i=0;i<taille;i++){
-		for(int j=0; j<taille;j++){
-			if(ptr[i][j].c==AUCUNE){
+	coord_t cell;
+	for (int i=0;i<mat.nbl;i++){
+		for(int j=0; j<mat.nbc;j++){
+			if(mat.grille[i][j].c==AUCUNE){
 				 compt++;
 				 if(compt>comptmax){
 				 	comptmax=compt;
-				 	pion=i*taille+j;
+				 	pion=i*mat.nbl+j;
 				}
 			}else{
 				compt=0;
@@ -86,25 +87,25 @@ case_t est_autour( int taille,case_t  **ptr){
 		}
 	}
 	pion=pion-(comptmax/2);
-	cell= case_tabtocoord(taille, pion);
+	cell= case_tabtocoord(mat, pion);
 	return cell;
 }
 
 
 /* vérifie si un bateau est touché quelque part, et essaye de viser une case qui est à coté */
-case_t detection_touche (int taille, case_t **ptr){
+coord_t detection_touche (matrice_t mat){
 	int ca=1;
-	case_t celltemp;
-	for(int celltemp.x=0; celltemp.x<taille ; celltemp.x++){
-       	for(int celltemp.y=0; celltemp.y<taille ; celltemp.y++){
-			if(ptr[celltemp.x][celltemp.y].c==ROUGE){
+	coord_t celltemp;
+	for(int celltemp.x=0; celltemp.x<mat.nbl ; celltemp.x++){
+       	for(int celltemp.y=0; celltemp.y<mat.nbc ; celltemp.y++){
+			if(mat.grille[celltemp.x][celltemp.y].c==ROUGE){
 				for(dir=direction_debut; dir!=direction_debut ;direction_suivante(dir)){
-					celltemp=direction_avancer( dir,celltemp, ca );
-					while(danslagrille(taille,celltemp) && ptr[celltemp.x][celltemp.y].c==ROUGE){
+					celltemp=direction_avancer( dir, celltemp, ca );
+					while(danslagrille(mat,celltemp) && mat.grille[celltemp.x][celltemp.y].c==ROUGE){
                   		ca++;
-                  		celltemp=direction_avancer( dir,celltemp, ca );
+                  		celltemp=direction_avancer( dir, celltemp, ca );
                		}
-					if(danslagrille(taille, celltemp) && ptr[celltemp.x][celltemp.y].c==AUCUNE){
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c==AUCUNE){
 						return celltemp;
 					}
 				}
@@ -115,20 +116,20 @@ case_t detection_touche (int taille, case_t **ptr){
 }
 
 
-case_t choisir_case(int taille, case_t **ptr, t_liste joueur){
-	case_t cell;
+coord_t choisir_case(matrice_t mat, t_liste joueur){
+	coord_t cell;
 	int pluspetitbat=bateau_plus_petit( joueur );
-	int t = detection_touche ( taille, ptr);
+	int t = detection_touche (mat);
 	if (t!= -1){
-		cell=case_tabtocoord(taille, t);
+		cell=case_tabtocoord(mat, t);
 		return cell;
 	}
-	cell=est_autour(taille, ptr);
-	if( autorisation_case(taille, pluspetitbat, cell)){
+	cell=est_autour(mat);
+	if( autorisation_case(mat, pluspetitbat, cell)){
 		return cell;
 	}
-	if(pseudo_aleatoire_autorisation(taille, pluspetitbat)){
-		return pseudo_aleatoire(taille, pluspetitbat);
+	if(pseudo_aleatoire_autorisation(mat, pluspetitbat)){
+		return pseudo_aleatoire(mat, pluspetitbat);
 	}
-	return	aleatoire(taille);
+	return	aleatoire(mat);
 }

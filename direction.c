@@ -1,16 +1,16 @@
 #include "direction.h"
 
 
-case_t direction_avancer(direction_t dir, case_t depart, int nb_pas){
-	case_t arrivee;
+case_t direction_avancer(direction_t dir, coord_t depart, int nb_pas){
+	coord_t arrivee= depart;
 	if(dir == NORD)
-		arrivee.y += nb_pas; 
+		arrivee.y += nb_pas;
 	if(dir == SUD)
 		arrivee.y -= nb_pas;
 	if(dir == EST)
-		arrivee.x += nb_pas; 
+		arrivee.x += nb_pas;
 	if(dir == OUEST)
-		arrivee.x -= nb_pas; 
+		arrivee.x -= nb_pas;
 	return arrivee;
 }
 
@@ -28,5 +28,3 @@ char* direction_str(direction_t dir){
 	if(dir==EST) return "EST";
 	if(dir==OUEST) return "OUEST";
 }
-
-

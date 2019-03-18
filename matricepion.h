@@ -20,12 +20,12 @@ typedef struct matrice_s {
 
 
 matrice_t creer_matrice_adv (int, int);
-void detruire_matrice_adv( case_t **);
-int init_matrice_adv(int, case_t**);
-int danslagrille(int, case_t); /* vérifie si les */
-void eauautourcoule( int, case_t, case_t**);
-int ajout_pion_matrice( int, case_t, case_t **, t_liste); // à revoir
-int vider_matrice(int, case_t **);
-void afficher_matrice_pion( int, case_t **);
+void detruire_matrice_adv( matrice_t );
+int init_matrice_adv( matrice_t);
+int danslagrille(matrice_t, coord_t); /* vérifie si les */
+void eauautourcoule( coord_t, matrice_t);
+int ajout_pion_matrice( coord_t, matrice_t, t_liste);
+int vider_matrice(matrice_t);
+void afficher_matrice_pion( matrice_t);
 
 #endif
