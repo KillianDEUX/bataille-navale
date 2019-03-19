@@ -3,24 +3,7 @@
 #include <stdlib.h>
 #include "bateau.h"
 
-/*modifie le type du bateau selon sa taille */
-void modif_type_bat(bateau_t * actuel){
-	if(actuel->taille == 1){
-		actuel->type = MINE;
-	}
-	if(actuel->taille == 2){
-		actuel->type = TORPILLEUR;
-	}
-	if(actuel->taille == 3){
-		actuel->type = SOUSMARIN;
-	}
-	if(actuel->taille == 4){
-		actuel->type = CROISEUR;
-	}
-	if(actuel->taille == 5){
-		actuel->type = PORTEAVION;
-	}
-}
+
 
 /*renvoie la coordonnée de fin du bateau, ici le y car le bateau est placé à la vertical*/
 int fin_bateau_vertical(bateau_t *bateau){
@@ -35,17 +18,17 @@ int fin_bateau_horizontal(bateau_t *bateau){
 /* permet d'afficher le bateau fourni en paramètre*/
 void afficher_bateau(bateau_t actuel, int i, int j){
 	int fin_bat, k;	
-	if(actuel->dir == vertical){ //si le bateau est placé à la vertical 
-		fin_bat=(fin_bateau_vertical(actuel);
-		if(i==actuel->coord.x && j>=actuel->coord.y && j<=fin_bat)
+	if(actuel.dir == VERTICAL){ //si le bateau est placé à la vertical 
+		fin_bat=(fin_bateau_vertical(&actuel));
+		if(i==actuel.coord.x && j>=actuel.coord.y && j<=fin_bat)
 			printf("[.]");
 		else
 	      	printf("[ ]");
 	    
 	}
-	if(actuel->dir == horizontal){ //si le bateau est placé à l'horizontal 
-	    fin_bat=(fin_bateau_horizontal(actuel);
-	   if(i>=actuel->coord.x && j==actuel->coord.y && i<=fin_bat)
+	if(actuel.dir == HORIZONTAL){ //si le bateau est placé à l'horizontal 
+	    fin_bat=(fin_bateau_horizontal(&actuel));
+	   if(i>=actuel.coord.x && j==actuel.coord.y && i<=fin_bat)
 			printf("[.]");
 	   else
 	      	printf("[ ]");
@@ -55,9 +38,9 @@ void afficher_bateau(bateau_t actuel, int i, int j){
 /*verifie si le bateau peut être placé au première coordonnée selon le tableau de case_t et retourne 0 si impossible */
 int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
 	int i, j;
-	if(dir == vertical){
-		for(i=emp.y; i<(bat->taille+emp.y) && result; i++){
-			for(j=0; casesprises[j].y != -1 && result; j++){
+	if(bat->dir == VERTICAL){
+		for(i=emp.y; i<(bat->taille+emp.y); i++){
+			for(j=0; casesprises[j].y != -1; j++){
 				if(casesprises[j].y == i && casesprises[j].x == emp.x){
 					printf("Erreur : le bateau ne peut pas être placé ici");
 					return 0;
@@ -65,9 +48,9 @@ int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
 			}
 		}
 	}
-	else {//if(dir == horizontal){
-		for(i=emp.x; i<(bat->taille+emp.x) && result; i++){
-			for(j=0; casesprises[j].x != -1 && result; j++){
+	else {//if(bat->dir == horizontal){
+		for(i=emp.x; i<(bat->taille+emp.x); i++){
+			for(j=0; casesprises[j].x != -1; j++){
 				if(casesprises[j].x == i && casesprises[j].y == emp.y){
 					printf("Erreur : le bateau ne peut pas être placé ici");
 					return 0;
@@ -85,7 +68,7 @@ void modif_coord(bateau_t * bat, coord_t emp){
 }
 
 /*modifie la direction du bateau*/
-void modif_direction(bateau * bat, dir_t dir){
+void modif_direction(bateau_t * bat, dir_t dir){
 	bat->dir = dir;
 }
 	
@@ -99,24 +82,24 @@ void modif_type(bateau_t * bat, type_t type){
 }
 /*incrémente le nombre de fois que le bateau a été touché*/
 void incrementer_nbtouche(bateau_t * bat){
-	actueltemp->nb_touche++;
+	bat->nb_touche++;
 }
 
 /*créé les paramètres de base d'un nouveau bateau*/
-void nouveau_bateau(int t, bateau_t nouveau){
-	nouveau.taille = t;
-	nouveau.coord.x = -1;
-	nouveau.coord.y = -1;
-	nouveau.dir = ANCUN;
-	nouveau.type = NONE;
-	nouveau.etat = FLOTTE;
-	nouveau.nb_touche = 0;
+void nouveau_bateau(int t, bateau_t * nouveau){
+	nouveau->taille = t;
+	nouveau->coord.x = -1;
+	nouveau->coord.y = -1;
+	nouveau->dir = AUCUN;
+	nouveau->type = NONE;
+	nouveau->etat = FLOTTE;
+	nouveau->nb_touche = 0;
 }
 
 
 // verifie si le bateau est coulé
 int bat_coul(bateau_t bateau){
-	if( bateau->etat==COULE){
+	if( bateau.etat==COULE){
 		return 1;
 	}
 	return 0;
@@ -127,9 +110,10 @@ int bat_coul(bateau_t bateau){
 /* renvoie 2 si le bateau est coulé, 1 s'il est touché et 0 si le tir est dans l'eau*/
 int toucheunbateau( coord_t cell, bateau_t *actueltemp){
 		int fin_bat;
-		if(actueltemps->dir == VERTICAL){
+		int i,j;
+		if(actueltemp->dir == VERTICAL){
 			fin_bat = fin_bateau_vertical(actueltemp);
-			for(i = actueltemps->coord->x, j = actueltemp->coord->y; j!=fin_bat; j++){
+			for(i = actueltemp->coord.x, j = actueltemp->coord.y; j!=fin_bat; j++){
 				if (cell.x== i && cell.y == j){
 					incrementer_nbtouche(actueltemp);
 					if(actueltemp->nb_touche == actueltemp->taille){
@@ -140,9 +124,9 @@ int toucheunbateau( coord_t cell, bateau_t *actueltemp){
 				}
 			}
 		}
-		else if(actueltemps->dir == HORIZONTAL){
+		else if(actueltemp->dir == HORIZONTAL){
 			fin_bat = fin_bateau_horizontal(actueltemp);
-			for(i = actueltemps->coord->x, j = actueltemp->coord->y; i!= fin_bat; i++){
+			for(i = actueltemp->coord.x, j = actueltemp->coord.y; i!= fin_bat; i++){
 				if (cell.x== i && cell.y == j){
 						incrementer_nbtouche(actueltemp);
 						if(actueltemp->nb_touche == actueltemp->taille){

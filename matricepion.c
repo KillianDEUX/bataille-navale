@@ -62,27 +62,27 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
 			mat.grille[celltemp.x][celltemp.y].c= BLANC;
 		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
-			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
+			while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.x=cell.x+1;
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.x=cell.x-1;
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.y++;
 			}
 			celltemp.x=cell.x+1;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x-1;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
@@ -90,31 +90,31 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 	// Lorsque le bateau est dirigé vers le sud
 	celltemp.y=cell.y-1; 									// Changement
 	celltemp.x=cell.x;
-	if ( danslagrille(taille, celltemp)){
+	if ( danslagrille(mat, celltemp)){
 		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
 			mat.grille[celltemp.x][celltemp.y].c= BLANC;
 		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
-			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
+			while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.x=cell.x+1;
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					(mat.grille[celltemp.x][celltemp.y]).c= BLANC;
 				}
 				celltemp.x=cell.x-1;
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.y--;                   					// Changement
 			}
 			celltemp.x=cell.x+1;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x-1;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.x=cell.x;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
@@ -122,31 +122,31 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 	// Lorsque le bateau est dirigé vers l'est
 	celltemp.y=cell.y;                   				                        // Changement
 	celltemp.x=cell.x+1;                 					                // Changement
-	if ( danslagrille(taille, celltemp)){
+	if ( danslagrille(mat, celltemp)){
 		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
 			mat.grille[celltemp.x][celltemp.y].c= BLANC;
 		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
-			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
+			while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.y=cell.y+1;							// Changement
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.y=cell.y-1;							// Changement
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.x++;							// Changement
 			}
 			celltemp.y=cell.y+1;								// Changement
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y-1;								// Changement
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y;								// Changement
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
@@ -154,31 +154,31 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 	// Lorsque le bateau est dirigé vers l'ouest
 	celltemp.y=cell.y;
 	celltemp.x=cell.x-1;                  					                // Changement
-	if ( danslagrille(taille, celltemp)){
+	if ( danslagrille(mat, celltemp)){
 		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE){
 			mat.grille[celltemp.x][celltemp.y].c= BLANC;
 		}else if (mat.grille[celltemp.x][celltemp.y].c== ROUGE){
-			while((danslagrille(taille, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
+			while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
 				celltemp.y=cell.y+1;
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.y=cell.y-1;
-				if(danslagrille(taille, celltemp)){
+				if(danslagrille(mat, celltemp)){
 					mat.grille[celltemp.x][celltemp.y].c= BLANC;
 				}
 				celltemp.x--;							// Changement
 			}
 			celltemp.y=cell.y+1;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y-1;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 			celltemp.y=cell.y;
-			if(danslagrille(taille, celltemp)){
+			if(danslagrille(mat, celltemp)){
 				mat.grille[celltemp.x][celltemp.y].c= BLANC;
 			}
 		}
@@ -189,7 +189,7 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 	// Ajoute un pion à la gille suivant le tir
 int ajout_pion_matrice( coord_t cell, matrice_t mat, t_liste joueur ){
 
-  int etat=etat_tir(cell, mat, joueur);
+  int etat=etat_tir( mat,cell, joueur);
 	if( etat == 0){        														// Si le tir tombe dans l'eau
 		(mat.grille[cell.x][cell.y]).c= BLANC ;    				// Placer un pion BLANC sur la matrice
 	}else if( etat == 1){  														 // Si le tir touche une cible

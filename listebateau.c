@@ -5,6 +5,14 @@
 #include "matricepion.h"
 #include "bateau.h"
 
+// Transforme un type en chaine de caractère
+char* typebat_str(type_t type){
+	if(type==MINE) return "MINE";
+	if(type==TORPILLEUR) return "TORPILLEUR";
+	if(type==SOUSMARIN) return "SOUS-MARIN";
+	if(type==CROISEUR) return "CROISEUR";
+	if(type==PORTEAVION) return "PORTE-AVION";
+}
 
 // En fonction de la case choisis, renvoie une valeur suivant si le tir touche, coule ou rate
 int etat_tir( matrice_t matrice , coord_t cell, t_liste joueur){
@@ -19,7 +27,7 @@ int veriftouche(coord_t cell, matrice_t matrice, t_liste joueur){
 	en_tete(&joueur);
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur,actueltemp);
-		touche=toucheunbateau( matrice, cell, actueltemp);
+		touche=toucheunbateau(cell, actueltemp);
 		if(touche!=0){
 			return touche;
 		}
@@ -35,7 +43,7 @@ int bateaux_coules( t_liste joueur, int nb_bat){
 	int c_bat_coul=0;
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur,bateau);
-		c_bat_coul+=bat_coul(bateau, nb_bat);
+		c_bat_coul+=bat_coul(*bateau);
 		suivant(&joueur);
 	}
 	if(c_bat_coul==nb_bat){
@@ -92,7 +100,7 @@ void affichage_flotte(t_liste joueur, matrice_t matrice){
        			en_tete(&joueur);
        			while(!hors_liste(&joueur)){
        				valeur_elt(&joueur, actuel);
-       				afficher_bateau(actuel, i, j);
+       				afficher_bateau(*actuel, i, j);
 	       			suivant(&joueur);
 	       		}
        		}
@@ -109,7 +117,7 @@ void cases_prises(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice ){
 	en_tete(&joueur);
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, bat);
-		if(bat->dir == vertical){
+		if(bat->dir == VERTICAL){
 	       		fin_bat = fin_bateau_vertical(bat);
 	       		for(i=bat->coord.y,compteur =0;i<=fin_bat; i++){
        				actuel.x=bat->coord.x;
@@ -193,7 +201,7 @@ void cases_prises(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice ){
 				}
 			}
 		}
-		if(bat->dir == horizontal){
+		if(bat->dir == HORIZONTAL){
 			fin_bat = fin_bateau_horizontal(bat);
        			for(i=bat->coord.x,compteur =0;i<=fin_bat; i++){
        				actuel.x=bat->coord.x;
@@ -288,7 +296,7 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, coord_t emp, mat
 	int result;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	cases_prises(joueur, casesprises,matrice);
-	result = verif_placement_bateau(bat, emp, casesprises, result);
+	result = verif_placement_bateau(bat, emp, casesprises);
     if(result){
     	modif_coord(bat, emp);
     	modif_direction(bat, dir);
@@ -300,16 +308,16 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, coord_t emp, mat
 }
 
 //demande au joueur,en parcourant la t_liste, où il veut placer le nième bateau, se termine quand il a placé tous les bateaux
-int placer_bateau(t_liste joueur, matrice_t matrice){
+void placer_bateau(t_liste joueur, matrice_t matrice){
 	type_t nom_bat;
 	int dir_donne, type_donne;
 	dir_t direction;
 	coord_t emp;
 	bateau_t * nouv;
 	en_tete(&joueur);
-	for(i=0;!hors_liste(&joueur);i++){
+	for(int i=0;!hors_liste(&joueur);i++){
 		valeur_elt(&joueur, nouv);
-		printf("Vous aller placer le bateau numéro %i , il s'agit d'un(e) : %s , de taille %i", i, nouv->type, nouv->taille);
+		printf("Vous aller placer le bateau numéro %i , il s'agit d'un(e) : %s , de taille %i", i, typebat_str(nouv->type), nouv->taille);
 		do{
 			printf("Dans quelle direction voulez-vous placer le bateau ?(donner un entier selon : vertical = 1, horizontal = 2)");
 			scanf("%i", &dir_donne);
@@ -360,7 +368,7 @@ int placer_bateau(t_liste joueur, matrice_t matrice){
 }
 
 //demande au premier jouer le nombre de bateau qu'il veut et leur taille
-int choixbateau(t_liste joueur, matrice_t matrice){
+void choixbateau(t_liste joueur, matrice_t matrice){
        init_liste(&joueur);
        int nbbat=0;
        int t;
@@ -377,7 +385,7 @@ int choixbateau(t_liste joueur, matrice_t matrice){
               if(i<=5 && i>=1){
                      scanf("%i", &t);
                      en_tete(&joueur);
-                     nouveau_bateau(t, *nouveau)
+                     nouveau_bateau(t, &nouveau);
                      ajout_droit(&joueur, nouveau);
               }
        }

@@ -1,5 +1,6 @@
 #ifndef __LISTE_H__
 #define __LISTE_H__
+#include "bateau.h"
 
 typedef struct element{
 	bateau_t bateau; 
@@ -12,7 +13,7 @@ typedef struct {
 	t_element * ec;
 }t_liste;
 
-#include "bateau.h"
+
 
 
 

@@ -19,13 +19,13 @@ bateau.o : bateau.c matricepion.h
 listebateau.o : listebateau.c liste.h listebateau.h matricepion.h
 		gcc -c listebateau.c -o listebateau.o
 
-matricepion.o : matricepion.c liste.h matricebateau.h matricepion.h
+matricepion.o : matricepion.c liste.h listebateau.h matricepion.h
 		gcc -c matricepion.c -o matricepion.o
 
-IA_pions.o : IA_pions.c liste.h matricepion.h matricebateau.h
+IA_pions.o : IA_pions.c liste.h matricepion.h listebateau.h
 		gcc -c IA_pions.c -o IA_pions.o
 
-IA_bateaux.o : IA_bateaux.c liste.h matricebateau.h matricepion.h
+IA_bateaux.o : IA_bateaux.c liste.h listebateau.h matricepion.h
 		gcc -c IA_bateaux.c -o IA_bateaux.o
 
 direction.o : direction.c direction.h
