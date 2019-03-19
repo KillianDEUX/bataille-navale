@@ -12,7 +12,7 @@ int etat_tir( matrice_t matrice , coord_t cell, t_liste joueur){
 }
 
 
-// pour chaque bateau, verifie son l'Ã©tat du tir
+// pour chaque bateau, verifie son l'état du tir
 int veriftouche(coord_t cell, matrice_t matrice, t_liste joueur){
 	int touche;
 	bateau_t * actueltemp;
@@ -29,7 +29,7 @@ int veriftouche(coord_t cell, matrice_t matrice, t_liste joueur){
 }
 
 
-// vÃ©rifie si toute la flotte est coulÃ©e
+// vérifie si toute la flotte est coulé
 int bateaux_coules( t_liste joueur, int nb_bat){
 	bateau_t * bateau;
 	int c_bat_coul=0;
@@ -44,22 +44,29 @@ int bateaux_coules( t_liste joueur, int nb_bat){
 	return 0;
 }
 
-
+//rempli la t_liste de bateau par leur type selon leur taille
 int type_bateau(t_liste joueur){
 	en_tete(&joueur);
 	bateau_t *actuel;
-	if(liste_vide(&joueur)){
+	if(liste_vide(&joueur)){//vérifie si le bateau est vide
 			return 0;
 	}
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, actuel);
-		modif_type_bat(actuel);
+		switch(actuel->taille){
+			case 1: modif_type(actuel, MINE);break;
+			case 2: modif_type(actuel, TORPILLEUR);break;
+			case 3: modif_type(actuel, SOUSMARIN);break;
+			case 4: modif_type(actuel, CROISEUR);break;
+			case 5: modif_type(actuel, PORTEAVION);break;
+			DEFAULT: printf("Erreur dans le type du bateau");break;
+		}
 		suivant(&joueur);
 	}
 	return 1;
 }
 
-
+//copie la liste de bateau du premier t_liste dans le deuxième t_liste
 int appliquer_bateau(t_liste joueur1, t_liste joueur2){
 		en_tete(&joueur1);
 		en_tete(&joueur2);
@@ -77,7 +84,7 @@ int appliquer_bateau(t_liste joueur1, t_liste joueur2){
 }
 
 
-// Voir avec la SDL. Ici version terminal
+//affiche la flotte d'un joueur
 void affichage_flotte(t_liste joueur, matrice_t matrice){
 	bateau_t * actuel;
 	for(int i=0; i<matrice.nbl ; i++){
@@ -93,7 +100,7 @@ void affichage_flotte(t_liste joueur, matrice_t matrice){
 	}
 }
 
-/* remplit case_non,libres avec les cases occupÃ©es*/
+/* renvoie un pointeur sur un tableau des cases non disponibles pour poser les bateaux */
 void cases_prises(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice ){
 	bateau_t *bat;
 	int fin_bat;
@@ -276,11 +283,12 @@ void cases_prises(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice ){
 }
 
 
+//applique la direction et les coordonnées du bateau transmis de la t_liste si les cases sont disponibles
 int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, coord_t emp, matrice_t matrice){
-	int * result= 1;
+	int result;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	cases_prises(joueur, casesprises,matrice);
-	verif_placement_bateau(bat, emp, casesprises, result);
+	result = verif_placement_bateau(bat, emp, casesprises, result);
     if(result){
     	modif_coord(bat, emp);
     	modif_direction(bat, dir);
@@ -291,26 +299,17 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, coord_t emp, mat
     return result;
 }
 
-
+//demande au joueur,en parcourant la t_liste, où il veut placer le nième bateau, se termine quand il a placé tous les bateaux
 int placer_bateau(t_liste joueur, matrice_t matrice){
 	type_t nom_bat;
 	int dir_donne, type_donne;
 	dir_t direction;
 	coord_t emp;
 	bateau_t * nouv;
-	printf("Quel est le nom du bateau que vous voulez placer ?(donner un entier selon : mine=1 ,torpilleur=2, sousmarin=3,  croiseur=4 ou porteavion=5)");
-	scanf("%i", &type_donne);
-	if(type_donne <= 5 && type_donne >= 1){
-		nouv->type = type_donne;
-	}
 	en_tete(&joueur);
-	valeur_elt(&joueur, nouv);
-	while(!hors_liste(&joueur) || nouv->type == nom_bat){
+	for(i=0;!hors_liste(&joueur);i++){
 		valeur_elt(&joueur, nouv);
-		suivant(&joueur);
-	}
-	if(!hors_liste(&joueur)){
-		
+		printf("Vous aller placer le bateau numéro %i , il s'agit d'un(e) : %s , de taille %i", i, nouv->type, nouv->taille);
 		do{
 			printf("Dans quelle direction voulez-vous placer le bateau ?(donner un entier selon : vertical = 1, horizontal = 2)");
 			scanf("%i", &dir_donne);
@@ -324,43 +323,43 @@ int placer_bateau(t_liste joueur, matrice_t matrice){
 				printf("mauvaise direction");
 			}
 		}while(dir_donne >2 || dir_donne <1);
-		
 		if(direction == VERTICAL){
 			do{
-				printf("Quelles sont les coordonnÃ©es a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
+				printf("Quelles sont les coordonnées a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
 				scanf("%i", &emp.x);
 			}while(emp.x <1 || emp.x > matrice.nbc);
-	
+			
 			do{
 				printf("\n y = ");
 				scanf("%i", &emp.y);
 			}while(emp.y < 1 || emp.y > matrice.nbl);
 		}
-		
+			
 		else{
 			do{
-				printf("Quelles sont les coordonnÃ©es a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
+				printf("Quelles sont les coordonnées a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
 				scanf("%i", &emp.x);
 			}while(emp.x <1 || emp.x > matrice.nbl);
-	
+		
 			do{
 				printf("\n y = ");
 				scanf("%i", &emp.y);
 			}while(emp.y < 1 || emp.y > matrice.nbc);
 		}
-		
+			
 		if(placement_bateau(joueur, nouv, direction, emp, matrice)){
-			printf("Le bateau a Ã©tÃ© placÃ©");
-			free(nouv);
-			return 1;
+			printf("Le bateau a été placé");
+			suivant(&joueur);
 		}
-		free(nouv);
-		printf("Le bateau n'a pas pu Ãªtre placÃ©");
-		return 0;
+		else{
+			printf("Le bateau n'a pas pu être placé, veuillez réessayer");
+		}
 	}
+	nouv=NULL;
+	free(nouv);
 }
 
-
+//demande au premier jouer le nombre de bateau qu'il veut et leur taille
 int choixbateau(t_liste joueur, matrice_t matrice){
        init_liste(&joueur);
        int nbbat=0;
@@ -388,7 +387,7 @@ int choixbateau(t_liste joueur, matrice_t matrice){
 
 
 
-
+//renvoie la taille du bateau le plus petit de la t_liste
 int bateau_plus_petit(t_liste joueur){
 	int min = 5;
 	bateau_t * actuel;
