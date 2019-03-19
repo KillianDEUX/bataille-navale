@@ -7,6 +7,7 @@ ROUGE#include <stdio.h>
 #include "direction.h"
 #include "commun.h"
 
+// transforme un numéro de case en coordonnées x,y
 coord_t case_tabtocoord(matrice_t mat, int nb){
 	coord_t cellule;
 	cellule.y=nb%mat.nbc;
@@ -14,12 +15,14 @@ coord_t case_tabtocoord(matrice_t mat, int nb){
 	return cellule;
 }
 
+// transforme des coordonnées x,y en numéro de case 
 int case_coordtotab(matrice_t mat, coord_t cellule){
 	int nb;
 	nb=(((cellule.x)-1)*mat.nbl+(cellule.y));
 	return nb;
 }
 
+// Verifie si l'IA peut placer un pion à l'endoit cellule
 int autorisation_case(matrice_t mat, int pluspetitbat, coord_t cellule){
 	int casealea=case_coordtotab( mat , cellule);
 	if((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE){
@@ -28,6 +31,7 @@ int autorisation_case(matrice_t mat, int pluspetitbat, coord_t cellule){
 	return 1;
 }
 
+// Place un pion de manière pseudo aleatoire
 coord_t pseudo_aleatoire( matrice_t mat, int pluspetitbat){
 	srand(time(NULL));
 	coord_t cellule;
@@ -40,21 +44,23 @@ coord_t pseudo_aleatoire( matrice_t mat, int pluspetitbat){
 	return cellule;
 }
 
+// Verifie si l'IA peut placer un pion à l'endoit cellule
 int pseudo_aleatoire_autorisation( matrice_t mat, int pluspetitbat){
 	srand(time(NULL));
 	coord_t cellule;
 	int casealea=rand()%((mat.nbl*mat.nbc)+1);
 	cellule= case_tabtocoord( mat, casealea);
-	for(int i=0;((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE) || i<100;i++, casealea=rand()%((mat.nbl*mat.nbc)+1),
-	cellule= case_tabtocoord( mat, casealea) ){ // test sur 100 valeurs
-
-		return 1;
-
+	for(int i=0;((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE) || i<100;i++){ // test sur 100 valeurs
+ 		casealea=rand()%((mat.nbl*mat.nbc)+1);
+		cellule= case_tabtocoord( mat, casealea);
 	}
-		return  0;
+	if(i>99){ // si l'IA n'arrive pas à placer son pion au bout de 100 essais, il considère qu'il ne peut pas placer de pions de cette manière
+		return 0;
+	}
+		return  1;
 }
 
-
+// Place un pion de manière completement aleatoire
 coord_t aleatoire( matrice_t mat){
 	srand(time(NULL));
 	coord_t cellule;
@@ -67,6 +73,7 @@ coord_t aleatoire( matrice_t mat){
 	return cellule;
 }
 
+// Choisis une case éloignés de toutes les autres
 coord_t est_autour( matrice_t mat){
 
 	int compt=0;
@@ -115,7 +122,7 @@ coord_t detection_touche (matrice_t mat){
 	return -1;
 }
 
-
+// Choisis une case de la façon la plus adapté
 coord_t choisir_case(matrice_t mat, t_liste joueur){
 	coord_t cell;
 	int pluspetitbat=bateau_plus_petit( joueur );
