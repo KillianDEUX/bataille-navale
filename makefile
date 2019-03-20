@@ -1,14 +1,11 @@
 
 all : executable
 
-executable : srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o commun.o
-		gcc -o executable srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o commun.o directon.o
+executable : srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o commun.o main.o
+		gcc -o executable srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o main.o
 
 srv.o : srv.c
 		gcc -c srv.c
-
-commun.o : commun.h
-		gcc -c commun.h -o commun.o
 
 liste.o : liste.c liste.h bateau.h
 		gcc -c liste.c -o liste.o
@@ -31,5 +28,8 @@ IA_bateaux.o : IA_bateaux.c liste.h listebateau.h matricepion.h
 direction.o : direction.c direction.h
 		gcc -c direction.c -o direction.o
 
+main.o : main.c liste.h listebateau.h matricepion.h bateau.h direction.h
+		gcc -c main.c -o main.o
+		
 clean :
 		rm srv.o liste.o executable core

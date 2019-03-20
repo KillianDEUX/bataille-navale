@@ -1,7 +1,7 @@
 #include "direction.h"
 
 // Avance de nb_pas case dans la direction dir depuis la case depart
-case_t direction_avancer(direction_t dir, coord_t depart, int nb_pas){
+coord_t direction_avancer(direction_t dir, coord_t depart, int nb_pas){
 	coord_t arrivee= depart;
 	if(dir == NORD)
 		arrivee.y += nb_pas;

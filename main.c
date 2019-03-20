@@ -5,8 +5,10 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #define PORT 32000
-
-
+#include "bateau.h"
+#include "matricepion.h"
+#include "liste.h"
+#include "listebateau.h"
 #define TAILLE_MAT_DEF 10
 
 
@@ -81,40 +83,23 @@ int connexion(){
 int main( ){
 	int taille= TAILLE_MAT_DEF ;
 	int nb_joueurs=connexion();	
-	tour_atk=1; // Le 1er joueur commence 
-
-   	for(i=0; i<nb_cli; i++){
-			send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
-	}
-	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");  
-	
-	recv(client_fd[0], &taille, sizeof(taille), 0);
-	recv(client_fd[0], &nb_bateaux, sizeof(nb_bateaux), 0);
-	recv(client_fd[0], &joueur1, sizeof(joueur1), 0);   // ne peut recevoir de pointeur !!!!!!!!
-	switch( nb_joueurs){
-		case 5 :recv(client_fd[4], &joueur5, sizeof(joueur5), 0);  // ne peut recevoir de pointeur !!!!!!!!
-		case 4 :recv(client_fd[3], &joueur4, sizeof(joueur4), 0);  // ne peut recevoir de pointeur !!!!!!!!
-		case 3 :recv(client_fd[2], &joueur3, sizeof(joueur3), 0);  // ne peut recevoir de pointeur !!!!!!!!
-		case 2 :recv(client_fd[1], &joueur2, sizeof(joueur2), 0);  // ne peut recevoir de pointeur !!!!!!!!
-		case 1 :break;
-		default: printf("Erreur de joueur");
-	
-	}
-	
-	
+	int tour_atk=1; // Le 1er joueur commence 
+	t_liste joueur1;
+	matrice_t mat;
 	
 	if(nb_joueurs==1){
 		t_liste ia;
 		appliquer_bateau(joueur1, ia);
-		placer_bateau (ia, taille);
-		while( !bateaux_coules(joueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
+		placer_bateau (ia, mat);
+		//while( !bateaux_coules(joueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
      		
 		 
-		}
+		//}
      
 	}else{
      // TOURS DE JEU EN RESEAU
 	}
+	return 0;
 }
 
 
