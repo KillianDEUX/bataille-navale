@@ -31,8 +31,6 @@ matrice_t choixgrille(matrice_t mat){
 		}
 	}while(nbli<5 || nbli>32); // pour une taille max de grille de 1024
 	mat=creer_matrice_adv(nbli, nbco);
-	mat.nbc=nbco;
-	mat.nbl=nbli;
 	return mat;
 }
 

@@ -12,10 +12,14 @@ void init_liste(t_liste* p){
 }
 
 int liste_vide(t_liste* p){
+	if(p==NULL)
+		return 1;
 	return (p->drapeau->succ == p->drapeau);
 }
 
 int hors_liste(t_liste* p){
+	if(p==NULL)
+		return 1;
 	return (p->ec==p->drapeau);
 }
 
@@ -51,9 +55,7 @@ void valeur_elt(t_liste* p, bateau_t * bat_v){
 
 void modif_elt(t_liste* p, bateau_t * bat_v){
 	if(!hors_liste(p)){	
-		p->ec->bateau= *bat_v;
-		(p->ec->pred)->succ= bat_v;
-		(p->ec->succ)->pred= bat_v;		
+		p->ec->bateau= *bat_v;		
 	}
 }
 
