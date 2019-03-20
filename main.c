@@ -9,15 +9,40 @@
 #include "matricepion.h"
 #include "liste.h"
 #include "listebateau.h"
-#define TAILLE_MAT_DEF 10
+#include "IA_bateaux.h"
+#include "IA_pions.h"
 
 
-int connexion(){
+// creer la grille en fonction des choix du joueur
+matrice_t choixgrille(matrice_t mat){
+	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes) 
+	do{
+		printf("Quel est la largeur de la grille (entre 5 et 32)\n");
+		scanf("%d",&nbco);
+		if(nbco<5 || nbco>32){
+			printf("Largeur de la grille non conforme\n");
+		}
+	}while(nbco<5 || nbco>32);
+	do{
+		printf("Quel est la hauteur de la grille (entre 5 et 32)\n");
+		scanf("%d",&nbli);
+		if(nbli<5 || nbli>32){
+			printf("Hauteur de la grille non conforme\n");
+		}
+	}while(nbli<5 || nbli>32); // pour une taille max de grille de 1024
+	mat=creer_matrice_adv(nbli, nbco);
+	mat.nbc=nbco;
+	mat.nbl=nbli;
+	return mat;
+}
+
+
+
+void connexion( int nb_cli){
 	struct sockaddr_in server_addr, client_addr;    
 	socklen_t client_addr_len;
 	int port_no=PORT;
 	int i;
-	int nb_cli=0;
 	int client_fd[nb_cli];
 	int choix_c_atk=1;
 	int * server_fd;
@@ -32,11 +57,6 @@ int connexion(){
 
 	system("clear");
 	printf("\n -- BATAILLE NAVALE EN RESEAU - SERVEUR --\n");
-
-	do{			   
-		printf("\n Bonjour ! A combien voulez-vous jouer aujoud'hui ? ");
-			    scanf("%i", &nb_cli);
-	}while (nb_cli<2 || nb_cli>10);
 
 
 	// Definition du socket
@@ -76,28 +96,44 @@ int connexion(){
 	}
 	printf(" -- ENVOI DE NB_CLI AUX CLIENTS --\n\n");
 
-	return nb_cli;
 }
 
 
 int main( ){
-	int taille= TAILLE_MAT_DEF ;
-	int nb_joueurs=connexion();	
-	int tour_atk=1; // Le 1er joueur commence 
-	t_liste joueur1;
+
+	int nbj;// nombre de joueurs
+	
+	do{			// demande du nb de joueurs
+		printf("Quel est le nombre de joueurs ?(inferieur à 5)\n");
+		scanf("%d",&nbj);
+	}while( nbj<1 || nbj>5);
+	
+	t_liste joueur1; 
 	matrice_t mat;
 	
-	if(nb_joueurs==1){
+	if(nbj==1){ // si le mode de jeu est solo
 		t_liste ia;
-		appliquer_bateau(joueur1, ia);
-		placer_bateau (ia, mat);
+		
+		mat=choixgrille(mat);
+		init_matrice_adv(mat);
+		afficher_matrice_pion(mat);
+		choixbateau(joueur1, mat);
+		appliquer_bateau(joueur1,ia);
+		placer_bateau_ia(joueur1 ,mat ,ia);
+		placer_bateau(joueur1, mat);
+		affichage_flotte(joueur1, mat);
+		affichage_flotte(ia, mat);
+		
+		//appliquer_bateau(joueur1, ia);
+		//placer_bateau (ia, mat);
 		//while( !bateaux_coules(joueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
      		
 		 
 		//}
      
 	}else{
-     // TOURS DE JEU EN RESEAU
+     connexion(nbj);
+     int tour_atk=1; // Le 1er joueur commence 
 	}
 	return 0;
 }

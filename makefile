@@ -19,7 +19,7 @@ listebateau.o : listebateau.c liste.h listebateau.h matricepion.h
 matricepion.o : matricepion.c liste.h listebateau.h matricepion.h
 		gcc -c matricepion.c -o matricepion.o
 
-IA_pions.o : IA_pions.c liste.h matricepion.h listebateau.h
+IA_pions.o : IA_pions.c liste.h matricepion.h listebateau.h direction.h
 		gcc -c IA_pions.c -o IA_pions.o
 
 IA_bateaux.o : IA_bateaux.c liste.h listebateau.h matricepion.h
@@ -28,7 +28,7 @@ IA_bateaux.o : IA_bateaux.c liste.h listebateau.h matricepion.h
 direction.o : direction.c direction.h
 		gcc -c direction.c -o direction.o
 
-main.o : main.c liste.h listebateau.h matricepion.h bateau.h direction.h
+main.o : main.c liste.h listebateau.h matricepion.h bateau.h
 		gcc -c main.c -o main.o
 		
 clean :

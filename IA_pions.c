@@ -1,4 +1,4 @@
-ROUGE#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include "liste.h"
@@ -6,6 +6,7 @@ ROUGE#include <stdio.h>
 #include "listebateau.h"
 #include "direction.h"
 #include "commun.h"
+
 
 // transforme un numéro de case en coordonnées x,y
 coord_t case_tabtocoord(matrice_t mat, int nb){
@@ -46,11 +47,12 @@ coord_t pseudo_aleatoire( matrice_t mat, int pluspetitbat){
 
 // Verifie si l'IA peut placer un pion à l'endoit cellule
 int pseudo_aleatoire_autorisation( matrice_t mat, int pluspetitbat){
+	int i;
 	srand(time(NULL));
 	coord_t cellule;
 	int casealea=rand()%((mat.nbl*mat.nbc)+1);
 	cellule= case_tabtocoord( mat, casealea);
-	for(int i=0;((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE) || i<100;i++){ // test sur 100 valeurs
+	for(i=0;((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE) || i<100;i++){ // test sur 100 valeurs
  		casealea=rand()%((mat.nbl*mat.nbc)+1);
 		cellule= case_tabtocoord( mat, casealea);
 	}
@@ -64,7 +66,7 @@ int pseudo_aleatoire_autorisation( matrice_t mat, int pluspetitbat){
 coord_t aleatoire( matrice_t mat){
 	srand(time(NULL));
 	coord_t cellule;
-	int casealea=rand()%((mat.nbl*tmat.nbc)+1);
+	int casealea=rand()%((mat.nbl*mat.nbc)+1);
 	cellule= case_tabtocoord( mat, casealea);
 	while(mat.grille[cellule.x][cellule.y].c!=AUCUNE ){
 		casealea=rand()%((mat.nbl*mat.nbc)+1);
@@ -102,11 +104,12 @@ coord_t est_autour( matrice_t mat){
 /* vérifie si un bateau est touché quelque part, et essaye de viser une case qui est à coté */
 coord_t detection_touche (matrice_t mat){
 	int ca=1;
+	direction_t dir;
 	coord_t celltemp;
-	for(int celltemp.x=0; celltemp.x<mat.nbl ; celltemp.x++){
-       	for(int celltemp.y=0; celltemp.y<mat.nbc ; celltemp.y++){
+	for( celltemp.x=0; celltemp.x<mat.nbl ; celltemp.x++){
+       	for(celltemp.y=0; celltemp.y<mat.nbc ; celltemp.y++){
 			if(mat.grille[celltemp.x][celltemp.y].c==ROUGE){
-				for(dir=direction_debut; dir!=direction_debut ;direction_suivante(dir)){
+				for(dir=direction_debut(); dir!=OUEST ;direction_suivante(dir)){
 					celltemp=direction_avancer( dir, celltemp, ca );
 					while(danslagrille(mat,celltemp) && mat.grille[celltemp.x][celltemp.y].c==ROUGE){
                   		ca++;
@@ -119,18 +122,13 @@ coord_t detection_touche (matrice_t mat){
 			}
         }
 	}
-	return -1;
 }
 
 // Choisis une case de la façon la plus adapté
 coord_t choisir_case(matrice_t mat, t_liste joueur){
 	coord_t cell;
 	int pluspetitbat=bateau_plus_petit( joueur );
-	int t = detection_touche (mat);
-	if (t!= -1){
-		cell=case_tabtocoord(mat, t);
-		return cell;
-	}
+	cell = detection_touche (mat);
 	cell=est_autour(mat);
 	if( autorisation_case(mat, pluspetitbat, cell)){
 		return cell;

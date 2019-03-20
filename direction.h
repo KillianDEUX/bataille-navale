@@ -4,7 +4,7 @@
 #include "matricepion.h" //pour coord_t
 
 typedef enum { NORD=0, EST, SUD, OUEST} direction_t;
-const int NB_DIRECTION=4;
+
 
 // Avance de nb_pas case dans la direction dir depuis la case depart
 coord_t direction_avancer(direction_t, coord_t, int);
