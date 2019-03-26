@@ -37,6 +37,7 @@ void en_queue(t_liste* p){
 
 void suivant(t_liste* p){
 	if(!hors_liste(p)){
+		fprintf(stderr, "LISTE: on passe au suivant\n");
 		p->ec=p->ec->succ;
 	}
 }
