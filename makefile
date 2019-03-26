@@ -3,8 +3,8 @@ OPTS=-g -Wall
 
 all : executable
 
-executable : srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o main.o
-		gcc ${OPTS} -o executable srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o main.o
+executable : srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
+		gcc ${OPTS} -o executable srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
 
 srv.o : srv.c
 		gcc -c srv.c ${OPTS}
@@ -30,8 +30,11 @@ IA_bateaux.o : IA_bateaux.c liste.h listebateau.h matricepion.h
 direction.o : direction.c direction.h
 		gcc -c direction.c -o direction.o ${OPTS}
 
-main.o : main.c liste.h listebateau.h matricepion.h bateau.h
+matrice.o : matrice.c matrice.h
+		gcc -c matrice.c -o matrice.o ${OPTS}
+
+main.o : main.c liste.h listebateau.h matricepion.h bateau.h matrice.h
 		gcc -c main.c -o main.o ${OPTS}
-		
+
 clean :
 		rm  -f *.o executable

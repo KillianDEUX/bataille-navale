@@ -11,28 +11,9 @@
 #include "listebateau.h"
 #include "IA_bateaux.h"
 #include "IA_pions.h"
+#include "matrice.h"
 
 
-// creer la grille en fonction des choix du joueur
-matrice_t choixgrille(matrice_t mat){
-	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes)
-	do{
-		printf("Quel est la largeur de la grille (entre 5 et 32)\n");
-		scanf("%d",&nbco);
-		if(nbco<5 || nbco>32){
-			printf("Largeur de la grille non conforme\n");
-		}
-	}while(nbco<5 || nbco>32);
-	do{
-		printf("Quel est la hauteur de la grille (entre 5 et 32)\n");
-		scanf("%d",&nbli);
-		if(nbli<5 || nbli>32){
-			printf("Hauteur de la grille non conforme\n");
-		}
-	}while(nbli<5 || nbli>32); // pour une taille max de grille de 1024
-	mat=creer_matrice_adv(nbli, nbco);
-	return mat;
-}
 
 
 
@@ -87,8 +68,68 @@ void connexion( int nb_cli){
 	}
 	printf(" -- ENVOI DE NB_CLI AUX CLIENTS --\n\n");
 
-}
+/********************************Debut de la partie**********************************/
 
+	int tour_atk=1; // Le 1er joueur commence
+	int info_j_atk;
+	int info_c_atk;
+	int choix_j_atk;
+	int choix_c_atk;
+	int j;
+
+	for(i=0; i<nb_cli; i++){
+		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
+	}
+	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
+
+
+	while(1){
+
+	// Recoit l'action du tour : joueur qui attaque + case
+	if(nb_cli!=2){
+		recv(client_fd[tour_atk-1], &choix_j_atk, sizeof(choix_j_atk), 0);
+		info_j_atk=choix_j_atk;
+	}else{
+		if(tour_atk==1){
+			info_j_atk=2;
+			choix_j_atk=2;
+		}else{
+			info_j_atk=1;
+			choix_j_atk=1;
+
+		}
+	}
+
+	// Recoit l'action du tour : joueur qui attaque + case
+
+		recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
+		info_c_atk=choix_c_atk;
+		for(j=0; j<nb_cli; j++){
+			send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
+		}
+
+		for(j=0; j<nb_cli; j++){
+			send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
+		}
+
+
+	printf("\n Le joueur %i attaque le joueur %i en case n° %i \n \n", tour_atk, choix_j_atk, choix_c_atk);
+
+	if(tour_atk<nb_cli){  // Changement de tour
+		tour_atk++;
+	}else{
+		tour_atk=1;
+	}
+
+	for(i=0; i<nb_cli; i++){
+		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);	//Envoie le numéro du tour
+	}
+	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
+
+	}
+
+
+}
 
 int main( ){
 
