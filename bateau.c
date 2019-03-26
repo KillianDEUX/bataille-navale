@@ -17,7 +17,7 @@ int fin_bateau_horizontal(bateau_t *bateau){
 
 /* permet d'afficher le bateau fourni en paramètre*/
 void afficher_bateau(bateau_t actuel, int i, int j){
-	int fin_bat, k;	
+	int fin_bat;	
 	if(actuel.dir == VERTICAL){ //si le bateau est placé à la vertical 
 		fin_bat=(fin_bateau_vertical(&actuel));
 		if(i==actuel.coord.x && j>=actuel.coord.y && j<=fin_bat)

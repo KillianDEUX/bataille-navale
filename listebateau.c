@@ -311,8 +311,7 @@ int placement_bateau(t_liste joueur, bateau_t * bat, dir_t dir, coord_t emp, mat
 
 //demande au joueur,en parcourant la t_liste, où il veut placer le nième bateau, se termine quand il a placé tous les bateaux
 void placer_bateau(t_liste joueur, matrice_t matrice){
-	type_t nom_bat;
-	int dir_donne, type_donne;
+	int dir_donne;
 	dir_t direction;
 	coord_t emp;
 	bateau_t nouv;
@@ -374,7 +373,6 @@ void choixbateau(t_liste joueur, matrice_t matrice){
        init_liste(&joueur);
        int nbbat=0;
        int t;
-       int res=0;
        bateau_t nouveau;
        float nbmaxbat = (0.06 * (matrice.nbc*matrice.nbl)) - (0.3 * matrice.nbl) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
