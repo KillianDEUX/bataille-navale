@@ -12,7 +12,7 @@ char* typebat_str(type_t type){
 	if(type==SOUSMARIN) return "SOUS-MARIN";
 	if(type==CROISEUR) return "CROISEUR";
 	if(type==PORTEAVION) return "PORTE-AVION";
-	return "TAMERE";
+	return "ERREUR";
 }
 
 // En fonction de la case choisis, renvoie une valeur suivant si le tir touche, coule ou rate
@@ -24,11 +24,11 @@ int etat_tir( matrice_t matrice , coord_t cell, t_liste joueur){
 // pour chaque bateau, verifie son l'état du tir
 int veriftouche(coord_t cell, matrice_t matrice, t_liste joueur){
 	int touche;
-	bateau_t * actueltemp;
+	bateau_t actueltemp;
 	en_tete(&joueur);
 	while(!hors_liste(&joueur)){
-		valeur_elt(&joueur,actueltemp);
-		touche=toucheunbateau(cell, actueltemp);
+		valeur_elt(&joueur,&actueltemp);
+		touche=toucheunbateau(cell, &actueltemp);
 		if(touche!=0){
 			return touche;
 		}
@@ -68,7 +68,7 @@ int type_bateau(t_liste joueur){
 			case 3: modif_type(&actuel, SOUSMARIN);break;
 			case 4: modif_type(&actuel, CROISEUR);break;
 			case 5: modif_type(&actuel, PORTEAVION);break;
-			default: printf("Erreur dans le type du bateau");
+			default: printf("Erreur dans le type du bateau\n");
 		}
 		modif_elt(&joueur, &actuel);
 		suivant(&joueur);
@@ -320,7 +320,7 @@ void placer_bateau(t_liste joueur, matrice_t matrice){
 	for(int i=1;!hors_liste(&joueur);i++){
 		valeur_elt(&joueur, &nouv);
 		nomdutype = typebat_str(nouv.type);
-		printf("Vous aller placer le bateau numéro %i , il s'agit d'un(e) : %s , de taille %i \n", i, nomdutype, nouv.taille);
+		printf("Vous allez placer le bateau numéro %i , il s'agit d'un(e) %s , de taille %i \n", i, nomdutype, nouv.taille);
 		do{
 			printf("Dans quelle direction voulez-vous placer le bateau ?(donner un entier selon : vertical = 1, horizontal = 2) \n");
 			scanf("%i", &dir_donne);
@@ -331,7 +331,7 @@ void placer_bateau(t_liste joueur, matrice_t matrice){
 				direction = HORIZONTAL;
 			}
 			else{
-				printf("mauvaise direction");
+				printf("Mauvaise direction\n");
 			}
 		}while(dir_donne >2 || dir_donne <1);
 		if(direction == VERTICAL){
@@ -359,7 +359,7 @@ void placer_bateau(t_liste joueur, matrice_t matrice){
 		}
 			
 		if(placement_bateau(joueur, &nouv, direction, emp, matrice)){
-			printf("Le bateau a été placé");
+			printf("Le bateau a été placé\n");
 			suivant(&joueur);
 		}
 		else{
@@ -376,7 +376,7 @@ void choixbateau(t_liste joueur, matrice_t matrice){
        bateau_t nouveau;
        float nbmaxbat = (0.06 * (matrice.nbc*matrice.nbl)) - (0.3 * matrice.nbl) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bÃ¢teau voulez-vous avoir ?(diffÃ©rent de 0 et infÃ©rieur Ã  : %0.f) : ", nbmaxbat);
+              printf("Combien de bateau voulez-vous avoir ?(différent de 0 et inférieur à %0.f) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
 
@@ -389,7 +389,7 @@ void choixbateau(t_liste joueur, matrice_t matrice){
 		                 nouveau_bateau(t, &nouveau);
 		                 ajout_droit(&joueur, nouveau);
 		          }
-		          else{printf("taille du bateau incorrecte");}
+		          else{printf("Taille du bateau incorrecte");}
 		   		}while(t>5 || t<1);
        }
        type_bateau(joueur);
