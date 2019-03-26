@@ -32,4 +32,5 @@ char* direction_str(direction_t dir){
 	if(dir==SUD) return "SUD";
 	if(dir==EST) return "EST";
 	if(dir==OUEST) return "OUEST";
+	return "ERREUR";
 }

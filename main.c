@@ -15,7 +15,7 @@
 
 // creer la grille en fonction des choix du joueur
 matrice_t choixgrille(matrice_t mat){
-	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes) 
+	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes)
 	do{
 		printf("Quel est la largeur de la grille (entre 5 et 32)\n");
 		scanf("%d",&nbco);
@@ -37,21 +37,14 @@ matrice_t choixgrille(matrice_t mat){
 
 
 void connexion( int nb_cli){
-	struct sockaddr_in server_addr, client_addr;    
+	struct sockaddr_in server_addr, client_addr;
 	socklen_t client_addr_len;
 	int port_no=PORT;
 	int i;
 	int client_fd[nb_cli];
-	int choix_c_atk=1;
 	int * server_fd;
-	int choix_j_atk;
 	int nb_joueur;
 	server_fd = malloc(sizeof(int));
-	int tour_atk;
-
-	int info_j_atk;
-	int info_c_atk;
-	int j;
 
 	system("clear");
 	printf("\n -- BATAILLE NAVALE EN RESEAU - SERVEUR --\n");
@@ -72,7 +65,7 @@ void connexion( int nb_cli){
 
     printf("\n -- EN ATTENTE DES JOUEURS--\n\n");
 
-  
+
     if( listen(*server_fd, nb_cli) < 0)
     {
         perror("Erorr in Listen()\n");
@@ -100,18 +93,18 @@ void connexion( int nb_cli){
 int main( ){
 
 	int nbj;// nombre de joueurs
-	
+
 	do{			// demande du nb de joueurs
 		printf("Quel est le nombre de joueurs ?(inferieur à 5)\n");
 		scanf("%d",&nbj);
 	}while( nbj<1 || nbj>5);
-	
-	t_liste joueur1; 
+
+	t_liste joueur1;
 	matrice_t mat;
-	
+
 	if(nbj==1){ // si le mode de jeu est solo
 		t_liste ia;
-		
+
 		mat=choixgrille(mat);
 		init_matrice_adv(mat);
 		afficher_matrice_pion(mat);
@@ -121,19 +114,16 @@ int main( ){
 		placer_bateau(joueur1, mat);
 		affichage_flotte(joueur1, mat);
 		affichage_flotte(ia, mat);
-		
+
 		//appliquer_bateau(joueur1, ia);
 		//placer_bateau (ia, mat);
 		//while( !bateaux_coules(joueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
-     		
-		 
+
+
 		//}
-     
+
 	}else{
      connexion(nbj);
-     int tour_atk=1; // Le 1er joueur commence 
 	}
 	return 0;
 }
-
-

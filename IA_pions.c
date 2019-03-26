@@ -16,7 +16,7 @@ coord_t case_tabtocoord(matrice_t mat, int nb){
 	return cellule;
 }
 
-// transforme des coordonnées x,y en numéro de case 
+// transforme des coordonnées x,y en numéro de case
 int case_coordtotab(matrice_t mat, coord_t cellule){
 	int nb;
 	nb=(((cellule.x)-1)*mat.nbl+(cellule.y));
@@ -120,8 +120,9 @@ coord_t detection_touche (matrice_t mat){
 					}
 				}
 			}
-        }
+    }
 	}
+	return celltemp;
 }
 
 // Choisis une case de la façon la plus adapté

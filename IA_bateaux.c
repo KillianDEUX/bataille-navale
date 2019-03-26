@@ -22,7 +22,7 @@ int placer_bateau_ia(t_liste joueur, matrice_t mat, t_liste ia){
 				emp.y= rand()%mat.nbc+1; // choix des coordonnées aleatoires
 				emp.x= rand()%mat.nbl+1;
 			}
-		}while(placement_bateau(ia, nouv, direction, emp, mat)); // ajout du bateau dans la liste si le bateau peut être placé
+		}while(placement_bateau(ia, &nouv, direction, emp, mat)); // ajout du bateau dans la liste si le bateau peut être placé
 		suivant(&ia);
 	}
 	return 1;
