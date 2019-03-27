@@ -211,16 +211,33 @@ int vider_matrice(matrice_t mat){
 
 // Voir avec la SDL. Ici affichage version terminal
 void afficher_matrice_pion( matrice_t mat){
+	printf("   ");
+	for(int k=1; k<=mat.nbc; k++){
+		if(k<10){
+			printf("%d  ", k );
+		}else{
+			printf("%d ", k );
+		}
+	}
+	printf("\n");
 	for(int i=0; i<mat.nbl ; i++){
        		for(int j=0; j<mat.nbc ; j++){
+       			if (j== 0){
+       				if((i+1)<10){
+						printf("%d  ", i+1);
+					}else{
+						printf("%d ", i+1);
+					}
+       			}
            		if(mat.grille[i][j].c == AUCUNE){
-				printf(". ");
+				printf(".  ");
 			}else if(mat.grille[i][j].c == BLANC){
-				printf("0 ");
+				printf("0  ");
 			}else{
-				printf("X ");
+				printf("X  ");
 			}
 		}
 		printf("\n");
 	}
+	printf("\n");
 }

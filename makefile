@@ -1,13 +1,13 @@
 
 OPTS=-g -Wall
 
-all : executable
+all : serveur client
 
-executable : srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
-		gcc ${OPTS} -o executable srv.o liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
+serveur : liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
+		gcc ${OPTS} -o serveur liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
 
-srv.o : srv.c
-		gcc -c srv.c ${OPTS}
+client : liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o cli.o
+		gcc ${OPTS} -o client liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o cli.o
 
 liste.o : liste.c liste.h bateau.h
 		gcc -c liste.c -o liste.o ${OPTS}

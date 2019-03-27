@@ -17,7 +17,12 @@
 
 
 
-void connexion( int nb_cli){
+void partie_reseau( int nb_cli){
+
+
+	/************************************* Connection ********************************************/
+
+
 	struct sockaddr_in server_addr, client_addr;
 	socklen_t client_addr_len;
 	int port_no=PORT;
@@ -68,14 +73,27 @@ void connexion( int nb_cli){
 	}
 	printf(" -- ENVOI DE NB_CLI AUX CLIENTS --\n\n");
 
-/********************************Debut de la partie**********************************/
+
+
+
+/********************************Debut de la partie en réseau **********************************/
 
 	int tour_atk=1; // Le 1er joueur commence
 	int info_j_atk;
 	int info_c_atk;
+	int info_c_atk2;
 	int choix_j_atk;
 	int choix_c_atk;
+	int choix_c_atk2;
 	int j;
+	matrice_t mat;
+
+
+	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0);
+	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0);
+	recv(client_fd[0], &mat.grille, sizeof(mat.grille), 0);
+
+	printf(" -- RECEPTION DE LA MATRICE --\n\n");
 
 	for(i=0; i<nb_cli; i++){
 		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
@@ -85,7 +103,7 @@ void connexion( int nb_cli){
 
 	while(1){
 
-	// Recoit l'action du tour : joueur qui attaque + case
+	// Recoit l'action du tour : joueur qui attaque
 	if(nb_cli!=2){
 		recv(client_fd[tour_atk-1], &choix_j_atk, sizeof(choix_j_atk), 0);
 		info_j_atk=choix_j_atk;
@@ -100,10 +118,12 @@ void connexion( int nb_cli){
 		}
 	}
 
-	// Recoit l'action du tour : joueur qui attaque + case
+	// Recoit l'action du tour :  case
 
 		recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
+		recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
 		info_c_atk=choix_c_atk;
+		info_c_atk2=choix_c_atk2;
 		for(j=0; j<nb_cli; j++){
 			send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
 		}
@@ -164,7 +184,7 @@ int main( ){
 		//}
 
 	}else{
-     connexion(nbj);
+     partie_reseau(nbj);
 	}
 	return 0;
 }

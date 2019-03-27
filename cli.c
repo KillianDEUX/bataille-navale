@@ -8,8 +8,14 @@
 #include <fcntl.h>
 #define PORT 32000
 #define ip "127.0.0.1"
-#include "matrice.h"
+#include "bateau.h"
 #include "matricepion.h"
+#include "liste.h"
+#include "listebateau.h"
+#include "IA_bateaux.h"
+#include "IA_pions.h"
+#include "matrice.h"
+
 
 
 void tcp_connection_client(int * client_fd)
@@ -42,7 +48,8 @@ int main() {
 	system("clear");
 	printf("\n -- BATAILLE NAVALE EN RESEAU - CLIENT --\n");
 
-    int choix_c_atk;
+    int choix_c_atk = -1;
+    int choix_c_atk2 = -1;
     int question;
     int server_fd, client_fd;
     int nb_cli;
@@ -53,7 +60,7 @@ int main() {
   	int nb_joueur_atk;
   	int info_j_atk;
   	int info_c_atk;
-    //matrice_t mat;
+    matrice_t mat;
 
 
     tcp_connection_client(&client_fd);
@@ -65,11 +72,23 @@ int main() {
 
     printf("\n La partie est constituée de %i joueurs \n", nb_cli);
     printf("\n Tu es le joueur %i \n", nb_joueur+1);
-
-    /*// Choix de la grille
+    
+     //Choix de la grille
     if(nb_joueur+1==1){
       mat=choixgrille(mat);
-    }*/
+      init_matrice_adv(mat);
+      send(client_fd, &mat.nbc, sizeof(mat.nbc), 0);
+      send(client_fd, &mat.nbl, sizeof(mat.nbl), 0);
+      send(client_fd, &mat.grille, sizeof(mat.grille), 0);
+    }
+    printf(" \n ----------------------------------------------------------------------------- \n");
+    for(int i=0; i<nb_cli; i++){
+    	if( (i+1) != nb_joueur){
+    		printf(" Affichage de la grille de l'adversaire %i \n", i+1);
+    		afficher_matrice_pion(mat);
+    	}
+    }
+    
 
 
 
@@ -80,13 +99,24 @@ int main() {
 		if(tour_atk==nb_joueur+1){
       printf("Le nombre de joueurs est de %i",nb_cli);
       if(nb_cli!=2){
-        printf("\n Qui voulez-vous attaquer ? ");
+        do{
+        	printf("\n Qui voulez-vous attaquer ? ");
   			scanf("%i", &choix_j_atk);
+  			if(choix_j_atk<1 || choix_j_atk>nb_cli){
+  				printf("Le numéro du joueur est inexistant. Veuillez entrer un numéro de joueur compris entre 1 et %d \n", nb_cli );
+  			}
+  		}while(choix_j_atk<1 || choix_j_atk>nb_cli);
         send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
       }
-			printf("\n Quelle case voulez-vous attaquer ? ");
-			scanf("%i", &choix_c_atk);
+			do{
+				printf("\n Quelle case voulez-vous attaquer ( de la forme \"x y\")? ");
+				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
+				if(choix_c_atk==-1 || choix_c_atk2==-1){
+					printf("Une case contient une abcisse et une ordonnée. Veuillez rentrer les deux champs. Ex de case valide : 2 5\n");
+				}
+			}while( choix_c_atk==-1 || choix_c_atk2==-1);
 			send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
+			send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
 			printf("\n Envoyé \n");
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
@@ -95,7 +125,12 @@ int main() {
 		else{
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
-			printf("\n Le joueur %i attaque le joueur %i en case n° %i \n", tour_atk, info_j_atk, info_c_atk);
+			if( info_j_atk == nb_joueur+1){
+				printf("\n Le joueur %i vous attaque en case n° %i \n", tour_atk, info_c_atk);
+
+			}else{
+				printf("\n Le joueur %i attaque le joueur %i en case n° %i \n", tour_atk, info_j_atk, info_c_atk);
+			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
 		}
 
