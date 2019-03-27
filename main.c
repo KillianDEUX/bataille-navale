@@ -140,7 +140,8 @@ int main( ){
 		scanf("%d",&nbj);
 	}while( nbj<1 || nbj>5);
 
-	t_liste joueur1;
+	t_liste batjoueur1;
+	init_liste(&batjoueur1);
 	matrice_t mat;
 
 	if(nbj==1){ // si le mode de jeu est solo
@@ -149,16 +150,15 @@ int main( ){
 		mat=choixgrille(mat);
 		init_matrice_adv(mat);
 		afficher_matrice_pion(mat);
-		choixbateau(joueur1, mat);
-		appliquer_bateau(joueur1,ia);
-		placer_bateau_ia(joueur1 ,mat ,ia);
-		placer_bateau(joueur1, mat);
-		affichage_flotte(joueur1, mat);
+		choixbateau(batjoueur1, mat);
+		appliquer_bateau(batjoueur1,ia);
+		placer_bateau_ia(batjoueur1 ,mat ,ia);
+		affichage_flotte(batjoueur1, mat);
 		affichage_flotte(ia, mat);
 
-		//appliquer_bateau(joueur1, ia);
+		//appliquer_bateau(batjoueur1, ia);
 		//placer_bateau (ia, mat);
-		//while( !bateaux_coules(joueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
+		//while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
 
 
 		//}
