@@ -366,11 +366,11 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_t matrice
 			
 		if(placement_bateau(batjoueur, &nouv, direction, emp, matrice)){
 			printf("Le bateau a ete place\n");
-			printf("tamere \n");
+			printf("Avant le suivant \n");
 			suivant(&bateau_nonplace);
-			printf("ta daronne mere");
+			printf("Apres le suivant");
 			if(hors_liste(&bateau_nonplace))
-				printf("ta pute mere");
+				printf("Hors liste de la liste des bateaux non placés");
 			i++;
 		}
 		else{

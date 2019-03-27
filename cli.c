@@ -60,7 +60,14 @@ int main() {
   	int nb_joueur_atk;
   	int info_j_atk;
   	int info_c_atk;
+  	int info_c_atk2;
     matrice_t mat;
+    matrice_t mat2;
+    matrice_t mat3;
+    matrice_t mat4;
+    matrice_t mat5;
+
+
 
 
     tcp_connection_client(&client_fd);
@@ -82,17 +89,58 @@ int main() {
       send(client_fd, &mat.grille, sizeof(mat.grille), 0);
     }
     printf(" \n ----------------------------------------------------------------------------- \n");
-    for(int i=0; i<nb_cli; i++){
-    	if( (i+1) != nb_joueur){
-    		printf(" Affichage de la grille de l'adversaire %i \n", i+1);
-    		afficher_matrice_pion(mat);
-    	}
-    }
-    
 
+    switch(nb_cli){
+		case 5 :recv(client_fd, &mat5.nbc, sizeof(mat5.nbc), 0);
+				recv(client_fd, &mat5.nbl, sizeof(mat5.nbl), 0);
+				recv(client_fd, &mat5.grille, sizeof(mat5.grille), 0);
+				
+		case 4 :recv(client_fd, &mat4.nbc, sizeof(mat4.nbc), 0);
+				recv(client_fd, &mat4.nbl, sizeof(mat4.nbl), 0);
+				recv(client_fd, &mat4.grille, sizeof(mat4.grille), 0);
+				
+		case 3 :recv(client_fd, &mat3.nbc, sizeof(mat3.nbc), 0);
+				recv(client_fd, &mat3.nbl, sizeof(mat3.nbl), 0);
+				recv(client_fd, &mat3.grille, sizeof(mat3.grille), 0);
+				
+		case 2 :recv(client_fd, &mat2.nbc, sizeof(mat2.nbc), 0);
+				recv(client_fd, &mat2.nbl, sizeof(mat2.nbl), 0);
+				recv(client_fd, &mat2.grille, sizeof(mat2.grille), 0);
+				
+				recv(client_fd, &mat.nbc, sizeof(mat.nbc), 0);
+				recv(client_fd, &mat.nbl, sizeof(mat.nbl), 0);
+				recv(client_fd, &mat.grille, sizeof(mat.grille), 0);
+				
+		default : break;
+	}
+	switch(nb_cli){
+		case 5 : if(nb_joueur+1!=5){
+					printf(" Affichage de la grille de l'adversaire 5 \n\n");
+					afficher_matrice_pion(mat5);
+				}
 
+		case 4 :if(nb_joueur+1!=4){
+					printf(" Affichage de la grille de l'adversaire 4 \n\n");
+					afficher_matrice_pion(mat4);
+				}
 
-	while (1){
+		case 3 :if(nb_joueur+1!=3){
+					printf(" Affichage de la grille de l'adversaire 3 \n\n");
+					afficher_matrice_pion(mat3);
+				}
+
+		case 2 :if(nb_joueur+1!=2){
+					printf(" Affichage de la grille de l'adversaire 2 \n\n");
+					afficher_matrice_pion(mat2);
+				}
+				if(nb_joueur+1!=1){
+					printf(" Affichage de la grille de l'adversaire 1 \n\n");
+					afficher_matrice_pion(mat);
+				}
+		default : break;
+	}
+
+  	while (1){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
 		printf("\n \n ----------------------------------------------------------------------------- \n");
 		printf(" Tour de  %i \n", tour_atk);
@@ -120,16 +168,18 @@ int main() {
 			printf("\n Envoyé \n");
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
+			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
 			printf(" ----------------------------------------------------------------------------- \n \n");
 		}
 		else{
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
+			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
 			if( info_j_atk == nb_joueur+1){
-				printf("\n Le joueur %i vous attaque en case n° %i \n", tour_atk, info_c_atk);
+				printf("\n Le joueur %i vous attaque en case n° %i %i\n", tour_atk, info_c_atk, info_c_atk2);
 
 			}else{
-				printf("\n Le joueur %i attaque le joueur %i en case n° %i \n", tour_atk, info_j_atk, info_c_atk);
+				printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n", tour_atk, info_j_atk, info_c_atk, info_c_atk2);
 			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
 		}
