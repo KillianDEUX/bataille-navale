@@ -40,6 +40,7 @@ void suivant(t_liste* p){
 		fprintf(stderr, "LISTE: on passe au suivant\n");
 		p->ec=p->ec->succ;
 	}
+		fprintf(stderr, "LISTE: on passe au suivant\n");
 }
 
 void precedent(t_liste* p){
