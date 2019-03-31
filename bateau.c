@@ -7,12 +7,12 @@
 
 /*renvoie la coordonnée de fin du bateau, ici le y car le bateau est placé à la vertical*/
 int fin_bateau_vertical(bateau_t *bateau){
-	return (bateau->coord.y + bateau->taille);
+	return (bateau->coord.y + bateau->taille-1);
 }
 
 /*renvoie la coordonnée de fin du bateau, ici le x car le bateau est placé à l'horizontal*/
 int fin_bateau_horizontal(bateau_t *bateau){
-	return (bateau->coord.x + bateau->taille);
+	return (bateau->coord.x + bateau->taille-1);
 }
 
 /* permet d'afficher le bateau fourni en paramètre*/

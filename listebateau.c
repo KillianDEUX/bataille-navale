@@ -99,8 +99,8 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 //affiche la flotte d'un joueur
 void affichage_flotte(t_liste batjoueur, matrice_t matrice){
 	bateau_t actuel;
-	for(int i=0; i<matrice.nbl ; i++){
-       		for(int j=0; j<matrice.nbc ; j++){
+	for(int i=1; i<=matrice.nbl ; i++){
+       		for(int j=1; j<=matrice.nbc ; j++){
        			en_tete(&batjoueur);
        			while(!hors_liste(&batjoueur)){
        				valeur_elt(&batjoueur, &actuel);
@@ -350,9 +350,7 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_t matrice
 				printf("\n y = ");
 				scanf("%i", &emp.y);
 			}while(emp.y < 1 || emp.y > matrice.nbl);
-		}
-			
-		else{
+		}else{
 			do{
 				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
 				scanf("%i", &emp.x);
@@ -366,15 +364,11 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_t matrice
 			
 		if(placement_bateau(batjoueur, &nouv, direction, emp, matrice)){
 			printf("Le bateau a ete place\n");
-			printf("Avant le suivant \n");
 			suivant(&bateau_nonplace);
-			printf("Apres le suivant");
-			if(hors_liste(&bateau_nonplace))
-				printf("Hors liste de la liste des bateaux non placés");
 			i++;
 		}
 		else{
-			printf("Le bateau n'a pas pu etre place, veuillez reessayer");
+			printf("Le bateau n'a pas pu etre place, veuillez reessayer\n");
 		}
 	}
 }
