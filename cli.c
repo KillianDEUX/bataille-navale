@@ -61,11 +61,11 @@ int main() {
   	int info_j_atk;
   	int info_c_atk;
   	int info_c_atk2;
-    matrice_t mat;
-    matrice_t mat2;
-    matrice_t mat3;
-    matrice_t mat4;
-    matrice_t mat5;
+    matrice_pion_t mat;
+    matrice_pion_t mat2;
+    matrice_pion_t mat3;
+    matrice_pion_t mat4;
+    matrice_pion_t mat5;
 
 
 

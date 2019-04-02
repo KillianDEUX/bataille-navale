@@ -16,9 +16,9 @@ typedef struct matrice_case_s {
 }matrice_case_t;
 
 // creer la grille en fonction des choix du joueur
-matrice_t choixgrille(matrice_t);
+matrice_pion_t choixgrille(matrice_pion_t);
 
-matrice_case_t choixplateau(matrice_case_t, matrice_t);
+matrice_case_t choixplateau(matrice_case_t, matrice_pion_t);
 
 matrice_case_t creer_matrice_joueur(int ,int );
 

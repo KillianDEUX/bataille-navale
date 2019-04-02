@@ -7,9 +7,9 @@
 #include "matrice.h"
 
 // Creer une matrice de taille nbl sur nbc et lui alloue de la mémoire
-matrice_t creer_matrice_adv (int nbl, int nbc){
+matrice_pion_t creer_matrice_adv (int nbl, int nbc){
 
-	matrice_t mat;
+	matrice_pion_t mat;
 	mat.nbl = nbl;
 	mat.nbc = nbc;
 
@@ -28,13 +28,13 @@ matrice_t creer_matrice_adv (int nbl, int nbc){
 }
 
 // Libère la mémoire de la matrice 
-void detruire_matrice_adv( matrice_t mat){
+void detruire_matrice_adv( matrice_pion_t mat){
 	free(mat.grille[0]);
 	free(mat.grille);
 }
 
 // initialise la matrice avec "AUCUNE" couleur;
-int init_matrice_adv(matrice_t mat){
+int init_matrice_adv(matrice_pion_t mat){
 
 	for(int i=0; i<mat.nbl ; i++){
        	for(int j=0; j<mat.nbc ; j++){
@@ -46,7 +46,7 @@ int init_matrice_adv(matrice_t mat){
 
 
 // Vérifie si les coordonnées passées en paramètres sont dans la grille
-int danslagrille(matrice_t mat, coord_t pos ){
+int danslagrille(matrice_pion_t mat, coord_t pos ){
 
 	if( pos.x >= mat.nbl || pos.y >= mat.nbc || pos.x < 1 || pos.y < 1 )
 		return 0;
@@ -54,7 +54,7 @@ int danslagrille(matrice_t mat, coord_t pos ){
 }
 
 // Ajoute des pions Blancs autour d'un bateau coulé
-void eauautourcoule( coord_t cell, matrice_t mat ){
+void eauautourcoule( coord_t cell, matrice_pion_t mat ){
 	// Lorsque le bateau est dirigé vers le nord
 	coord_t celltemp;
 	celltemp.x=cell.x+1;
@@ -188,7 +188,7 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 
 
 	// Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_t mat, t_liste joueur ){
+int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t mat, t_liste joueur ){
 
   int etat=etat_tir( mat_case,cell, joueur);
 	if( etat == 0){        														// Si le tir tombe dans l'eau
@@ -205,13 +205,13 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_t mat, t_
 }
 
 // Remet tout les pions à "AUCUN"
-int vider_matrice(matrice_t mat){
+int vider_matrice(matrice_pion_t mat){
 	int i=init_matrice_adv( mat );
 	return i;
 }
 
 // Voir avec la SDL. Ici affichage version terminal
-void afficher_matrice_pion( matrice_t mat){
+void afficher_matrice_pion( matrice_pion_t mat){
 	printf("   ");
 	for(int k=1; k<=mat.nbc; k++){
 		if(k<10){

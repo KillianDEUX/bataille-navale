@@ -86,11 +86,11 @@ void partie_reseau( int nb_cli){
 	int choix_c_atk;
 	int choix_c_atk2;
 	int j;
-	matrice_t mat;
-	matrice_t mat2;
-    matrice_t mat3;
-    matrice_t mat4;
-    matrice_t mat5;
+	matrice_pion_t mat;
+	matrice_pion_t mat2;
+    matrice_pion_t mat3;
+    matrice_pion_t mat4;
+    matrice_pion_t mat5;
 
 	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0);
 	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0);
@@ -241,7 +241,7 @@ int main( ){
 
 	t_liste batjoueur1;
 	init_liste(&batjoueur1);
-	matrice_t mat;
+	matrice_pion_t mat;
 	matrice_case_t mat_case;
 	
 	if(nbj==1){ // si le mode de jeu est solo

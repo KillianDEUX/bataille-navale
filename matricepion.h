@@ -15,33 +15,33 @@ typedef struct case_s {
 typedef struct matrice_s {
 	int nbl, nbc;
 	case_t **grille;
-}matrice_t;
+}matrice_pion_t;
 
 
 #include "liste.h"
 
 // Creer une matrice de taille nbl sur nbc et lui alloue de la mémoire 
-matrice_t creer_matrice_adv (int, int);
+matrice_pion_t creer_matrice_adv (int, int);
 
 // Libère la mémoire de la matrice
-void detruire_matrice_adv( matrice_t );
+void detruire_matrice_adv( matrice_pion_t );
 
 // initialise la matrice avec "AUCUNE" couleur;
-int init_matrice_adv( matrice_t);
+int init_matrice_adv( matrice_pion_t);
 
  /* Vérifie si les coordonnées passées en paramètres sont dans la grille*/
-int danslagrille(matrice_t, coord_t);
+int danslagrille(matrice_pion_t, coord_t);
 
 // Ajoute des pions Blancs autour d'un bateau coulé
-void eauautourcoule( coord_t, matrice_t);
+void eauautourcoule( coord_t, matrice_pion_t);
 
 // Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t, matrice_case_t, matrice_t, t_liste);
+int ajout_pion_matrice( coord_t, matrice_case_t, matrice_pion_t, t_liste);
 
 // Remet tout les pions à "AUCUN"
-int vider_matrice(matrice_t);
+int vider_matrice(matrice_pion_t);
 
 // Voir avec la SDL. Ici affichage version terminal
-void afficher_matrice_pion( matrice_t);
+void afficher_matrice_pion( matrice_pion_t);
 
 #endif

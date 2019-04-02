@@ -6,7 +6,7 @@
 
 
 // creer la grille pion en fonction des choix du joueur
-matrice_t choixgrille(matrice_t mat){
+matrice_pion_t choixgrille(matrice_pion_t mat){
 	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes)
 	do{
 		printf("Quel est la largeur de la grille (entre 5 et 32)\n");
@@ -27,7 +27,7 @@ matrice_t choixgrille(matrice_t mat){
 }
 
 // creer la grille joueur en fonction des choix du joueur précédemment récupérer
-matrice_case_t choixplateau(matrice_case_t mat_case, matrice_t mat_pion){	
+matrice_case_t choixplateau(matrice_case_t mat_case, matrice_pion_t mat_pion){	
 	int nbli = mat_pion.nbl;
 	int nbco = mat_pion.nbc;
 	mat_case = creer_matrice_joueur(nbli, nbco);

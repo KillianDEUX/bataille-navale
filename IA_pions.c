@@ -9,7 +9,7 @@
 
 
 // transforme un numéro de case en coordonnées x,y
-coord_t case_tabtocoord(matrice_t mat, int nb){
+coord_t case_tabtocoord(matrice_pion_t mat, int nb){
 	coord_t cellule;
 	cellule.y=nb%mat.nbc;
 	cellule.x=((nb-(cellule.y))/mat.nbl)+1;
@@ -17,14 +17,14 @@ coord_t case_tabtocoord(matrice_t mat, int nb){
 }
 
 // transforme des coordonnées x,y en numéro de case
-int case_coordtotab(matrice_t mat, coord_t cellule){
+int case_coordtotab(matrice_pion_t mat, coord_t cellule){
 	int nb;
 	nb=(((cellule.x)-1)*mat.nbl+(cellule.y));
 	return nb;
 }
 
 // Verifie si l'IA peut placer un pion à l'endoit cellule
-int autorisation_case(matrice_t mat, int pluspetitbat, coord_t cellule){
+int autorisation_case(matrice_pion_t mat, int pluspetitbat, coord_t cellule){
 	int casealea=case_coordtotab( mat , cellule);
 	if((casealea%pluspetitbat)!=0 && mat.grille[cellule.x][cellule.y].c!=AUCUNE){
 		return 0;
@@ -33,7 +33,7 @@ int autorisation_case(matrice_t mat, int pluspetitbat, coord_t cellule){
 }
 
 // Place un pion de manière pseudo aleatoire
-coord_t pseudo_aleatoire( matrice_t mat, int pluspetitbat){
+coord_t pseudo_aleatoire( matrice_pion_t mat, int pluspetitbat){
 	srand(time(NULL));
 	coord_t cellule;
 	int casealea=rand()%((mat.nbl*mat.nbc)+1);
@@ -46,7 +46,7 @@ coord_t pseudo_aleatoire( matrice_t mat, int pluspetitbat){
 }
 
 // Verifie si l'IA peut placer un pion à l'endoit cellule
-int pseudo_aleatoire_autorisation( matrice_t mat, int pluspetitbat){
+int pseudo_aleatoire_autorisation( matrice_pion_t mat, int pluspetitbat){
 	int i;
 	srand(time(NULL));
 	coord_t cellule;
@@ -63,7 +63,7 @@ int pseudo_aleatoire_autorisation( matrice_t mat, int pluspetitbat){
 }
 
 // Place un pion de manière completement aleatoire
-coord_t aleatoire( matrice_t mat){
+coord_t aleatoire( matrice_pion_t mat){
 	srand(time(NULL));
 	coord_t cellule;
 	int casealea=rand()%((mat.nbl*mat.nbc)+1);
@@ -76,7 +76,7 @@ coord_t aleatoire( matrice_t mat){
 }
 
 // Choisis une case éloignés de toutes les autres
-coord_t est_autour( matrice_t mat){
+coord_t est_autour( matrice_pion_t mat){
 
 	int compt=0;
 	int comptmax=0;
@@ -102,7 +102,7 @@ coord_t est_autour( matrice_t mat){
 
 
 /* vérifie si un bateau est touché quelque part, et essaye de viser une case qui est à coté */
-coord_t detection_touche (matrice_t mat){
+coord_t detection_touche (matrice_pion_t mat){
 	int ca=1;
 	direction_t dir;
 	coord_t celltemp;
@@ -126,7 +126,7 @@ coord_t detection_touche (matrice_t mat){
 }
 
 // Choisis une case de la façon la plus adapté
-coord_t choisir_case(matrice_t mat, t_liste joueur){
+coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 	coord_t cell;
 	int pluspetitbat=bateau_plus_petit( joueur );
 	cell = detection_touche (mat);
