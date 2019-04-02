@@ -42,7 +42,7 @@ int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
 		for(i=emp.y; i<(bat->taille+emp.y); i++){
 			for(j=0; casesprises[j].y != -1; j++){
 				if(casesprises[j].y == i && casesprises[j].x == emp.x){
-					printf("Erreur : le bateau ne peut pas être placé ici");
+					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
 				}
 			}
@@ -52,7 +52,7 @@ int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
 		for(i=emp.x; i<(bat->taille+emp.x); i++){
 			for(j=0; casesprises[j].x != -1; j++){
 				if(casesprises[j].x == i && casesprises[j].y == emp.y){
-					printf("Erreur : le bateau ne peut pas être placé ici");
+					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
 				}
 			}
@@ -108,7 +108,7 @@ int bat_coul(bateau_t bateau){
 
 
 /* renvoie 2 si le bateau est coulé, 1 s'il est touché et 0 si le tir est dans l'eau*/
-int toucheunbateau( coord_t cell, bateau_t *actueltemp){
+int toucheunbateau(matrice_case_t mat, coord_t cell, bateau_t *actueltemp){
 		int fin_bat;
 		int i,j;
 		if(actueltemp->dir == VERTICAL){
@@ -118,8 +118,10 @@ int toucheunbateau( coord_t cell, bateau_t *actueltemp){
 					incrementer_nbtouche(actueltemp);
 					if(actueltemp->nb_touche == actueltemp->taille){
 						modif_etat(actueltemp, COULE);
+						update_case_mat(mat, BATEAUCOULE);
 						return 2;
 					}
+					update_case_mat(mat, cell, BATEAUTOUCHE);
 					return 1;
 				}
 			}
@@ -131,13 +133,18 @@ int toucheunbateau( coord_t cell, bateau_t *actueltemp){
 						incrementer_nbtouche(actueltemp);
 						if(actueltemp->nb_touche == actueltemp->taille){
 							modif_etat(actueltemp, COULE);
+							update_case_mat(mat, BATEAUCOULE);
 							return 2;
 						}
+						else
+							update_case_mat(mat, cell, BATEAUTOUCHE);
+								
 						return 1;
 					}
 			}
 		}
 		else
 			printf("Direction incorrecte");
+		update_case_mat(mat, cell, CASETOUCHE);
 		return 0;
 }

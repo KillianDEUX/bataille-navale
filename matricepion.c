@@ -187,9 +187,9 @@ void eauautourcoule( coord_t cell, matrice_t mat ){
 
 
 	// Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t cell, matrice_t mat, t_liste joueur ){
+int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_t mat, t_liste joueur ){
 
-  int etat=etat_tir( mat,cell, joueur);
+  int etat=etat_tir( mat_case,cell, joueur);
 	if( etat == 0){        														// Si le tir tombe dans l'eau
 		(mat.grille[cell.x][cell.y]).c= BLANC ;    				// Placer un pion BLANC sur la matrice
 	}else if( etat == 1){  														 // Si le tir touche une cible

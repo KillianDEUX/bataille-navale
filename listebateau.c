@@ -3,6 +3,7 @@
 #include "liste.h"
 #include "listebateau.h"
 #include "matricepion.h"
+#include "matrice.h"
 #include "bateau.h"
 
 // Transforme un type en chaine de caractère
@@ -16,13 +17,13 @@ char* typebat_str(type_t type){
 }
 
 // En fonction de la case choisis, renvoie une valeur suivant si le tir touche, coule ou rate
-int etat_tir( matrice_t matrice , coord_t cell, t_liste batjoueur){
+int etat_tir( matrice_case_t matrice , coord_t cell, t_liste batjoueur){
 		return veriftouche(cell, matrice, batjoueur);
 }
 
 
 // pour chaque bateau, verifie son l'état du tir
-int veriftouche(coord_t cell, matrice_t matrice, t_liste batjoueur){
+int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	int touche;
 	bateau_t actueltemp;
 	en_tete(&batjoueur);
@@ -97,9 +98,9 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 
 
 //affiche la flotte d'un joueur
-void affichage_flotte(t_liste batjoueur, matrice_t matrice){
+void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 	bateau_t actuel;
-	for(int i=1; i<=matrice.nbl ; i++){
+	for(int i=1; i<=matriceF.nbl ; i++){
        		for(int j=1; j<=matrice.nbc ; j++){
        			en_tete(&batjoueur);
        			while(!hors_liste(&batjoueur)){
@@ -113,7 +114,7 @@ void affichage_flotte(t_liste batjoueur, matrice_t matrice){
 }
 
 /* renvoie un pointeur sur un tableau des cases non disponibles pour poser les bateaux */
-void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice ){
+void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t matrice ){
 	bateau_t bat;
 	int fin_bat;
 	int i, compteur=0;
@@ -128,7 +129,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
        				actuel.y=bat.coord.y;
        				if(i==bat.coord.y){
 					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 							case_nonlibres[compteur] = actuel;
 							compteur++;
 					}
@@ -136,29 +137,29 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur] = actuel;
 					compteur++;
 					actuel.x++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
        					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 				}
 				else if(i==fin_bat){
 					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -166,22 +167,22 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur] = actuel;
 					compteur++;
 					actuel.x++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.y++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 							case_nonlibres[compteur] = actuel;
 							compteur++;
 					}
        					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 							case_nonlibres[compteur] = actuel;
 							compteur++;
 					}
 					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -190,7 +191,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur].x =actuel.x ;
 					case_nonlibres[compteur].y =actuel.y ;
 					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -198,7 +199,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur] = actuel;
 					compteur++;
 					actuel.x++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -212,7 +213,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
        				actuel.y=bat.coord.y;
        				if(i==bat.coord.x){
 					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -220,29 +221,29 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur] = actuel;
 					compteur++;
 					actuel.y++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.x--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
        					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 				}
 				else if(i==fin_bat){
 					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -250,22 +251,22 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur] = actuel;
 					compteur++;
 					actuel.y++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.x++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
        					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
 					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -274,7 +275,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur].x =actuel.x ;
 					case_nonlibres[compteur].y =actuel.y ;
 					actuel.y--;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -282,7 +283,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 					case_nonlibres[compteur] = actuel;
 					compteur++;
 					actuel.y++;
-					if(danslagrille(matrice, actuel)){
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -299,12 +300,13 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_t matrice
 
 
 //applique la direction et les coordonnées du bateau transmis de la t_liste si les cases sont disponibles
-int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, matrice_t matrice){
-	int result;
+int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, matrice_case_t matrice){
+	int result = 0;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	parcours_matrice(batjoueur, casesprises,matrice);
 	result = verif_placement_bateau(bat, emp, casesprises);
-    	if(result){
+    if(result){
+    		en_queue(&batjoueur);
     		modif_coord(bat, emp);
     		modif_direction(bat, dir);
 	    	ajout_droit(&batjoueur, *bat);
@@ -314,7 +316,7 @@ int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, 
 }
 
 //demande au joueur,en parcourant la t_liste, où il veut placer le nième bateau, se termine quand il a placé tous les bateaux
-void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_t matrice){
+void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t matrice){
 	int dir_donne;
 	dir_t direction;
 	coord_t emp;
@@ -374,7 +376,7 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_t matrice
 }
 
 //demande au premier jouer le nombre de bateau qu'il veut et leur taille
-void choixbateau(t_liste batjoueur, matrice_t matrice){
+void choixbateau(t_liste batjoueur, matrice_case_t matrice){
        int nbbat=0;
        int t;
        t_liste bateau_nonplace;
@@ -385,7 +387,7 @@ void choixbateau(t_liste batjoueur, matrice_t matrice){
               printf("Combien de bateau voulez-vous avoir ?(différent de 0 et inférieur à %0.f) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
-	en_tete(&bateau_nonplace);
+	   en_tete(&bateau_nonplace);
        for(int i=1; i<=nbbat;i++){
        		  do{
 		          printf("Ecrire la taille du bateau %i(entre 1 et 5) : ",i);
