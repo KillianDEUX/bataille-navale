@@ -6,7 +6,7 @@
 #include "matrice.h"
 #include "bateau.h"
 
-// Transforme un type en chaine de caractère
+// Transforme un type en chaine de caractÃ¨re
 char* typebat_str(type_t type){
 	if(type==MINE) return "MINE";
 	if(type==TORPILLEUR) return "TORPILLEUR";
@@ -16,14 +16,14 @@ char* typebat_str(type_t type){
 	return "ERREUR";
 }
 
-// pour chaque bateau, verifie son l'état du tir
+// pour chaque bateau, verifie son l'Ã©tat du tir
 int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	int touche;
 	bateau_t actueltemp;
 	en_tete(&batjoueur);
 	while(!hors_liste(&batjoueur)){
 		valeur_elt(&batjoueur,&actueltemp);
-		touche=toucheunbateau(cell, &actueltemp);
+		touche=toucheunbateau(matrice, cell, &actueltemp);
 		if(touche!=0){
 			return touche;
 		}
@@ -38,7 +38,7 @@ int etat_tir( matrice_case_t matrice , coord_t cell, t_liste batjoueur){
 }
 
 
-// vérifie si toute la flotte est coulé
+// vÃ©rifie si toute la flotte est coulÃ©
 int bateaux_coules( t_liste batjoueur, int nb_bat){
 	bateau_t bateau;
 	int c_bat_coul=0;
@@ -57,7 +57,7 @@ int bateaux_coules( t_liste batjoueur, int nb_bat){
 int type_bateau(t_liste batjoueur){
 	en_tete(&batjoueur);
 	bateau_t actuel;
-	if(liste_vide(&batjoueur)){//vérifie si la liste est vide
+	if(liste_vide(&batjoueur)){//vÃ©rifie si la liste est vide
 			return 0;
 	}
 	while(!hors_liste(&batjoueur)){
@@ -77,7 +77,7 @@ int type_bateau(t_liste batjoueur){
 	return 1;
 }
 
-//copie la liste de bateau du premier t_liste dans le deuxième t_liste
+//copie la liste de bateau du premier t_liste dans le deuxiÃ¨me t_liste
 // joueur2 doit etre vide !
 int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 		en_tete(&batjoueur1);
@@ -99,7 +99,7 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 //affiche la flotte d'un joueur
 void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 	bateau_t actuel;
-	for(int i=1; i<=matriceF.nbl ; i++){
+	for(int i=1; i<=matrice.nbl ; i++){
        		for(int j=1; j<=matrice.nbc ; j++){
        			en_tete(&batjoueur);
        			while(!hors_liste(&batjoueur)){
@@ -298,7 +298,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 
 
 
-//applique la direction et les coordonnées du bateau transmis de la t_liste si les cases sont disponibles
+//applique la direction et les coordonnÃ©es du bateau transmis de la t_liste si les cases sont disponibles
 int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, matrice_case_t matrice){
 	int result = 0;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
@@ -314,7 +314,7 @@ int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, 
     return result;
 }
 
-//demande au joueur,en parcourant la t_liste, où il veut placer le nième bateau, se termine quand il a placé tous les bateaux
+//demande au joueur,en parcourant la t_liste, oÃ¹ il veut placer le niÃ¨me bateau, se termine quand il a placÃ© tous les bateaux
 void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t matrice){
 	int dir_donne;
 	dir_t direction;
@@ -383,7 +383,7 @@ void choixbateau(t_liste batjoueur, matrice_case_t matrice){
        bateau_t nouveau;
        float nbmaxbat = (0.06 * (matrice.nbc*matrice.nbl)) - (0.3 * matrice.nbl) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bateau voulez-vous avoir ?(différent de 0 et inférieur à %0.f) : ", nbmaxbat);
+              printf("Combien de bateau voulez-vous avoir ?(diffÃ©rent de 0 et infÃ©rieur Ã Â %0.f) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
 	   en_tete(&bateau_nonplace);

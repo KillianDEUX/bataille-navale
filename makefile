@@ -15,7 +15,7 @@ liste.o : liste.c liste.h bateau.h
 bateau.o : bateau.c matricepion.h
 		gcc -c bateau.c -o bateau.o ${OPTS}
 
-listebateau.o : listebateau.c liste.h listebateau.h matricepion.h
+listebateau.o : listebateau.c liste.h listebateau.h matricepion.h matrice.h bateau.h
 		gcc -c listebateau.c -o listebateau.o ${OPTS}
 
 matricepion.o : matricepion.c liste.h listebateau.h matricepion.h

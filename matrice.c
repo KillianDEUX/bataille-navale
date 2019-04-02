@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "matricepion.h"
+#include "matricepion.h"
+
 
 
 // creer la grille pion en fonction des choix du joueur
@@ -20,8 +22,8 @@ matrice_t choixgrille(matrice_t mat){
 			printf("Hauteur de la grille non conforme\n");
 		}
 	}while(nbli<5 || nbli>32); // pour une taille max de grille de 1024
-	mat_pion=creer_matrice_adv(nbli, nbco);
-	return mat_pion;
+	mat=creer_matrice_adv(nbli, nbco);
+	return mat;
 }
 
 // creer la grille joueur en fonction des choix du joueur précédemment récupérer
@@ -64,7 +66,7 @@ int init_matrice_joueur(matrice_case_t mat){
 
 	for(int i=0; i<mat.nbl ; i++){
        	for(int j=0; j<mat.nbc ; j++){
-           	mat.grille[i][j].joueur_case = CASEVIDE;
+           	mat.grille[i][j].etat = CASEVIDE;
         }
 	}
 	return 0;
