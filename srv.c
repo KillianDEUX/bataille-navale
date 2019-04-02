@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#define PORT 32000
+#define PORT 32000 aze
 
 
 void serveur(){
