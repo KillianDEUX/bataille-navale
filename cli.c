@@ -79,38 +79,43 @@ int main() {
 
     printf("\n La partie est constituée de %i joueurs \n", nb_cli);
     printf("\n Tu es le joueur %i \n", nb_joueur+1);
-    
+
      //Choix de la grille
     if(nb_joueur+1==1){
       mat=choixgrille(mat);
       init_matrice_adv(mat);
       send(client_fd, &mat.nbc, sizeof(mat.nbc), 0);
       send(client_fd, &mat.nbl, sizeof(mat.nbl), 0);
-      send(client_fd, &mat.grille, sizeof(mat.grille), 0);
+      send(client_fd, mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
     }
     printf(" \n ----------------------------------------------------------------------------- \n");
 
     switch(nb_cli){
 		case 5 :recv(client_fd, &mat5.nbc, sizeof(mat5.nbc), 0);
 				recv(client_fd, &mat5.nbl, sizeof(mat5.nbl), 0);
-				recv(client_fd, &mat5.grille, sizeof(mat5.grille), 0);
-				
+        mat5=creer_matrice_adv(mat5.nbl, mat5.nbc);
+				recv(client_fd, mat5.grille[0], sizeof(case_t)*mat5.nbl*mat5.nbc, 0);
+
 		case 4 :recv(client_fd, &mat4.nbc, sizeof(mat4.nbc), 0);
 				recv(client_fd, &mat4.nbl, sizeof(mat4.nbl), 0);
-				recv(client_fd, &mat4.grille, sizeof(mat4.grille), 0);
-				
+        mat4=creer_matrice_adv(mat4.nbl, mat4.nbc);
+				recv(client_fd, mat4.grille[0], sizeof(case_t)*mat4.nbl*mat4.nbc, 0);
+
 		case 3 :recv(client_fd, &mat3.nbc, sizeof(mat3.nbc), 0);
 				recv(client_fd, &mat3.nbl, sizeof(mat3.nbl), 0);
-				recv(client_fd, &mat3.grille, sizeof(mat3.grille), 0);
-				
+        mat3=creer_matrice_adv(mat3.nbl, mat3.nbc);
+				recv(client_fd, mat3.grille[0], sizeof(case_t)*mat3.nbl*mat3.nbc, 0);
+
 		case 2 :recv(client_fd, &mat2.nbc, sizeof(mat2.nbc), 0);
 				recv(client_fd, &mat2.nbl, sizeof(mat2.nbl), 0);
-				recv(client_fd, &mat2.grille, sizeof(mat2.grille), 0);
-				
+        mat2=creer_matrice_adv(mat2.nbl, mat2.nbc);
+				recv(client_fd, mat2.grille[0], sizeof(case_t)*mat2.nbl*mat2.nbc, 0);
+
 				recv(client_fd, &mat.nbc, sizeof(mat.nbc), 0);
 				recv(client_fd, &mat.nbl, sizeof(mat.nbl), 0);
-				recv(client_fd, &mat.grille, sizeof(mat.grille), 0);
-				
+        mat=creer_matrice_adv(mat.nbl, mat.nbc);
+				recv(client_fd, mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
+
 		default : break;
 	}
 	switch(nb_cli){
@@ -153,7 +158,10 @@ int main() {
   			if(choix_j_atk<1 || choix_j_atk>nb_cli){
   				printf("Le numéro du joueur est inexistant. Veuillez entrer un numéro de joueur compris entre 1 et %d \n", nb_cli );
   			}
-  		}while(choix_j_atk<1 || choix_j_atk>nb_cli);
+        if(choix_j_atk== nb_joueur+1){
+          printf("Vous ne pouvez vous attaquer vous-même !\n");
+        }
+  		}while(choix_j_atk<1 || choix_j_atk>nb_cli || choix_j_atk==nb_joueur+1);
         send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
       }
 			do{
@@ -175,6 +183,7 @@ int main() {
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
 			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
+
 			if( info_j_atk == nb_joueur+1){
 				printf("\n Le joueur %i vous attaque en case n° %i %i\n", tour_atk, info_c_atk, info_c_atk2);
 
@@ -184,64 +193,5 @@ int main() {
 			printf(" ----------------------------------------------------------------------------- \n \n");
 		}
 
-
-
-
-
-
-
 	}
 }
-/**
-   while (1==1){
-
-
-
-	if(tour_atk=nb_joueur+1){
-		printf("Quelle case voulez-vous attaquer ? ");
-			scanf("%i", &question);
-			for(i=0; i<nb_cli; i++){
-			    	send(client_fd, &nb_joueur_atk, sizeof(nb_joueur_atk), 0);
-				send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
-				send(client_fd, &question, sizeof(question), 0);
-
-			}
-	}
-
-
-		while (choix_c_atk!=0){
-				printf("\n Le joueur %i attaque le joueur %i en case n° %i \n \n", tour_atk, choix_j_atk, choix_c_atk);
-				choix_c_atk=0;
-				 printf("A mon tour, quelle case voulez-vous attaquer ? ");
-				scanf("%i", &question);
-				send(client_fd, &question, sizeof(question), 0);
-				printf("\n");
-
-		}
-	}
-
-
-}
-
-		recv(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
-		printf("A mon tour, quelle case voulez-vous attaquer ? ");
-		scanf("%i", &question);
-		send(client_fd, &question, sizeof(question), 0);
-		while (1==1){
-
-			recv(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
-
-
-			while (choix_c_atk!=0){
-
-				printf(" AIE ! - j'ai mal à la case : \n %i \n \n", choix_c_atk);
-				choix_c_atk=0;
-				printf("A mon tour, quelle case voulez-vous attaquer ? ");
-				scanf("%i", &question);
-				send(client_fd, &question, sizeof(question), 0);
-				printf("\n");
-
-
-		}
-	}
-	**/
