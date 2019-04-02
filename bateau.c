@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bateau.h"
-
+#include "matrice.h"
+#include "matricepion.h"
 
 
 /*renvoie la coordonnée de fin du bateau, ici le y car le bateau est placé à la vertical*/

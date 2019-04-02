@@ -16,12 +16,6 @@ char* typebat_str(type_t type){
 	return "ERREUR";
 }
 
-// En fonction de la case choisis, renvoie une valeur suivant si le tir touche, coule ou rate
-int etat_tir( matrice_case_t matrice , coord_t cell, t_liste batjoueur){
-		return veriftouche(cell, matrice, batjoueur);
-}
-
-
 // pour chaque bateau, verifie son l'état du tir
 int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	int touche;
@@ -36,6 +30,11 @@ int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 		suivant(&batjoueur);
 	}
 	return touche;
+}
+
+// En fonction de la case choisis, renvoie une valeur suivant si le tir touche, coule ou rate
+int etat_tir( matrice_case_t matrice , coord_t cell, t_liste batjoueur){
+		return veriftouche(cell, matrice, batjoueur);
 }
 
 

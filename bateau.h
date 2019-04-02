@@ -2,6 +2,8 @@
 #define __BATEAU_H__
 
 #include "commun.h"
+#include "matrice.h"
+
 
 typedef enum type_bat {NONE, MINE ,TORPILLEUR, SOUSMARIN,  CROISEUR, PORTEAVION}type_t;
 typedef enum dir_bat {AUCUN, VERTICAL, HORIZONTAL}dir_t;
@@ -37,9 +39,9 @@ void incrementer_nbtouche(bateau_t * );/*incrémente le nombre de fois que le bat
 
 void nouveau_bateau(int , bateau_t * );/*créé les paramètres de base d'un nouveau bateau*/
 
-int bat_coul(bateau_t bateau);/* vérifie si le bateau est coulé*/
+int bat_coul(bateau_t );/* vérifie si le bateau est coulé*/
 
-int toucheunbateau(coord_t ,bateau_t *);/* renvoie 2 si le bateau est coulé, 1 s il est touché et 0 si le tir est dans l'eau*/
+int toucheunbateau(matrice_case_t, coord_t, bateau_t *);/* renvoie 2 si le bateau est coulé, 1 s il est touché et 0 si le tir est dans l'eau*/
 
 
 #endif

@@ -4,6 +4,7 @@
 #include "liste.h"
 #include "listebateau.h"
 #include "matricepion.h"
+#include "matrice.h"
 
 // Creer une matrice de taille nbl sur nbc et lui alloue de la mémoire
 matrice_t creer_matrice_adv (int nbl, int nbc){

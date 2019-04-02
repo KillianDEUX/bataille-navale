@@ -2,6 +2,8 @@
 #define __MATRICEPION_H__
 
 #include "commun.h"
+#include "listebateau.h"
+#include "matrice.h"
 
 typedef enum couleur { AUCUNE, BLANC, ROUGE } couleur_t;
 
@@ -34,7 +36,7 @@ int danslagrille(matrice_t, coord_t);
 void eauautourcoule( coord_t, matrice_t);
 
 // Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t, matrice_t, t_liste);
+int ajout_pion_matrice( coord_t, matrice_case_t, matrice_t, t_liste);
 
 // Remet tout les pions à "AUCUN"
 int vider_matrice(matrice_t);

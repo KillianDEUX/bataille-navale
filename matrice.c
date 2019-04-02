@@ -26,8 +26,8 @@ matrice_t choixgrille(matrice_t mat){
 
 // creer la grille joueur en fonction des choix du joueur précédemment récupérer
 matrice_case_t choixplateau(matrice_case_t mat_case, matrice_t mat_pion){	
-	int nbli = mat.nbl;
-	int nbco = mat.nbc;
+	int nbli = mat_pion.nbl;
+	int nbco = mat_pion.nbc;
 	mat_case = creer_matrice_joueur(nbli, nbco);
 	return mat_case;
 }
@@ -54,7 +54,7 @@ matrice_case_t creer_matrice_joueur(int nbl, int nbc){
 }
 
 // Libère la mémoire de la matrice 
-void detruire_matrice_joueur( matrice_t mat){
+void detruire_matrice_joueur( matrice_case_t mat){
 	free(mat.grille[0]);
 	free(mat.grille);
 }
