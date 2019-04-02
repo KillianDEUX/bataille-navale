@@ -242,18 +242,20 @@ int main( ){
 	t_liste batjoueur1;
 	init_liste(&batjoueur1);
 	matrice_t mat;
-
+	matrice_case_t mat_case;
+	
 	if(nbj==1){ // si le mode de jeu est solo
-		//t_liste ia;
-
+		t_liste ia;
+		init_liste(&ia);
 		mat=choixgrille(mat);
 		init_matrice_adv(mat);
+		init_matrice_joueur(mat_case);
 		afficher_matrice_pion(mat);
 		choixbateau(batjoueur1, mat);
 		//appliquer_bateau(batjoueur1,ia);
 		//placer_bateau_ia(batjoueur1 ,mat ,ia);
-		affichage_flotte(batjoueur1, mat);
-		//affichage_flotte(ia, mat);
+		affichage_flotte(batjoueur1, mat_case);
+		//affichage_flotte(ia, mat_case);
 
 		//appliquer_bateau(batjoueur1, ia);
 		//placer_bateau (ia, mat);
