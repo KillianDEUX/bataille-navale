@@ -6,6 +6,8 @@
 #include "matrice.h"
 #include "bateau.h"
 
+#define DEFAULT_DIRECTION VERTICAL
+
 // Transforme un type en chaine de caractère
 char* typebat_str(type_t type){
 	if(type==MINE) return "MINE";
@@ -61,7 +63,6 @@ int type_bateau(t_liste batjoueur){
 			return 0;
 	}
 	while(!hors_liste(&batjoueur)){
-		fprintf(stderr, "DEBUG: la boucle se fait\n");
 		valeur_elt(&batjoueur, &actuel);
 		switch(actuel.taille){
 			case 1: modif_type(&actuel, MINE);break;
@@ -99,13 +100,20 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 //affiche la flotte d'un joueur
 void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 	bateau_t actuel;
+	int compt=0;
 	for(int i=1; i<=matrice.nbl ; i++){
        		for(int j=1; j<=matrice.nbc ; j++){
        			en_tete(&batjoueur);
+       			compt=0;
        			while(!hors_liste(&batjoueur)){
        				valeur_elt(&batjoueur, &actuel);
-       				afficher_bateau(actuel, i, j);
+       				compt+=afficher_bateau(actuel, i, j);
 	       			suivant(&batjoueur);
+	       		}
+	       		if(compt==0){
+	       			printf("[ ]");
+	       		}else{
+	       			printf("[.]");
 	       		}
        		}
 		printf("\n");
@@ -324,49 +332,55 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 	en_tete(&bateau_nonplace);
 	for(int i=1;!hors_liste(&bateau_nonplace);){
 		valeur_elt(&bateau_nonplace, &nouv);
-		fprintf(stderr, "ELEMENT: type=%s, coord=(%d,%d) \n", typebat_str(nouv.type), nouv.coord.x, nouv.coord.y);
+		fprintf(stderr, "ELEMENT: type=%s \n", typebat_str(nouv.type));
 		
 		nomdutype = typebat_str(nouv.type);
 		printf("Vous allez placer le bateau numero %i , il s'agit d'un(e) %s , de taille %i \n", i, nomdutype, nouv.taille);
-		do{
-			printf("Dans quelle direction voulez-vous placer le bateau ?(donner un entier selon : vertical = 1, horizontal = 2) \n");
-			scanf("%i", &dir_donne);
-			if(dir_donne ==1){
-				direction = VERTICAL;
-			}
-			else if(dir_donne == 2){
-				direction = HORIZONTAL;
-			}
-			else{
-				printf("Mauvaise direction\n");
-			}
-		}while(dir_donne >2 || dir_donne <1);
+		if(nouv.taille !=1){
+			do{
+				printf("Dans quelle direction voulez-vous placer le bateau ? (donnez un entier selon : vertical = 1, horizontal = 2) \n");
+				scanf("%i", &dir_donne);
+				if(dir_donne ==1){
+					direction = VERTICAL;
+				}
+				else if(dir_donne == 2){
+					direction = HORIZONTAL;
+				}
+				else{
+					printf("Mauvaise direction\n");
+				}
+			}while(dir_donne >2 || dir_donne <1);
+		}else{
+			direction = DEFAULT_DIRECTION;
+		}
 		if(direction == VERTICAL){
 			do{
-				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
+				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n Numéro de ligne = ", matrice.nbl);
 				scanf("%i", &emp.x);
-			}while(emp.x <1 || emp.x > matrice.nbc);
+			}while(emp.x <1 || emp.x > matrice.nbl || (emp.x)+(nouv.taille)-1> matrice.nbl);
 			
 			do{
-				printf("\n y = ");
+				printf("\n Numéro de colonne = ");
 				scanf("%i", &emp.y);
-			}while(emp.y < 1 || emp.y > matrice.nbl);
+			}while(emp.y < 1 || emp.y > matrice.nbc );
 		}else{
 			do{
-				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n x = ", matrice.nbl);
+				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n Numéro de ligne = ", matrice.nbl);
 				scanf("%i", &emp.x);
 			}while(emp.x <1 || emp.x > matrice.nbl);
 		
 			do{
-				printf("\n y = ");
+				printf("\n Numéro de colonne = ");
 				scanf("%i", &emp.y);
-			}while(emp.y < 1 || emp.y > matrice.nbc);
+			}while(emp.y < 1 || emp.y > matrice.nbc || (emp.y)+(nouv.taille)-1> matrice.nbc);
 		}
 			
 		if(placement_bateau(batjoueur, &nouv, direction, emp, matrice)){
 			printf("Le bateau a ete place\n");
 			suivant(&bateau_nonplace);
 			i++;
+			affichage_flotte(batjoueur, matrice);
+			printf("\n");
 		}
 		else{
 			printf("Le bateau n'a pas pu etre place, veuillez reessayer\n");
@@ -383,18 +397,17 @@ void choixbateau(t_liste batjoueur, matrice_case_t matrice){
        bateau_t nouveau;
        float nbmaxbat = (0.06 * (matrice.nbc*matrice.nbl)) - (0.3 * matrice.nbl) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bateau voulez-vous avoir ?(différent de 0 et inférieur à %0.f) : ", nbmaxbat);
+              printf("Combien de bateau voulez-vous avoir ? (différent de 0 et inférieur à %0.f) : ", nbmaxbat);
               scanf("%i", &nbbat);
        }
 	   en_tete(&bateau_nonplace);
        for(int i=1; i<=nbbat;i++){
        		  do{
-		          printf("Ecrire la taille du bateau %i(entre 1 et 5) : ",i);
+		          printf("Ecrire la taille du bateau %i (entre 1 et 5) : ",i);
 		          scanf("%i", &t);
 		          if(t<=5 && t>=1){
 		                 nouveau_bateau(t, &nouveau);
 		                 ajout_droit(&bateau_nonplace, nouveau);
-		                 fprintf(stderr, "DEBUG: implementation bateau\n");
 		          }
 		          else{printf("Taille du bateau incorrecte");}
 		   }while(t>5 || t<1);

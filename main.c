@@ -243,22 +243,27 @@ int main( ){
 	init_liste(&batjoueur1);
 	matrice_pion_t mat;
 	matrice_case_t mat_case;
+	matrice_case_t mat_case_ia;
+
 	
 	if(nbj==1){ // si le mode de jeu est solo
 		t_liste ia;
 		init_liste(&ia);
 		mat=choixgrille(mat);
 		init_matrice_adv(mat);
+		mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
 		init_matrice_joueur(mat_case);
+		mat_case_ia=creer_matrice_joueur( mat.nbl, mat.nbc );
+		init_matrice_joueur(mat_case_ia);
 		afficher_matrice_pion(mat);
-		choixbateau(batjoueur1, mat);
-		//appliquer_bateau(batjoueur1,ia);
-		//placer_bateau_ia(batjoueur1 ,mat ,ia);
-		affichage_flotte(batjoueur1, mat_case);
-		//affichage_flotte(ia, mat_case);
+		choixbateau(batjoueur1, mat_case);
+		/*********************************************************************/
+		/**********************ERREUR A PARTIR D'ICI *************************/
+		/*********************************************************************/
+		placer_bateau_ia(batjoueur1 ,mat_case_ia, ia);
+		affichage_flotte(ia, mat_case_ia);
 
-		//appliquer_bateau(batjoueur1, ia);
-		//placer_bateau (ia, mat);
+		
 		//while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
 
 

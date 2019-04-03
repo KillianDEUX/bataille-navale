@@ -25,7 +25,7 @@ int fin_bateau_vertical(bateau_t *);/*renvoie la coordonnée de fin du bateau, ic
 
 int fin_bateau_horizontal(bateau_t *);/*renvoie la coordonnée de fin du bateau, ici le x car le bateau est placé à  l'horizontal*/
 
-void afficher_bateau(bateau_t , int , int );/* permet d'afficher le bateau fourni en paramètre*/
+int afficher_bateau(bateau_t , int , int );/* permet d'afficher le bateau fourni en paramètre*/
 
 int verif_placement_bateau(bateau_t * , coord_t, coord_t *);/*vérifie si le bateau peut être place aux premières coordonnées selon le tableau de case_t et retourne 0 si impossible, 1 sinon */
 

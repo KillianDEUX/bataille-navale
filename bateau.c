@@ -8,32 +8,36 @@
 
 /*renvoie la coordonnée de fin du bateau, ici le y car le bateau est placé à la vertical*/
 int fin_bateau_vertical(bateau_t *bateau){
-	return (bateau->coord.y + bateau->taille-1);
+	return (bateau->coord.x + bateau->taille-1);
 }
 
 /*renvoie la coordonnée de fin du bateau, ici le x car le bateau est placé à l'horizontal*/
 int fin_bateau_horizontal(bateau_t *bateau){
-	return (bateau->coord.x + bateau->taille-1);
+	return (bateau->coord.y + bateau->taille-1);
 }
 
 /* permet d'afficher le bateau fourni en paramètre*/
-void afficher_bateau(bateau_t actuel, int i, int j){
+int afficher_bateau(bateau_t actuel, int i, int j){
 	int fin_bat;	
 	if(actuel.dir == VERTICAL){ //si le bateau est placé à la vertical 
 		fin_bat=(fin_bateau_vertical(&actuel));
-		if(i==actuel.coord.x && j>=actuel.coord.y && j<=fin_bat)
-			printf("[.]");
-		else
-	      	printf("[ ]");
-	    
+		if(j==actuel.coord.y && i>=actuel.coord.x && i<=fin_bat){
+			return 1;
+		}
+		else{
+	      	return 0;
+		}  
 	}
 	if(actuel.dir == HORIZONTAL){ //si le bateau est placé à l'horizontal 
 	    fin_bat=(fin_bateau_horizontal(&actuel));
-	   if(i>=actuel.coord.x && j==actuel.coord.y && i<=fin_bat)
-			printf("[.]");
-	   else
-	      	printf("[ ]");
+	   if(j>=actuel.coord.y && i==actuel.coord.x && j<=fin_bat){
+			return 1;
+	   }
+	   else{
+	      	return 0;
+	   }
 	}
+	return 0;
 }
 
 /*verifie si le bateau peut être placé au première coordonnée selon le tableau de case_t et retourne 0 si impossible */
@@ -108,6 +112,8 @@ int bat_coul(bateau_t bateau){
 
 
 
+
+
 /* renvoie 2 si le bateau est coulé, 1 s'il est touché et 0 si le tir est dans l'eau*/
 int toucheunbateau(matrice_case_t mat, coord_t cell, bateau_t *actueltemp){
 		int fin_bat;
@@ -119,7 +125,7 @@ int toucheunbateau(matrice_case_t mat, coord_t cell, bateau_t *actueltemp){
 					incrementer_nbtouche(actueltemp);
 					if(actueltemp->nb_touche == actueltemp->taille){
 						modif_etat(actueltemp, COULE);
-						update_case_mat(mat, BATEAUCOULE);
+						update_case_mat(mat, cell, BATEAUCOULE);
 						return 2;
 					}
 					update_case_mat(mat, cell, BATEAUTOUCHE);
@@ -134,7 +140,7 @@ int toucheunbateau(matrice_case_t mat, coord_t cell, bateau_t *actueltemp){
 						incrementer_nbtouche(actueltemp);
 						if(actueltemp->nb_touche == actueltemp->taille){
 							modif_etat(actueltemp, COULE);
-							update_case_mat(mat, BATEAUCOULE);
+							update_case_mat(mat, cell, BATEAUCOULE);
 							return 2;
 						}
 						else
@@ -145,7 +151,7 @@ int toucheunbateau(matrice_case_t mat, coord_t cell, bateau_t *actueltemp){
 			}
 		}
 		else
-			printf("Direction incorrecte");
-		update_case_mat(mat, cell, CASETOUCHE);
+			printf("Direction incorrecte\n");
+		update_case_mat(mat, cell, CASETOUCHEE);
 		return 0;
 }

@@ -3,7 +3,6 @@
 
 #include "commun.h"
 #include "listebateau.h"
-#include "matrice.h"
 
 typedef enum couleur { AUCUNE, BLANC, ROUGE } couleur_t;
 
@@ -19,6 +18,9 @@ typedef struct matrice_s {
 
 
 #include "liste.h"
+
+// creer la grille en fonction des choix du joueur
+matrice_pion_t choixgrille(matrice_pion_t);
 
 // Creer une matrice de taille nbl sur nbc et lui alloue de la mémoire 
 matrice_pion_t creer_matrice_adv (int, int);
