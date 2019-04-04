@@ -270,7 +270,7 @@ int main( ){
 		//}
 
 	}else{
-     partie_reseau(nbj);
+     		partie_reseau(nbj);
 	}
 	return 0;
 }

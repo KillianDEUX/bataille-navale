@@ -12,18 +12,16 @@ int placer_bateau_ia(t_liste joueur, matrice_case_t mat, t_liste ia){
 	int direc;
 	coord_t emp;
 	dir_t direction;
+	t_liste ia_nonplace;
+	init_liste(&ia_nonplace);
 	bateau_t nouv;
-	init_liste(&ia);
-	appliquer_bateau(joueur, ia);
-	printf("Affichage des bateaux de l'IA : Recopie de celui du joueur ( à supprimer évidemment )\n");
-	affichage_flotte(ia, mat);
-	fprintf(stderr,"DEBUG : Avant le changement de position des bateaux de l'IA \n REMARQUE : Seul le premier bateau à été recopier\n REMARQUE 2 : Les bateaux ne peuvent pas etre les uns à coté des autres mais peuvent se croiser !\n");
-	fprintf(stderr," REMARQUE 3 : Dans 'placement_bateau' ajoute un bateau au lieu seulement de remplacer les nouvelles valeurs car la liste de bateau est déjà existante car copiée du joueur 1 ( Faut il créer une fonction différente pour ici ?)\n ");
-	en_tete(&ia);
-	while(!hors_liste(&ia)){
+	appliquer_bateau(joueur, ia_nonplace);
+	fprintf(stderr,"REMARQUE 2 : Les bateaux ne peuvent pas etre les uns à coté des autres mais peuvent se croiser !\n");
+	en_tete(&ia_nonplace);
+	while(!hors_liste(&ia_nonplace)){
 		do{
-			if(!hors_liste(&ia)){
-				valeur_elt(&ia,&nouv);
+			if(!hors_liste(&ia_nonplace)){
+				valeur_elt(&ia_nonplace,&nouv);
 				direc=rand()%2+1;	// choix aleatoire de la direction
 				if(direc==1){
 					direction=VERTICAL;
@@ -33,9 +31,8 @@ int placer_bateau_ia(t_liste joueur, matrice_case_t mat, t_liste ia){
 				emp.y= rand()%mat.nbc+1; // choix des coordonnées aleatoires
 				emp.x= rand()%mat.nbl+1;
 			}
-		}while(placement_bateau(ia, &nouv, direction, emp, mat)); // ajout du bateau dans la liste si le bateau peut être placé
-
-		suivant(&ia);
+		}while(!placement_bateau(ia, &nouv, direction, emp, mat)); // ajout du bateau dans la liste si le bateau peut être placé
+		suivant(&ia_nonplace);
 	}
 	return 1;
 }

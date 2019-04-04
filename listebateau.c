@@ -18,6 +18,9 @@ char* typebat_str(type_t type){
 	return "ERREUR";
 }
 
+
+
+
 // pour chaque bateau, verifie son l'état du tir
 int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	int touche;
@@ -83,15 +86,22 @@ int type_bateau(t_liste batjoueur){
 int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 		en_tete(&batjoueur1);
 		en_tete(&batjoueur2);
+		coord_t emp;
+		emp.x = -1;
+		emp.y = -1;
+		dir_t direct;
+		direct = AUCUN;
 		bateau_t nouveau;
 		if(liste_vide(&batjoueur1)){
 			return 0;
 		}
 		while(!hors_liste(&batjoueur1)){
 			valeur_elt(&batjoueur1, &nouveau);
+			modif_coord(&nouveau, emp);
+ 			modif_direction(&nouveau, direct);
 			ajout_droit(&batjoueur2, nouveau);
 			suivant(&batjoueur1);
-			suivant(&batjoueur2);
+			fprintf(stderr, "boucle appli");
 		}
 		return 1;
 }
@@ -131,9 +141,10 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 		valeur_elt(&joueur, &bat);
 		if(bat.dir == VERTICAL){
 	       		fin_bat = fin_bateau_vertical(&bat);
+			actuel.x=bat.coord.x;
+       			actuel.y=bat.coord.y;
 	       		for(i=bat.coord.y;i<=fin_bat; i++){
-       				actuel.x=bat.coord.x;
-       				actuel.y=bat.coord.y;
+       				actuel.y= i;
        				if(i==bat.coord.y){
 					actuel.x--;
 					if(danslagrille_joueur(matrice, actuel)){
@@ -215,9 +226,10 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 		}
 		else if(bat.dir == HORIZONTAL){
 			fin_bat = fin_bateau_horizontal(&bat);
+			actuel.x=bat.coord.x;
+       			actuel.y=bat.coord.y;
        			for(i=bat.coord.x;i<=fin_bat; i++){
-       				actuel.x=bat.coord.x;
-       				actuel.y=bat.coord.y;
+       				actuel.x= i;
        				if(i==bat.coord.x){
 					actuel.y--;
 					if(danslagrille_joueur(matrice, actuel)){
@@ -312,12 +324,14 @@ int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, 
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	parcours_matrice(batjoueur, casesprises,matrice);
 	result = verif_placement_bateau(bat, emp, casesprises);
-    if(result){
+   	if(result){
     		en_queue(&batjoueur);
     		modif_coord(bat, emp);
     		modif_direction(bat, dir);
 	    	ajout_droit(&batjoueur, *bat);
 	}
+	else
+		fprintf(stderr, "erreur peut pas etre place");
 	free(casesprises);
     return result;
 }
