@@ -33,11 +33,10 @@ void detruire_matrice_joueur( matrice_case_t mat){
 
 // initialise la matrice avec "CASEVIDE";
 int init_matrice_joueur(matrice_case_t mat){
-
 	for(int i=0; i<mat.nbl ; i++){
-       	for(int j=0; j<mat.nbc ; j++){
-           	mat.grille[i][j].etat = CASEVIDE;
-        }
+	       	for(int j=0; j<mat.nbc ; j++){
+		   	mat.grille[i][j].etat = CASEVIDE;
+		}
 	}
 	return 0;
 }
@@ -51,7 +50,6 @@ void update_case_mat(matrice_case_t mat, coord_t cell, etat_case_t etat){
 
 // Vérifie si les coordonnées passées en paramètres sont dans la grille
 int danslagrille_joueur(matrice_case_t mat, coord_t pos ){
-
 	if( pos.x >= mat.nbl || pos.y >= mat.nbc || pos.x < 1 || pos.y < 1 )
 		return 0;
 	return 1;

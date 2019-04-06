@@ -101,7 +101,6 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
  			modif_direction(&nouveau, direct);
 			ajout_droit(&batjoueur2, nouveau);
 			suivant(&batjoueur1);
-			fprintf(stderr, "boucle appli");
 		}
 		return 1;
 }
@@ -121,9 +120,27 @@ void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 	       			suivant(&batjoueur);
 	       		}
 	       		if(compt==0){
-	       			printf("[ ]");
+				if(matrice.grille[i-1][j-1].etat == CASEVIDE){
+	       				printf("[ ]");
+				}
+				else if(matrice.grille[i-1][j-1].etat == CASETOUCHEE){
+					printf("[o]");
+				}
+				else
+					fprintf(stderr, "Erreur1");
+	
 	       		}else{
-	       			printf("[.]");
+				if(matrice.grille[i-1][j-1].etat == BATEAUVIDE){
+	       				printf("[.]");
+				}
+				else if(matrice.grille[i-1][j-1].etat == BATEAUTOUCHE){
+	       				printf("[*]");
+				}
+				else if(matrice.grille[i-1][j-1].etat == BATEAUCOULE){
+	       				printf("[!]");
+				}
+				else
+					fprintf(stderr, "Erreur2");
 	       		}
        		}
 		printf("\n");
@@ -321,6 +338,8 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 //applique la direction et les coordonnées du bateau transmis de la t_liste si les cases sont disponibles
 int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, matrice_case_t matrice){
 	int result = 0;
+	coord_t upt;
+	etat_t etat = BATEAUVIDE;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	parcours_matrice(batjoueur, casesprises,matrice);
 	result = verif_placement_bateau(bat, emp, casesprises);
@@ -329,9 +348,19 @@ int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, 
     		modif_coord(bat, emp);
     		modif_direction(bat, dir);
 	    	ajout_droit(&batjoueur, *bat);
+		if(bat->dir == VERTICAL){
+			upt.x = emp.x;
+			for(upt.y=emp.y; upt.y< fin_bateau_vertical(bat) ; upt.y++){
+				update_case_mat(matrice, upt , etat);
+			}
+		}
+		else {//if(bat->dir == horizontal){
+			upt.y = emp.y;
+			for(upt.x=emp.x; upt.x< fin_bateau_horizontal(bat) ; upt.x++){
+				update_case_mat(matrice, upt , etat);
+			}
+		}
 	}
-	else
-		fprintf(stderr, "erreur peut pas etre place");
 	free(casesprises);
     return result;
 }

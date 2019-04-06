@@ -25,7 +25,7 @@ int afficher_bateau(bateau_t actuel, int i, int j){
 			return 1;
 		}
 		else{
-	      	return 0;
+	      		return 0;
 		}  
 	}
 	if(actuel.dir == HORIZONTAL){ //si le bateau est placé à l'horizontal 
