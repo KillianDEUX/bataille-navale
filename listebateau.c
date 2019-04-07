@@ -108,51 +108,37 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 
 //affiche la flotte d'un joueur
 void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
-	bateau_t actuel;
-	int compt=0;
-	for(int i=1; i<=matrice.nbl ; i++){
-       		for(int j=1; j<=matrice.nbc ; j++){
-       			en_tete(&batjoueur);
-       			compt=0;
-       			while(!hors_liste(&batjoueur)){
-       				valeur_elt(&batjoueur, &actuel);
-       				compt+=afficher_bateau(actuel, i, j);
-	       			suivant(&batjoueur);
-	       		}
-	       		if(compt==0){
-				if(matrice.grille[i-1][j-1].etat == CASEVIDE){
-	       				printf("[ ]");
-				}
-				else if(matrice.grille[i-1][j-1].etat == CASETOUCHEE){
-					printf("[o]");
-				}
-				else
-					fprintf(stderr, "Erreur1");
-	
-	       		}else{
-				if(matrice.grille[i-1][j-1].etat == BATEAUVIDE){
-	       				printf("[.]");
-				}
-				else if(matrice.grille[i-1][j-1].etat == BATEAUTOUCHE){
-	       				printf("[*]");
-				}
-				else if(matrice.grille[i-1][j-1].etat == BATEAUCOULE){
-	       				printf("[!]");
-				}
-				else
-					fprintf(stderr, "Erreur2");
-	       		}
+	for(int i=0; i<matrice.nbl ; i++){
+       		for(int j=0; j<matrice.nbc ; j++){
+       			switch(matrice.grille[i][j].etat){
+				case CASEVIDE : printf("[ ]");break;
+				case CASETOUCHEE : printf("[o]");break;
+				case BATEAUVIDE : printf("[.]");break;
+				case BATEAUTOUCHE : printf("[*]");break;
+				case BATEAUCOULE : printf("[!]");break;
+				default: fprintf(stderr, "Erreur");
+			}
        		}
 		printf("\n");
 	}
 }
 
 /* renvoie un pointeur sur un tableau des cases non disponibles pour poser les bateaux */
-void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t matrice ){
+void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t matrice ){;
+	int compteur=0;
 	bateau_t bat;
 	int fin_bat;
-	int i, compteur=0;
 	coord_t actuel;
+	int i;
+	/*for(actuel.x=0; actuel.x<mat.nbl ; actuel.x++){
+	       	for(actuel.y =0; actuel.y<mat.nbc ; actuel.y++){
+		   	if(mat.grille[actuel.x][actuel.y].etat == BATEAUVIDE){
+				case_nonlibres[compteur] = actuel;
+				compteur++;
+			}
+		}
+	}*/
+
 	en_tete(&joueur);
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, &bat);
@@ -328,6 +314,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 		} //else { fprintf(stderr, "ON NE DEVRAIT JAMAIS ETRE LA\n"); }
 		suivant(&joueur);
 	}
+	
 	actuel.x = -1;
 	actuel.y = -1;
 	case_nonlibres[compteur] = actuel;
@@ -339,6 +326,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, matrice_case_t matrice){
 	int result = 0;
 	coord_t upt;
+	int fin_bat;
 	etat_t etat = BATEAUVIDE;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	parcours_matrice(batjoueur, casesprises,matrice);
@@ -348,16 +336,18 @@ int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, 
     		modif_coord(bat, emp);
     		modif_direction(bat, dir);
 	    	ajout_droit(&batjoueur, *bat);
-		if(bat->dir == VERTICAL){
-			upt.x = emp.x;
-			for(upt.y=emp.y; upt.y< fin_bateau_vertical(bat) ; upt.y++){
+		if(bat->dir == HORIZONTAL){
+			upt.x = bat->coord.x-1;
+			fin_bat = fin_bateau_horizontal(bat);
+			for(upt.y = bat->coord.y-1; upt.y < fin_bat ; upt.y++){
 				update_case_mat(matrice, upt , etat);
 			}
 		}
-		else {//if(bat->dir == horizontal){
-			upt.y = emp.y;
-			for(upt.x=emp.x; upt.x< fin_bateau_horizontal(bat) ; upt.x++){
-				update_case_mat(matrice, upt , etat);
+		else {//if(bat->dir == VERTICAL){
+			upt.y = bat->coord.y-1;
+			fin_bat = fin_bateau_vertical(bat);
+			for(upt.x=bat->coord.x-1; upt.x < fin_bat ; upt.x++){
+				update_case_mat(matrice, upt , etat);;
 			}
 		}
 	}

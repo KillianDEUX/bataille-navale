@@ -16,29 +16,6 @@ int fin_bateau_horizontal(bateau_t *bateau){
 	return (bateau->coord.y + bateau->taille-1);
 }
 
-/* permet d'afficher le bateau fourni en paramètre*/
-int afficher_bateau(bateau_t actuel, int i, int j){
-	int fin_bat;	
-	if(actuel.dir == VERTICAL){ //si le bateau est placé à la vertical 
-		fin_bat=(fin_bateau_vertical(&actuel));
-		if(j==actuel.coord.y && i>=actuel.coord.x && i<=fin_bat){
-			return 1;
-		}
-		else{
-	      		return 0;
-		}  
-	}
-	if(actuel.dir == HORIZONTAL){ //si le bateau est placé à l'horizontal 
-	    fin_bat=(fin_bateau_horizontal(&actuel));
-	   if(j>=actuel.coord.y && i==actuel.coord.x && j<=fin_bat){
-			return 1;
-	   }
-	   else{
-	      	return 0;
-	   }
-	}
-	return 0;
-}
 
 /*verifie si le bateau peut être placé au première coordonnée selon le tableau de case_t et retourne 0 si impossible */
 int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
@@ -46,7 +23,7 @@ int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
 	if(bat->dir == VERTICAL){
 		for(i=emp.y; i<(bat->taille+emp.y); i++){
 			for(j=0; casesprises[j].y != -1; j++){
-				if(casesprises[j].y == i && casesprises[j].x == emp.x){
+				if(casesprises[j].y == i && casesprises[j].x-1 == emp.x){
 					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
 				}
@@ -56,7 +33,7 @@ int verif_placement_bateau(bateau_t * bat, coord_t emp, coord_t *casesprises){
 	else {//if(bat->dir == horizontal){
 		for(i=emp.x; i<(bat->taille+emp.x); i++){
 			for(j=0; casesprises[j].x != -1; j++){
-				if(casesprises[j].x == i && casesprises[j].y == emp.y){
+				if(casesprises[j].x-1 == i && casesprises[j].y == emp.y){
 					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
 				}
