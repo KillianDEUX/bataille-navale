@@ -38,7 +38,7 @@ int placement_bateau(t_liste, bateau_t *, dir_t, coord_t, matrice_case_t);
 void placer_bateau(t_liste, t_liste, matrice_case_t);
 
 //demande au premier jouer le nombre de bateau qu'il veut et leur taille
-void choixbateau(t_liste, matrice_case_t);
+int choixbateau(t_liste, matrice_case_t);
 
 //renvoie la taille du bateau le plus petit de la t_liste
 int bateau_plus_petit(t_liste);

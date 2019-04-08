@@ -421,8 +421,8 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 	}
 }
 
-//demande au premier jouer le nombre de bateau qu'il veut et leur taille
-void choixbateau(t_liste batjoueur, matrice_case_t matrice){
+//demande au premier jouer le nombre de bateau qu'il veut et leur taille et retourne le nombre de bateaux
+int choixbateau(t_liste batjoueur, matrice_case_t matrice){
        int nbbat=0;
        int t;
        t_liste bateau_nonplace;
@@ -447,8 +447,8 @@ void choixbateau(t_liste batjoueur, matrice_case_t matrice){
        }
        type_bateau(bateau_nonplace);
        placer_bateau(bateau_nonplace, batjoueur, matrice);
+       return nbbat;
 }
-
 
 
 //renvoie la taille du bateau le plus petit de la t_liste

@@ -242,32 +242,55 @@ int main( ){
 	t_liste batjoueur1;
 	init_liste(&batjoueur1);
 	matrice_pion_t mat;
+	matrice_pion_t mat_ia;
 	matrice_case_t mat_case;
 	matrice_case_t mat_case_ia;
-
+	int choix_c_atk = -1;
+	int choix_c_atk2 = -1;
+	int nb_bat;
+	coord_t cell;
+	coord_t tir;
 	
 	if(nbj==1){ // si le mode de jeu est solo
 		t_liste ia;
 		init_liste(&ia);
 		mat=choixgrille(mat);
 		init_matrice_adv(mat);
+		mat_ia=creer_matrice_adv (mat.nbl, mat.nbc);
+		init_matrice_adv(mat_ia);
 		mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
 		init_matrice_joueur(mat_case);
 		mat_case_ia=creer_matrice_joueur( mat.nbl, mat.nbc );
 		init_matrice_joueur(mat_case_ia);
 		afficher_matrice_pion(mat);
-		choixbateau(batjoueur1, mat_case);
-		/*********************************************************************/
-		/**********************ERREUR A PARTIR D'ICI *************************/
-		/*********************************************************************/
+		nb_bat=choixbateau(batjoueur1, mat_case);
 		placer_bateau_ia(batjoueur1 ,mat_case_ia, ia);
+		printf("Affichage de la grille de l'IA\n");
 		affichage_flotte(ia, mat_case_ia);
-
 		
-		//while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
-
-
-		//}
+		while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
+			do{
+				printf("\n Quelle case voulez-vous attaquer ( de la forme \"x y\")? ");
+				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
+				if(choix_c_atk==-1 || choix_c_atk2==-1){
+					printf("Une case contient une abcisse et une ordonnée. Veuillez rentrer les deux champs. Ex de case valide : 2 5\n");
+				}
+				if(mat.grille[choix_c_atk][choix_c_atk2].c!= AUCUNE){
+					printf("Cette case à déjà été selectionnée !");
+				}
+			}while( choix_c_atk==-1 || choix_c_atk2==-1 || mat.grille[choix_c_atk][choix_c_atk2].c!= AUCUNE);
+			cell.x=choix_c_atk-1;
+			cell.y=choix_c_atk2-1;
+			printf("Affichage de votre tir :\n");
+			ajout_pion_matrice( cell, mat_case_ia, mat, ia );
+			afficher_matrice_pion(mat);
+			printf("Au niveau de l'IA\n");
+			tir=choisir_case(mat,batjoueur1);
+			fprintf(stderr, "Choix effectué en case : %i %i\n", tir.x, tir.y);
+			ajout_pion_matrice( tir , mat_case, mat_ia, batjoueur1 );
+			fprintf(stderr, "Ajout effectué\n");
+			afficher_matrice_pion(mat_ia);
+		}
 
 	}else{
      		partie_reseau(nbj);
