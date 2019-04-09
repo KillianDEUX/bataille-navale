@@ -117,7 +117,7 @@ void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 				case BATEAUTOUCHE : printf("[*]");break;
 				case BATEAUCOULE : printf("[!]");break;
 				default: fprintf(stderr, "Erreur");
-			}
+				}
        		}
 		printf("\n");
 	}

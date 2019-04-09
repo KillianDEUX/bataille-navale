@@ -26,15 +26,15 @@ int placer_bateau_ia(t_liste joueur, matrice_case_t mat, t_liste ia){
 				if(direc==1){
 					direction=VERTICAL;
 					do{
-						emp.y= rand()%mat.nbc+1; // choix des coordonnées aleatoires
-						emp.x= rand()%mat.nbl+1;
+						emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
+						emp.x= rand()%mat.nbl;
 						
 					}while (emp.x+(nouv.taille)-1 > mat.nbl );
 				}else{
 					direction=HORIZONTAL;
 					do{
-						emp.y= rand()%mat.nbc+1; // choix des coordonnées aleatoires
-						emp.x= rand()%mat.nbl+1;
+						emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
+						emp.x= rand()%mat.nbl;
 					}while( emp.y+(nouv.taille)-1 > mat.nbc );
 				}
 			}

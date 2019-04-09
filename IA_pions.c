@@ -120,7 +120,7 @@ coord_t detection_touche (matrice_pion_t mat){
 					}
 				}
 			}
-    }
+   		}
 	}
 	return celltemp;
 }
@@ -130,6 +130,9 @@ coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 	coord_t cell;
 	int pluspetitbat=bateau_plus_petit( joueur );
 	cell = detection_touche (mat);
+	if (cell.x != mat.nbl+1 && cell.y != mat.nbc+1){
+		return cell;
+	}
 	cell=est_autour(mat);
 	if( autorisation_case(mat, pluspetitbat, cell)){
 		return cell;
