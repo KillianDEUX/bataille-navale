@@ -66,6 +66,12 @@ int main() {
     matrice_pion_t mat3;
     matrice_pion_t mat4;
     matrice_pion_t mat5;
+    t_liste batjoueur1;
+    init_liste(&batjoueur1);
+    int nb_bat;
+    matrice_case_t mat_case;
+    bateau_t bat;
+
 
 
 
@@ -144,6 +150,26 @@ int main() {
 				}
 		default : break;
 	}
+   if(nb_joueur+1==1){
+      mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
+      init_matrice_joueur(mat_case);
+      nb_bat=choixbateau(batjoueur1, mat_case);
+      send(client_fd, &mat_case.nbc, sizeof(mat_case.nbc), 0);
+      send(client_fd, &mat_case.nbl, sizeof(mat_case.nbl), 0);
+      send(client_fd, mat_case.grille, sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
+      send(client_fd, &nb_bat, sizeof(int), 0);
+      for(en_tete(&batjoueur1); !hors_liste(&batjoueur1); suivant(&batjoueur1)){
+        valeur_elt(&batjoueur1, &bat);
+        send(client_fd, &bat.type, sizeof(type_t), 0);
+        send(client_fd, &bat.coord.x, sizeof(int), 0);
+        send(client_fd, &bat.coord.y, sizeof(int), 0);
+        send(client_fd, &bat.taille, sizeof(int), 0);
+        send(client_fd, &bat.dir, sizeof(dir_t), 0);
+        send(client_fd, &bat.etat, sizeof(etat_t), 0);
+        send(client_fd, &bat.nb_touche, sizeof(int), 0);
+
+      }
+    }
 
   	while (1){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);

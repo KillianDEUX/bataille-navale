@@ -91,6 +91,10 @@ void partie_reseau( int nb_cli){
     matrice_pion_t mat3;
     matrice_pion_t mat4;
     matrice_pion_t mat5;
+		matrice_case_t mat_case;
+		t_liste batjoueur1;
+		int nb_bat;
+		bateau_t bat;
 
 	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0);
 	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0);
@@ -174,7 +178,26 @@ void partie_reseau( int nb_cli){
 		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
 	}
 	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
-
+	mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
+	init_matrice_joueur(mat_case);
+	init_liste(&batjoueur1);
+	recv(client_fd[0], &mat_case.nbc, sizeof(mat_case.nbc), 0);
+	recv(client_fd[0], &mat_case.nbl, sizeof(mat_case.nbl), 0);
+	recv(client_fd[0], mat_case.grille, sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
+	recv(client_fd[0], &nb_bat, sizeof(int), 0);
+for(int i=0; i<nb_bat; i++){
+		recv(client_fd[0], &bat.type, sizeof(type_t), 0);
+		recv(client_fd[0], &bat.coord.x, sizeof(int), 0);
+		recv(client_fd[0], &bat.coord.y, sizeof(int), 0);
+		recv(client_fd[0], &bat.taille, sizeof(int), 0);
+		recv(client_fd[0], &bat.dir, sizeof(dir_t), 0);
+		recv(client_fd[0], &bat.nb_touche, sizeof(int), 0);
+		placement_bateau( batjoueur1, &bat, bat.dir, bat.coord, mat_case);
+	}
+	en_tete(&batjoueur1);
+	valeur_elt(&batjoueur1,&bat);
+	printf("taille= %i\n",bat.taille );
+	affichage_flotte(batjoueur1, mat_case);
 
 	while(1){
 
@@ -212,7 +235,7 @@ void partie_reseau( int nb_cli){
 
 	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2);
 
-	
+
 
 	if(tour_atk<nb_cli){  // Changement de tour
 		tour_atk++;
@@ -250,7 +273,7 @@ int main( ){
 	int nb_bat;
 	coord_t cell;
 	coord_t tir;
-	
+
 	if(nbj==1){ // si le mode de jeu est solo
 		t_liste ia;
 		init_liste(&ia);
@@ -274,7 +297,7 @@ int main( ){
 		printf("x= %i au lieu de %i car la grille contient des lignes de 0 à %i \n",bateau.coord.x, bateau.coord.x-1, mat.nbl);
 		printf("y= %i au lieu de %i car la grille contient des colonnes de 0 à %i\n ",bateau.coord.y, bateau.coord.y-1, mat.nbc);
 		printf("La grille va de 1 au nb de colonnes ou de lignes seulement pour l'affichage\n");
-		
+
 		while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
 			do{
 				printf("\n Quelle case voulez-vous attaquer ( de la forme \"x y\")? ");
