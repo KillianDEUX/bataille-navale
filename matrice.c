@@ -50,7 +50,7 @@ void update_case_mat(matrice_case_t mat, coord_t cell, etat_case_t etat){
 
 // Vérifie si les coordonnées passées en paramètres sont dans la grille
 int danslagrille_joueur(matrice_case_t mat, coord_t pos ){
-	if( pos.x >= mat.nbl || pos.y >= mat.nbc || pos.x < 1 || pos.y < 1 )
+	if( pos.x >= mat.nbl || pos.y >= mat.nbc || pos.x < 0 || pos.y < 0 )
 		return 0;
 	return 1;
 }
