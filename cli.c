@@ -76,10 +76,12 @@ int main() {
     matrice_case_t mat_case5;
     bateau_t bat;
     t_liste batjoueur_np;
+    init_liste(&batjoueur_np);
     t_liste batjoueur5;
     t_liste batjoueur4;
     t_liste batjoueur3;
     t_liste batjoueur2;
+    int ok=1;
 
 
 
@@ -180,7 +182,15 @@ int main() {
 
       }else{
         switch(nb_cli){
-      		case 5 :  recv(client_fd, &nb_bat, sizeof(int), 0);
+      		case 5 :
+                    mat_case5=creer_matrice_joueur( mat5.nbl, mat5.nbc );
+                    init_matrice_joueur(mat_case5);
+                    init_liste(&batjoueur5);
+                    recv(client_fd, &mat_case5.nbc, sizeof(mat_case5.nbc), 0);
+                    recv(client_fd, &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
+                    recv(client_fd, mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
+                    recv(client_fd, &nb_bat, sizeof(int), 0);
+
 
                   for(int i=0; i<nb_bat; i++){
                      recv(client_fd, &bat.type, sizeof(type_t), 0);
@@ -188,64 +198,94 @@ int main() {
                      recv(client_fd, &bat.coord.y, sizeof(int), 0);
                      recv(client_fd, &bat.taille, sizeof(int), 0);
                      recv(client_fd, &bat.dir, sizeof(dir_t), 0);
-                      recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                    recv(client_fd, &bat.etat, sizeof(etat_t), 0);
                      recv(client_fd, &bat.nb_touche, sizeof(int), 0);
                      placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case5);
                    }
+                   init_matrice_joueur(mat_case5);
                    placer_bateau(batjoueur_np, batjoueur5, mat_case5);
                    break;
 
 
-      		case 4 : recv(client_fd, &nb_bat, sizeof(int), 0);
+      		case 4 :
 
+                mat_case4=creer_matrice_joueur( mat4.nbl, mat4.nbc );
+                init_matrice_joueur(mat_case4);
+                init_liste(&batjoueur4);
+                recv(client_fd, &mat_case4.nbc, sizeof(mat_case4.nbc), 0);
+                recv(client_fd, &mat_case4.nbl, sizeof(mat_case4.nbl), 0);
+                recv(client_fd, mat_case4.grille[0], sizeof(case_t)*mat_case4.nbl*mat_case4.nbc, 0);
+                recv(client_fd, &nb_bat, sizeof(int), 0);
                 for(int i=0; i<nb_bat; i++){
                    recv(client_fd, &bat.type, sizeof(type_t), 0);
                    recv(client_fd, &bat.coord.x, sizeof(int), 0);
                    recv(client_fd, &bat.coord.y, sizeof(int), 0);
                    recv(client_fd, &bat.taille, sizeof(int), 0);
                    recv(client_fd, &bat.dir, sizeof(dir_t), 0);
-                   recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                   recv(client_fd, &bat.etat, sizeof(etat_t), 0);
                    recv(client_fd, &bat.nb_touche, sizeof(int), 0);
                    placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case4);
                  }
+                 init_matrice_joueur(mat_case4);
                  placer_bateau(batjoueur_np, batjoueur4, mat_case4);
                 break;
 
-      		case 3 : recv(client_fd, &nb_bat, sizeof(int), 0);
-
+      		case 3 :
+              mat_case3=creer_matrice_joueur( mat3.nbl, mat3.nbc );
+              init_matrice_joueur(mat_case3);
+              init_liste(&batjoueur3);
+              recv(client_fd, &mat_case3.nbc, sizeof(mat_case3.nbc), 0);
+              recv(client_fd, &mat_case3.nbl, sizeof(mat_case3.nbl), 0);
+              recv(client_fd, mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
+              recv(client_fd, &nb_bat, sizeof(int), 0);
               for(int i=0; i<nb_bat; i++){
                  recv(client_fd, &bat.type, sizeof(type_t), 0);
                  recv(client_fd, &bat.coord.x, sizeof(int), 0);
                  recv(client_fd, &bat.coord.y, sizeof(int), 0);
                  recv(client_fd, &bat.taille, sizeof(int), 0);
                  recv(client_fd, &bat.dir, sizeof(dir_t), 0);
-                 recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                 recv(client_fd, &bat.etat, sizeof(etat_t), 0);
                  recv(client_fd, &bat.nb_touche, sizeof(int), 0);
                  placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case3);
                }
+               init_matrice_joueur(mat_case3);
                placer_bateau(batjoueur_np, batjoueur3, mat_case3);
                break;
 
-      		case 2 : recv(client_fd, &nb_bat, sizeof(int), 0);
-
+      		case 2 :
+              mat_case2=creer_matrice_joueur( mat2.nbl, mat2.nbc );
+              init_matrice_joueur(mat_case2);
+              init_liste(&batjoueur2);
+              recv(client_fd, &mat_case2.nbc, sizeof(mat_case2.nbc), 0);
+              recv(client_fd, &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
+              recv(client_fd, mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
+              recv(client_fd, &nb_bat, sizeof(int), 0);
               for(int i=0; i<nb_bat; i++){
                  recv(client_fd, &bat.type, sizeof(type_t), 0);
                  recv(client_fd, &bat.coord.x, sizeof(int), 0);
                  recv(client_fd, &bat.coord.y, sizeof(int), 0);
                  recv(client_fd, &bat.taille, sizeof(int), 0);
                  recv(client_fd, &bat.dir, sizeof(dir_t), 0);
-                 recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                 recv(client_fd, &bat.etat, sizeof(etat_t), 0);
                  recv(client_fd, &bat.nb_touche, sizeof(int), 0);
                  placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case2);
-                 fprintf(stderr, "placement ok" );
                }
-              // placer_bateau(batjoueur_np, batjoueur2, mat_case2);
+               affichage_flotte(batjoueur_np,mat_case2);
+               init_matrice_joueur(mat_case2);
+               placer_bateau(batjoueur_np, batjoueur2, mat_case2);
+               affichage_flotte(batjoueur2,mat_case2);
+
+
               break;
 
       		default : break;
       	}
 
       }
+    if(nb_joueur+1!=1){
+          send(client_fd, &ok, sizeof(int), 0);
+    }
+
 
 
   	while (1){
@@ -267,13 +307,19 @@ int main() {
   		}while(choix_j_atk<1 || choix_j_atk>nb_cli || choix_j_atk==nb_joueur+1);
         send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
       }
-			do{
-				printf("\n Quelle case voulez-vous attaquer ( de la forme \"x y\")? ");
+
+
+      do{
+				printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
 				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
-				if(choix_c_atk==-1 || choix_c_atk2==-1){
-					printf("Une case contient une abcisse et une ordonnée. Veuillez rentrer les deux champs. Ex de case valide : 2 5\n");
+				if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
+					printf("Cette case n'est pas dans la grille\n");
 				}
-			}while( choix_c_atk==-1 || choix_c_atk2==-1);
+				if( choix_c_atk>0 && choix_c_atk2>0 && choix_c_atk<=mat.nbl && choix_c_atk2<=mat.nbc && mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE){
+					printf("Cette case à déjà été selectionnée !");
+				}
+			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
+
 			send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
 			send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
 			printf("\n Envoyé \n");

@@ -14,9 +14,6 @@
 #include "matrice.h"
 
 
-
-
-
 void partie_reseau( int nb_cli){
 
 
@@ -64,12 +61,12 @@ void partie_reseau( int nb_cli){
 
 	nb_joueur=i;
 	    client_fd[i] = accept(*server_fd, (struct sockaddr*)&client_addr, &client_addr_len);
-	    send(client_fd[i], &nb_joueur, sizeof(nb_joueur), 0); //Envoie le no du joueur
+	    send(client_fd[i], &nb_joueur, sizeof(nb_joueur), 0); //ENVOI le no du joueur
 	    printf(" -- NOUVEAU CLIENT CONNNECTE --\n\n");
 	}
 	printf(" -- YES ! TOUS LES JOUEURS SONT CONNECTES --\n\n");
 	for(i=0; i<nb_cli; i++){
-		send(client_fd[i], &nb_cli, sizeof(nb_cli), 0); //Envoie le le nbre total de joueur
+		send(client_fd[i], &nb_cli, sizeof(nb_cli), 0); //ENVOI le le nbre total de joueur
 	}
 	printf(" -- ENVOI DE NB_CLI AUX CLIENTS --\n\n");
 
@@ -78,16 +75,16 @@ void partie_reseau( int nb_cli){
 
 /********************************Debut de la partie en réseau **********************************/
 
-	int tour_atk=1; // Le 1er joueur commence
-	int info_j_atk;
-	int info_c_atk;
-	int info_c_atk2;
-	int choix_j_atk;
-	int choix_c_atk;
-	int choix_c_atk2;
-	int j;
-	matrice_pion_t mat;
-	matrice_pion_t mat2;
+		int tour_atk=1; // Le 1er joueur commence
+		int info_j_atk;
+		int info_c_atk;
+		int info_c_atk2;
+		int choix_j_atk;
+		int choix_c_atk;
+		int choix_c_atk2;
+		int j;
+		matrice_pion_t mat;
+		matrice_pion_t mat2;
     matrice_pion_t mat3;
     matrice_pion_t mat4;
     matrice_pion_t mat5;
@@ -97,6 +94,7 @@ void partie_reseau( int nb_cli){
 
 		int nb_bat;
 		bateau_t bat;
+		coord_t cell;
 
 	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0);
 	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0);
@@ -114,7 +112,7 @@ void partie_reseau( int nb_cli){
 					send(client_fd[i], &mat5.nbl, sizeof(mat5.nbl), 0);
 					send(client_fd[i], mat5.grille[0], sizeof(case_t)*mat5.nbl*mat5.nbc, 0);
 				}
-				printf(" -- ENVOIE DE LA MATRICE 5 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 5 EFFECTUEE --\n\n");
 		case 4 : mat4=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat4);
 				printf(" -- CREATION DE LA MATRICE 4 EFFECTUEE --\n\n");
@@ -123,7 +121,7 @@ void partie_reseau( int nb_cli){
 					send(client_fd[i], &mat4.nbl, sizeof(mat4.nbl), 0);
 					send(client_fd[i], mat4.grille[0], sizeof(case_t)*mat4.nbl*mat4.nbc, 0);
 				}
-				printf(" -- ENVOIE DE LA MATRICE 4 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 4 EFFECTUEE --\n\n");
 		case 3 : mat3=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat3);
 				printf(" -- CREATION DE LA MATRICE 3 EFFECTUEE --\n\n");
@@ -132,7 +130,7 @@ void partie_reseau( int nb_cli){
 					send(client_fd[i], &mat3.nbl, sizeof(mat3.nbl), 0);
 					send(client_fd[i], mat3.grille[0], sizeof(case_t)*mat3.nbl*mat3.nbc, 0);
 				}
-				printf(" -- ENVOIE DE LA MATRICE 3 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 3 EFFECTUEE --\n\n");
 		case 2 : mat2=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat2);
 				printf(" -- CREATION DE LA MATRICE 2 EFFECTUEE --\n\n");
@@ -141,17 +139,17 @@ void partie_reseau( int nb_cli){
 					send(client_fd[i], &mat2.nbl, sizeof(mat2.nbl), 0);
 					send(client_fd[i], mat2.grille[0], sizeof(case_t)*mat2.nbl*mat2.nbc, 0);
 				}
-				printf(" -- ENVOIE DE LA MATRICE 2 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 2 EFFECTUEE --\n\n");
 				for(i=0; i<nb_cli; i++){
 					send(client_fd[i], &mat.nbc, sizeof(mat.nbc), 0);
 					send(client_fd[i], &mat.nbl, sizeof(mat.nbl), 0);
 					send(client_fd[i], mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
 				}
-				printf(" -- ENVOIE DE LA MATRICE 1 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 1 EFFECTUEE --\n\n");
 		default : break;
 	}
 
-	printf(" -- ENVOIE DES MATRICES TERMINEE --\n\n");
+	printf(" -- ENVOI DES MATRICES TERMINEE --\n\n");
 
 	printf(" -- AFFICHAGE DES MATRICES--\n\n");
 
@@ -193,12 +191,15 @@ void partie_reseau( int nb_cli){
 		recv(client_fd[0], &bat.nb_touche, sizeof(int), 0);
 		placement_bateau( batjoueur1, &bat, bat.dir, bat.coord, mat_case);
 	}
-	
+
 	printf("Affichage de la flotte du joueur 1 \n \n");
 	affichage_flotte(batjoueur1, mat_case);
 
-	printf(" -- ENVOIE DES LISTES DE BATEAUX AUX CLIENTS --\n\n");
+	printf(" -- ENVOI DES LISTES DE BATEAUX AUX CLIENTS --\n\n");
 	for(i=1; i<nb_cli; i++){
+		send(client_fd[i], &mat_case.nbc, sizeof(mat_case.nbc), 0);
+		send(client_fd[i], &mat_case.nbl, sizeof(mat_case.nbl), 0);
+		send(client_fd[i], mat_case.grille[0], sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
 		send(client_fd[i], &nb_bat, sizeof(int), 0);
 		for(en_tete(&batjoueur1); !hors_liste(&batjoueur1); suivant(&batjoueur1)){
 			valeur_elt(&batjoueur1, &bat);
@@ -211,11 +212,14 @@ void partie_reseau( int nb_cli){
 			send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
 		}
 	}
-	printf(" -- ENVOIE TERMINEE --\n\n");
-	// recv(client_fd[1], &ok, sizeof(int), 0);
+	printf(" -- ENVOI TERMINEE --\n\n");
+	for(int i=1; i<nb_cli; i++){
+			recv(client_fd[i], &ok, sizeof(int), 0);
+	}
+
 	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
 	for(i=0; i<nb_cli; i++){
-		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
+		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //ENVOI le numéro du tour
 	}
 
 
@@ -240,8 +244,11 @@ void partie_reseau( int nb_cli){
 
 		recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
 		recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
+
+
 		info_c_atk=choix_c_atk;
 		info_c_atk2=choix_c_atk2;
+
 		for(j=0; j<nb_cli; j++){
 			send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
 		}
@@ -253,8 +260,9 @@ void partie_reseau( int nb_cli){
 		}
 
 
-	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2);
-
+	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i = %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2, info_c_atk, info_c_atk2);
+	cell.x=choix_c_atk;
+	cell.y=choix_c_atk2;
 
 
 	if(tour_atk<nb_cli){  // Changement de tour
@@ -264,7 +272,7 @@ void partie_reseau( int nb_cli){
 	}
 
 	for(i=0; i<nb_cli; i++){
-		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);	//Envoie le numéro du tour
+		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);	//ENVOI le numéro du tour
 	}
 	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
 
@@ -313,14 +321,11 @@ int main( ){
 		en_tete(&batjoueur1);
 		bateau_t bateau;
 		valeur_elt(&batjoueur1,&bateau);
-		printf("\n------------------------------------------------------------------\nPour le premier bateau, enregistrement des coordonées : \n");
-		printf("x= %i au lieu de %i car la grille contient des lignes de 0 à %i \n",bateau.coord.x, bateau.coord.x-1, mat.nbl);
-		printf("y= %i au lieu de %i car la grille contient des colonnes de 0 à %i\n ",bateau.coord.y, bateau.coord.y-1, mat.nbc);
-		printf("La grille va de 1 au nb de colonnes ou de lignes seulement pour l'affichage\n");
 
-		while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
+
+		while( !bateaux_coules(batjoueur1, nb_bat) && !bateaux_coules(ia, nb_bat) ){
 			do{
-				printf("\n Quelle case voulez-vous attaquer ( de la forme \"x y\")? ");
+				printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
 				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
 				if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
 					printf("Cette case n'est pas dans la grille\n");
@@ -336,11 +341,9 @@ int main( ){
 			afficher_matrice_pion(mat);
 			printf("Au niveau de l'IA\n");
 			tir=choisir_case(mat,batjoueur1);
-			fprintf(stderr, "Choix effectué en case : %i %i\n", tir.x, tir.y);
 			tir.x-=1;
 			tir.y-=1;
 			ajout_pion_matrice( tir , mat_case, mat_ia, batjoueur1 );
-			fprintf(stderr, "Ajout effectué\n");
 			afficher_matrice_pion(mat_ia);
 		}
 
