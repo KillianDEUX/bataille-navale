@@ -293,10 +293,7 @@ int main( ){
 		en_tete(&batjoueur1);
 		bateau_t bateau;
 		valeur_elt(&batjoueur1,&bateau);
-		printf("\n------------------------------------------------------------------\nPour le premier bateau, enregistrement des coordonées : \n");
-		printf("x= %i au lieu de %i car la grille contient des lignes de 0 à %i \n",bateau.coord.x, bateau.coord.x-1, mat.nbl);
-		printf("y= %i au lieu de %i car la grille contient des colonnes de 0 à %i\n ",bateau.coord.y, bateau.coord.y-1, mat.nbc);
-		printf("La grille va de 1 au nb de colonnes ou de lignes seulement pour l'affichage\n");
+
 
 		while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
 			do{

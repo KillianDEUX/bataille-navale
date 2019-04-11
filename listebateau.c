@@ -28,12 +28,14 @@ int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	en_tete(&batjoueur);
 	while(!hors_liste(&batjoueur)){
 		valeur_elt(&batjoueur,&actueltemp);
-		touche=toucheunbateau(matrice, cell, &actueltemp);
-		if(touche!=0){
+		touche = toucheunbateau(matrice, cell, batjoueur);
+		if(touche != 0){
+			fprintf(stderr, "je suis dans veritouche, renvoie : %i \n", touche);
 			return touche;
 		}
 		suivant(&batjoueur);
 	}
+	fprintf(stderr, "je suis dans veritouche, renvoie : %i \n", touche);
 	return touche;
 }
 
@@ -108,8 +110,24 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 
 //affiche la flotte d'un joueur
 void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
+	printf("   ");
+	for(int k=1; k<=matrice.nbc; k++){
+		if(k<10){
+			printf("%d  ", k );
+		}else{
+			printf("%d ", k );
+		}
+	}
+	printf("\n");
 	for(int i=0; i<matrice.nbl ; i++){
        		for(int j=0; j<matrice.nbc ; j++){
+       			if (j== 0){
+       				if((i+1)<10){
+						printf("%d ", i+1);
+					}else{
+						printf("%d", i+1);
+					}
+       			}
        			switch(matrice.grille[i][j].etat){
 				case CASEVIDE : printf("[ ]");break;
 				case CASETOUCHEE : printf("[o]");break;
@@ -118,9 +136,11 @@ void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 				case BATEAUCOULE : printf("[!]");break;
 				default: fprintf(stderr, "Erreur");
 				}
-       		}
+
+			}
+			printf("\n");
+		}
 		printf("\n");
-	}
 }
 
 /* renvoie un pointeur sur un tableau des cases non disponibles pour poser les bateaux */
@@ -129,7 +149,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 	bateau_t bat;
 	int fin_bat;
 	coord_t actuel;
-	int i;			
+	int i;
 	en_tete(&joueur);
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, &bat);
@@ -354,7 +374,7 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 	en_tete(&bateau_nonplace);
 	for(int i=1;!hors_liste(&bateau_nonplace);){
 		valeur_elt(&bateau_nonplace, &nouv);
-		fprintf(stderr, "ELEMENT: type=%s \n", typebat_str(nouv.type));
+		//fprintf(stderr, "ELEMENT: type=%s \n", typebat_str(nouv.type));
 		nomdutype = typebat_str(nouv.type);
 		printf("Vous allez placer le bateau numero %i , il s'agit d'un(e) %s , de taille %i \n", i, nomdutype, nouv.taille);
 		if(nouv.taille !=1){
@@ -419,7 +439,8 @@ int choixbateau(t_liste batjoueur, matrice_case_t matrice){
        t_liste bateau_nonplace;
        init_liste(&bateau_nonplace);
        bateau_t nouveau;
-       float nbmaxbat = (0.06 * (matrice.nbc*matrice.nbl)) - (0.3 * matrice.nbl) +2;
+       int calcul = matrice.nbc+matrice.nbl/2;
+       float nbmaxbat = (0.06 * (calcul*calcul)) - (0.3 * calcul) +2;
        while(nbbat<= 0 || nbbat > nbmaxbat){
               printf("Combien de bateau voulez-vous avoir ? (différent de 0 et inférieur à %0.f) : ", nbmaxbat);
               scanf("%i", &nbbat);
@@ -455,4 +476,57 @@ int bateau_plus_petit(t_liste batjoueur){
 		suivant(&batjoueur);
 	}
 	return min;
+}
+
+/* renvoie 2 si le bateau est coulé, 1 s'il est touché et 0 si le tir est dans l'eau*/
+int toucheunbateau(matrice_case_t mat, coord_t cell, t_liste batjoueur){
+		int fin_bat;
+		int i,j;
+		bateau_t actueltemp;
+		valeur_elt(&batjoueur, &actueltemp);
+		if(actueltemp.dir == VERTICAL){
+			fin_bat = fin_bateau_vertical(&actueltemp);
+			for(i = actueltemp.coord.x, j = actueltemp.coord.y; i <= fin_bat; i++){
+				if(cell.x== i && cell.y == j){
+					printf("touche avant : %i \n", actueltemp.nb_touche);
+					incrementer_nbtouche(&actueltemp);
+					modif_elt(&batjoueur, &actueltemp);
+					fprintf(stderr, "nb touche = %i, taille = %i \n",actueltemp.nb_touche, actueltemp.taille );
+					if(actueltemp.nb_touche == actueltemp.taille){
+						modif_etat(&actueltemp, COULE);
+						update_case_mat(mat, cell, BATEAUCOULE);
+						return 2;
+					}
+					else{
+						update_case_mat(mat, cell, BATEAUTOUCHE);
+						return 1;
+					}
+				}
+			}
+		}
+		else if(actueltemp.dir == HORIZONTAL){
+			fin_bat = fin_bateau_horizontal(&actueltemp);
+			for(i = actueltemp.coord.x, j = actueltemp.coord.y; j <= fin_bat; j++){
+				if(cell.x== i && cell.y == j){
+					printf("touche avant : %i \n", actueltemp.nb_touche);
+					incrementer_nbtouche(&actueltemp);
+					modif_elt(&batjoueur, &actueltemp);
+					fprintf(stderr, "nb touche = %i, taille = %i \n",actueltemp.nb_touche, actueltemp.taille );
+					if(actueltemp.nb_touche == actueltemp.taille){
+						modif_etat(&actueltemp, COULE);
+						update_case_mat(mat, cell, BATEAUCOULE);
+						return 2;
+					}
+					else{
+						update_case_mat(mat, cell, BATEAUTOUCHE);
+						return 1;
+					}
+				}
+			}
+		}
+		else
+			printf("Direction incorrecte\n");
+			
+		update_case_mat(mat, cell, CASETOUCHEE);
+		return 0;
 }

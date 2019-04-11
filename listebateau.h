@@ -43,4 +43,6 @@ int choixbateau(t_liste, matrice_case_t);
 //renvoie la taille du bateau le plus petit de la t_liste
 int bateau_plus_petit(t_liste);
 
+int toucheunbateau(matrice_case_t, coord_t, t_liste);/* renvoie 2 si le bateau est coulé, 1 s il est touché et 0 si le tir est dans l'eau*/
+
 #endif

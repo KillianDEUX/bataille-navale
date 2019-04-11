@@ -39,7 +39,4 @@ void nouveau_bateau(int , bateau_t * );/*créé les paramètres de base d'un nouvea
 
 int bat_coul(bateau_t );/* vérifie si le bateau est coulé*/
 
-int toucheunbateau(matrice_case_t, coord_t, bateau_t *);/* renvoie 2 si le bateau est coulé, 1 s il est touché et 0 si le tir est dans l'eau*/
-
-
 #endif
