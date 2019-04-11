@@ -33,7 +33,7 @@ void partie_reseau( int nb_cli){
 	server_fd = malloc(sizeof(int));
 
 	system("clear");
-	printf("\n -- BATAILLE NAVALE EN RESEAU - SERVEUR --\n");
+	printf("\n -- BATAILLE NAVALE EN RESEAU - DEMARRAGE DU SERVEUR --\n");
 
 
 	// Definition du socket
@@ -49,7 +49,7 @@ void partie_reseau( int nb_cli){
         server_addr.sin_port = htons(port_no);
     }
 
-    printf("\n -- EN ATTENTE DES JOUEURS--\n\n");
+    printf("\n -- PRET - EN ATTENTE DES JOUEURS--\n\n");
 
 
     if( listen(*server_fd, nb_cli) < 0)
@@ -93,6 +93,8 @@ void partie_reseau( int nb_cli){
     matrice_pion_t mat5;
 		matrice_case_t mat_case;
 		t_liste batjoueur1;
+		int ok;
+
 		int nb_bat;
 		bateau_t bat;
 
@@ -172,32 +174,50 @@ void partie_reseau( int nb_cli){
 	}
 
 	printf(" -- AFFICHAGE DES MATRICES TERMINEE --\n\n");
+		printf(" -- EN ATTENTE DE RECEPTION BATEAU JOUEUR 1 --\n\n");
 
-
-	for(i=0; i<nb_cli; i++){
-		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
-	}
-	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
 	mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
 	init_matrice_joueur(mat_case);
 	init_liste(&batjoueur1);
 	recv(client_fd[0], &mat_case.nbc, sizeof(mat_case.nbc), 0);
 	recv(client_fd[0], &mat_case.nbl, sizeof(mat_case.nbl), 0);
-	recv(client_fd[0], mat_case.grille, sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
+	recv(client_fd[0], mat_case.grille[0], sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
 	recv(client_fd[0], &nb_bat, sizeof(int), 0);
-for(int i=0; i<nb_bat; i++){
+ for(int i=0; i<nb_bat; i++){
 		recv(client_fd[0], &bat.type, sizeof(type_t), 0);
 		recv(client_fd[0], &bat.coord.x, sizeof(int), 0);
 		recv(client_fd[0], &bat.coord.y, sizeof(int), 0);
 		recv(client_fd[0], &bat.taille, sizeof(int), 0);
 		recv(client_fd[0], &bat.dir, sizeof(dir_t), 0);
+		recv(client_fd[0], &bat.etat, sizeof(etat_t),0);
 		recv(client_fd[0], &bat.nb_touche, sizeof(int), 0);
 		placement_bateau( batjoueur1, &bat, bat.dir, bat.coord, mat_case);
 	}
-	en_tete(&batjoueur1);
-	valeur_elt(&batjoueur1,&bat);
-	printf("taille= %i\n",bat.taille );
+	
+	printf("Affichage de la flotte du joueur 1 \n \n");
 	affichage_flotte(batjoueur1, mat_case);
+
+	printf(" -- ENVOIE DES LISTES DE BATEAUX AUX CLIENTS --\n\n");
+	for(i=1; i<nb_cli; i++){
+		send(client_fd[i], &nb_bat, sizeof(int), 0);
+		for(en_tete(&batjoueur1); !hors_liste(&batjoueur1); suivant(&batjoueur1)){
+			valeur_elt(&batjoueur1, &bat);
+			send(client_fd[i], &bat.type, sizeof(type_t), 0);
+			send(client_fd[i], &bat.coord.x, sizeof(int), 0);
+			send(client_fd[i], &bat.coord.y, sizeof(int), 0);
+			send(client_fd[i], &bat.taille, sizeof(int), 0);
+			send(client_fd[i], &bat.dir, sizeof(dir_t), 0);
+			send(client_fd[i], &bat.etat, sizeof(etat_t), 0);
+			send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
+		}
+	}
+	printf(" -- ENVOIE TERMINEE --\n\n");
+	// recv(client_fd[1], &ok, sizeof(int), 0);
+	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
+	for(i=0; i<nb_cli; i++){
+		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoie le numéro du tour
+	}
+
 
 	while(1){
 
@@ -293,7 +313,10 @@ int main( ){
 		en_tete(&batjoueur1);
 		bateau_t bateau;
 		valeur_elt(&batjoueur1,&bateau);
-
+		printf("\n------------------------------------------------------------------\nPour le premier bateau, enregistrement des coordonées : \n");
+		printf("x= %i au lieu de %i car la grille contient des lignes de 0 à %i \n",bateau.coord.x, bateau.coord.x-1, mat.nbl);
+		printf("y= %i au lieu de %i car la grille contient des colonnes de 0 à %i\n ",bateau.coord.y, bateau.coord.y-1, mat.nbc);
+		printf("La grille va de 1 au nb de colonnes ou de lignes seulement pour l'affichage\n");
 
 		while( !bateaux_coules(batjoueur1, nb_bat) || !bateaux_coules(ia, nb_bat) ){
 			do{

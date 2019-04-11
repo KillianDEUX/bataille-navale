@@ -70,7 +70,16 @@ int main() {
     init_liste(&batjoueur1);
     int nb_bat;
     matrice_case_t mat_case;
+    matrice_case_t mat_case2;
+    matrice_case_t mat_case3;
+    matrice_case_t mat_case4;
+    matrice_case_t mat_case5;
     bateau_t bat;
+    t_liste batjoueur_np;
+    t_liste batjoueur5;
+    t_liste batjoueur4;
+    t_liste batjoueur3;
+    t_liste batjoueur2;
 
 
 
@@ -156,7 +165,7 @@ int main() {
       nb_bat=choixbateau(batjoueur1, mat_case);
       send(client_fd, &mat_case.nbc, sizeof(mat_case.nbc), 0);
       send(client_fd, &mat_case.nbl, sizeof(mat_case.nbl), 0);
-      send(client_fd, mat_case.grille, sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
+      send(client_fd, mat_case.grille[0], sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
       send(client_fd, &nb_bat, sizeof(int), 0);
       for(en_tete(&batjoueur1); !hors_liste(&batjoueur1); suivant(&batjoueur1)){
         valeur_elt(&batjoueur1, &bat);
@@ -167,9 +176,77 @@ int main() {
         send(client_fd, &bat.dir, sizeof(dir_t), 0);
         send(client_fd, &bat.etat, sizeof(etat_t), 0);
         send(client_fd, &bat.nb_touche, sizeof(int), 0);
+      }
+
+      }else{
+        switch(nb_cli){
+      		case 5 :  recv(client_fd, &nb_bat, sizeof(int), 0);
+
+                  for(int i=0; i<nb_bat; i++){
+                     recv(client_fd, &bat.type, sizeof(type_t), 0);
+                     recv(client_fd, &bat.coord.x, sizeof(int), 0);
+                     recv(client_fd, &bat.coord.y, sizeof(int), 0);
+                     recv(client_fd, &bat.taille, sizeof(int), 0);
+                     recv(client_fd, &bat.dir, sizeof(dir_t), 0);
+                      recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                     recv(client_fd, &bat.nb_touche, sizeof(int), 0);
+                     placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case5);
+                   }
+                   placer_bateau(batjoueur_np, batjoueur5, mat_case5);
+                   break;
+
+
+      		case 4 : recv(client_fd, &nb_bat, sizeof(int), 0);
+
+                for(int i=0; i<nb_bat; i++){
+                   recv(client_fd, &bat.type, sizeof(type_t), 0);
+                   recv(client_fd, &bat.coord.x, sizeof(int), 0);
+                   recv(client_fd, &bat.coord.y, sizeof(int), 0);
+                   recv(client_fd, &bat.taille, sizeof(int), 0);
+                   recv(client_fd, &bat.dir, sizeof(dir_t), 0);
+                   recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                   recv(client_fd, &bat.nb_touche, sizeof(int), 0);
+                   placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case4);
+                 }
+                 placer_bateau(batjoueur_np, batjoueur4, mat_case4);
+                break;
+
+      		case 3 : recv(client_fd, &nb_bat, sizeof(int), 0);
+
+              for(int i=0; i<nb_bat; i++){
+                 recv(client_fd, &bat.type, sizeof(type_t), 0);
+                 recv(client_fd, &bat.coord.x, sizeof(int), 0);
+                 recv(client_fd, &bat.coord.y, sizeof(int), 0);
+                 recv(client_fd, &bat.taille, sizeof(int), 0);
+                 recv(client_fd, &bat.dir, sizeof(dir_t), 0);
+                 recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                 recv(client_fd, &bat.nb_touche, sizeof(int), 0);
+                 placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case3);
+               }
+               placer_bateau(batjoueur_np, batjoueur3, mat_case3);
+               break;
+
+      		case 2 : recv(client_fd, &nb_bat, sizeof(int), 0);
+
+              for(int i=0; i<nb_bat; i++){
+                 recv(client_fd, &bat.type, sizeof(type_t), 0);
+                 recv(client_fd, &bat.coord.x, sizeof(int), 0);
+                 recv(client_fd, &bat.coord.y, sizeof(int), 0);
+                 recv(client_fd, &bat.taille, sizeof(int), 0);
+                 recv(client_fd, &bat.dir, sizeof(dir_t), 0);
+                 recv(client_fd, &bat.etat, sizeof(dir_t), 0);
+                 recv(client_fd, &bat.nb_touche, sizeof(int), 0);
+                 placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case2);
+                 fprintf(stderr, "placement ok" );
+               }
+              // placer_bateau(batjoueur_np, batjoueur2, mat_case2);
+              break;
+
+      		default : break;
+      	}
 
       }
-    }
+
 
   	while (1){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
