@@ -6,13 +6,13 @@ const int NB_DIRECTION=4;
 coord_t direction_avancer(direction_t dir, coord_t depart, int nb_pas){
 	coord_t arrivee= depart;
 	if(dir == NORD)
-		arrivee.y += nb_pas;
-	if(dir == SUD)
-		arrivee.y -= nb_pas;
-	if(dir == EST)
 		arrivee.x += nb_pas;
-	if(dir == OUEST)
+	if(dir == SUD)
 		arrivee.x -= nb_pas;
+	if(dir == EST)
+		arrivee.y += nb_pas;
+	if(dir == OUEST)
+		arrivee.y -= nb_pas;
 	return arrivee;
 }
 

@@ -106,9 +106,11 @@ coord_t detection_touche (matrice_pion_t mat){
 	int ca=1;
 	direction_t dir;
 	coord_t celltemp;
-	for( celltemp.x=0; celltemp.x<mat.nbl ; celltemp.x++){
-       	for(celltemp.y=0; celltemp.y<mat.nbc ; celltemp.y++){
-			if(mat.grille[celltemp.x][celltemp.y].c==ROUGE){
+	coord_t cell;
+	coord_t propo;
+	for( cell.x=0; cell.x<mat.nbl ; cell.x++){
+       	for(cell.y=0; cell.y<mat.nbc ; cell.y++){
+			if(mat.grille[cell.x][cell.y].c==ROUGE){
 				for(dir=direction_debut(); dir!=OUEST ;direction_suivante(dir)){
 					celltemp=direction_avancer( dir, celltemp, ca );
 					while(danslagrille(mat,celltemp) && mat.grille[celltemp.x][celltemp.y].c==ROUGE){
@@ -116,7 +118,7 @@ coord_t detection_touche (matrice_pion_t mat){
                   		celltemp=direction_avancer( dir, celltemp, ca );
                		}
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c==AUCUNE){
-						return celltemp;
+						propo = celltemp;
 					}
 				}
 			}
@@ -130,9 +132,9 @@ coord_t detection_touche (matrice_pion_t mat){
 // Choisis une case de la façon la plus adapté
 coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 	coord_t cell;
-	int pluspetitbat=bateau_plus_petit( joueur );
-	cell = detection_touche (mat);
-	if (cell.x != -1 || cell.y != -1){
+	int pluspetitbat=bateau_plus_petit(joueur);
+	cell = detection_touche(mat);
+	if(cell.x != -1 || cell.y != -1){
 		return cell;
 	}
 	cell=est_autour(mat);

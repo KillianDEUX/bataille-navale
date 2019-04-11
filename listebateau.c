@@ -335,7 +335,7 @@ int placement_bateau(t_liste batjoueur, bateau_t * bat, dir_t dir, coord_t emp, 
 	int result = 0;
 	coord_t upt;
 	int fin_bat;
-	etat_t etat = BATEAUVIDE;
+	etat_case_t etat = BATEAUVIDE;
 	coord_t *casesprises = malloc(sizeof(coord_t)*matrice.nbl*matrice.nbc);
 	parcours_matrice(batjoueur, casesprises,matrice);
 	result = verif_placement_bateau(bat, dir, emp, casesprises);
