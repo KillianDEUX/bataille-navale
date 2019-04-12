@@ -85,11 +85,20 @@ void partie_reseau( int nb_cli){
 		int j;
 		matrice_pion_t mat;
 		matrice_pion_t mat2;
-    matrice_pion_t mat3;
-    matrice_pion_t mat4;
-    matrice_pion_t mat5;
+   		matrice_pion_t mat3;
+ 		matrice_pion_t mat4;
+  		matrice_pion_t mat5;
 		matrice_case_t mat_case;
+		matrice_case_t mat_case2;
+		matrice_case_t mat_case3;
+		matrice_case_t mat_case4;
+		matrice_case_t mat_case5;
 		t_liste batjoueur1;
+		t_liste batjoueur2;
+		t_liste batjoueur3;
+		t_liste batjoueur4;
+		t_liste batjoueur5;
+
 		int ok;
 
 		int nb_bat;
@@ -213,6 +222,94 @@ void partie_reseau( int nb_cli){
 		}
 	}
 	printf(" -- ENVOI TERMINEE --\n\n");
+
+	for(int i=1; i<nb_cli; i++){
+			recv(client_fd[i], &ok, sizeof(int), 0);
+	}
+
+     switch(nb_cli){
+          case 5 :
+                    mat_case5=creer_matrice_joueur( mat5.nbl, mat5.nbc );
+              		init_matrice_joueur(mat_case5);
+              		init_liste(&batjoueur5);
+                    recv(client_fd[4], &mat_case5.nbc, sizeof(mat_case5.nbc), 0);
+                    recv(client_fd[4], &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
+                    recv(client_fd[4], mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
+                    recv(client_fd[4], &nb_bat, sizeof(int), 0);
+                    for(en_tete(&batjoueur5); !hors_liste(&batjoueur5); suivant(&batjoueur5)){
+                      valeur_elt(&batjoueur5, &bat);
+                      recv(client_fd[4], &bat.type, sizeof(type_t), 0);
+                      recv(client_fd[4], &bat.coord.x, sizeof(int), 0);
+                      recv(client_fd[4], &bat.coord.y, sizeof(int), 0);
+                      recv(client_fd[4], &bat.taille, sizeof(int), 0);
+                      recv(client_fd[4], &bat.dir, sizeof(dir_t), 0);
+                      recv(client_fd[4], &bat.etat, sizeof(etat_t), 0);
+                      recv(client_fd[4], &bat.nb_touche, sizeof(int), 0);
+                    }
+
+          case 4 :
+                  	mat_case4=creer_matrice_joueur( mat4.nbl, mat4.nbc);
+              		init_matrice_joueur(mat_case4);
+              		init_liste(&batjoueur4);
+                    recv(client_fd[3], &mat_case4.nbc, sizeof(mat_case4.nbc), 0);
+                    recv(client_fd[3], &mat_case4.nbl, sizeof(mat_case4.nbl), 0);
+                    recv(client_fd[3], mat_case4.grille[0], sizeof(case_t)*mat_case4.nbl*mat_case4.nbc, 0);
+                    recv(client_fd[3], &nb_bat, sizeof(int), 0);
+                    for(en_tete(&batjoueur4); !hors_liste(&batjoueur4); suivant(&batjoueur4)){
+                      valeur_elt(&batjoueur4, &bat);
+                      recv(client_fd[3], &bat.type, sizeof(type_t), 0);
+                      recv(client_fd[3], &bat.coord.x, sizeof(int), 0);
+                      recv(client_fd[3], &bat.coord.y, sizeof(int), 0);
+                      recv(client_fd[3], &bat.taille, sizeof(int), 0);
+                      recv(client_fd[3], &bat.dir, sizeof(dir_t), 0);
+                      recv(client_fd[3], &bat.etat, sizeof(etat_t), 0);
+                      recv(client_fd[3], &bat.nb_touche, sizeof(int), 0);
+                    }
+
+          case 3 :
+                    mat_case3=creer_matrice_joueur( mat3.nbl, mat3.nbc );
+              		init_matrice_joueur(mat_case3);
+              		init_liste(&batjoueur3);
+                    recv(client_fd[2], &mat_case3.nbc, sizeof(mat_case3.nbc), 0);
+                    recv(client_fd[2], &mat_case3.nbl, sizeof(mat_case3.nbl), 0);
+                    recv(client_fd[2], mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
+                    recv(client_fd[2], &nb_bat, sizeof(int), 0);
+                    for(en_tete(&batjoueur3); !hors_liste(&batjoueur3); suivant(&batjoueur3)){
+                      valeur_elt(&batjoueur3, &bat);
+                      recv(client_fd[2], &bat.type, sizeof(type_t), 0);
+                      recv(client_fd[2], &bat.coord.x, sizeof(int), 0);
+                      recv(client_fd[2], &bat.coord.y, sizeof(int), 0);
+                      recv(client_fd[2], &bat.taille, sizeof(int), 0);
+                      recv(client_fd[2], &bat.dir, sizeof(dir_t), 0);
+                      recv(client_fd[2], &bat.etat, sizeof(etat_t), 0);
+                      recv(client_fd[2], &bat.nb_touche, sizeof(int), 0);
+                    }
+
+          case 2 :
+          			mat_case2=creer_matrice_joueur( mat2.nbl, mat2.nbc );
+              		init_matrice_joueur(mat_case2);
+              		init_liste(&batjoueur2);
+                    recv(client_fd[1], &mat_case2.nbc, sizeof(mat_case2.nbc), 0);
+                    recv(client_fd[1], &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
+                    recv(client_fd[1], mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
+                    recv(client_fd[1], &nb_bat, sizeof(int), 0);
+                    for(en_tete(&batjoueur2); !hors_liste(&batjoueur2); suivant(&batjoueur2)){
+                      valeur_elt(&batjoueur2, &bat);
+                      recv(client_fd[1], &bat.type, sizeof(type_t), 0);
+                      recv(client_fd[1], &bat.coord.x, sizeof(int), 0);
+                      recv(client_fd[1], &bat.coord.y, sizeof(int), 0);
+                      recv(client_fd[1], &bat.taille, sizeof(int), 0);
+                      recv(client_fd[1], &bat.dir, sizeof(dir_t), 0);
+                      recv(client_fd[1], &bat.etat, sizeof(etat_t), 0);
+                      recv(client_fd[1], &bat.nb_touche, sizeof(int), 0);
+                    }
+
+
+              break;
+
+          default : break;
+        }
+
 	for(int i=1; i<nb_cli; i++){
 			recv(client_fd[i], &ok, sizeof(int), 0);
 	}
@@ -250,20 +347,56 @@ void partie_reseau( int nb_cli){
 		info_c_atk2=choix_c_atk2;
 
 		for(j=0; j<nb_cli; j++){
-			send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
+			if(j!=tour_atk-1)
+				send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
 		}
 		for(j=0; j<nb_cli; j++){
-			send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
+			if(j!=tour_atk-1)
+				send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
 		}
 		for(j=0; j<nb_cli; j++){
-			send(client_fd[j], &info_c_atk2, sizeof(info_c_atk2), 0);
+			if(j!=tour_atk-1)
+				send(client_fd[j], &info_c_atk2, sizeof(info_c_atk2), 0);
 		}
-
 
 	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i = %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2, info_c_atk, info_c_atk2);
-	cell.x=choix_c_atk;
-	cell.y=choix_c_atk2;
+	cell.x=choix_c_atk-1;
+	cell.y=choix_c_atk2-1;
 
+	switch(choix_j_atk){
+		case 5 :ajout_pion_matrice( cell, mat_case5, mat, batjoueur5 );
+				ajout_pion_matrice( cell, mat_case5, mat2, batjoueur5 );
+				ajout_pion_matrice( cell, mat_case5, mat3, batjoueur5 );
+				ajout_pion_matrice( cell, mat_case5, mat4, batjoueur5 );
+				break;
+
+		case 4 :ajout_pion_matrice( cell, mat_case4, mat, batjoueur4 );
+				ajout_pion_matrice( cell, mat_case4, mat2, batjoueur4 );
+				ajout_pion_matrice( cell, mat_case4, mat3, batjoueur4 );
+				ajout_pion_matrice( cell, mat_case4, mat5, batjoueur4 );
+				break;
+
+
+		case 3 :ajout_pion_matrice( cell, mat_case3, mat, batjoueur3 );
+				ajout_pion_matrice( cell, mat_case3, mat2, batjoueur3 );
+				ajout_pion_matrice( cell, mat_case3, mat4, batjoueur3 );
+				ajout_pion_matrice( cell, mat_case3, mat5, batjoueur3 );
+				break;
+
+		case 2 :ajout_pion_matrice( cell, mat_case2, mat, batjoueur2 );
+				ajout_pion_matrice( cell, mat_case2, mat3, batjoueur2 );
+				ajout_pion_matrice( cell, mat_case2, mat4, batjoueur2 );
+				ajout_pion_matrice( cell, mat_case2, mat5, batjoueur2 );
+				break;
+
+		case 1 :ajout_pion_matrice( cell, mat_case, mat2, batjoueur1 );
+				ajout_pion_matrice( cell, mat_case, mat3, batjoueur1 );
+				ajout_pion_matrice( cell, mat_case, mat4, batjoueur1 );
+				ajout_pion_matrice( cell, mat_case, mat5, batjoueur1 );
+				break;
+
+		default : break;
+	}
 
 	if(tour_atk<nb_cli){  // Changement de tour
 		tour_atk++;

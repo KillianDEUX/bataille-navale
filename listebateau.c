@@ -52,6 +52,7 @@ int bateaux_coules( t_liste batjoueur, int nb_bat){
 	while(!hors_liste(&batjoueur)){
 		valeur_elt(&batjoueur,&bateau);
 		c_bat_coul+=bat_coul(bateau);
+		fprintf(stderr, "bat :%i\n", c_bat_coul );
 		suivant(&batjoueur);
 	}
 	if(c_bat_coul==nb_bat){
@@ -515,6 +516,7 @@ int toucheunbateau(matrice_case_t mat, coord_t cell, t_liste batjoueur){
 					if(actueltemp.nb_touche == actueltemp.taille){
 						modif_etat(&actueltemp, COULE);
 						update_case_mat(mat, cell, BATEAUCOULE);
+
 						return 2;
 					}
 					else{
