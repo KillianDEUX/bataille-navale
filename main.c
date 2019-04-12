@@ -340,11 +340,10 @@ int main( ){
 			ajout_pion_matrice( cell, mat_case_ia, mat, ia );
 			afficher_matrice_pion(mat);
 			printf("Au niveau de l'IA\n");
-			tir=choisir_case(mat,batjoueur1);
-			tir.x-=1;
-			tir.y-=1;
+			tir=choisir_case(mat_ia,batjoueur1);
 			ajout_pion_matrice( tir , mat_case, mat_ia, batjoueur1 );
 			afficher_matrice_pion(mat_ia);
+			printf("bateaux_coules = %i \n", bateaux_coules(ia, nb_bat) );
 		}
 
 	}else{
