@@ -8,7 +8,7 @@ coord_t case_tabtocoord(matrice_pion_t, int);
 int case_coordtotab(matrice_pion_t, coord_t);
 
 // Verifie si l'IA peut placer un pion à l'endoit cellule
-int autorisation_case(matrice_pion_t, int, coord_t);
+int autorisation_case(matrice_pion_t, /*int,*/ coord_t);
 
 // Place un pion de manière pseudo aleatoire
 coord_t pseudo_aleatoire(matrice_pion_t, int);

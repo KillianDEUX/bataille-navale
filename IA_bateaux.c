@@ -6,6 +6,8 @@
 #include "listebateau.h"
 #include "matrice.h"
 
+#define DEFAULT_DIRECTION VERTICAL
+
 // L'IA place tous ses bateaux
 int placer_bateau_ia(t_liste joueur, matrice_case_t mat, t_liste ia){
 	srand(time(NULL));
@@ -22,18 +24,24 @@ int placer_bateau_ia(t_liste joueur, matrice_case_t mat, t_liste ia){
 			if(!hors_liste(&ia_nonplace)){
 				valeur_elt(&ia_nonplace,&nouv);
 				direc=rand()%2+1;	// choix aleatoire de la direction
-				if(direc==1){
-					direction=VERTICAL;
-					do{
-						emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
-						emp.x= rand()%mat.nbl;
-					}while(emp.x+(nouv.taille)-1 >= mat.nbl);
+				if(nouv.taille !=1){
+					if(direc==1){
+						direction=VERTICAL;
+						do{
+							emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
+							emp.x= rand()%mat.nbl;
+						}while(emp.x+(nouv.taille)-1 >= mat.nbl);
+					}else{
+						direction=HORIZONTAL;
+						do{
+							emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
+							emp.x= rand()%mat.nbl;
+						}while(emp.y+(nouv.taille)-1 >= mat.nbc);
+					}
 				}else{
-					direction=HORIZONTAL;
-					do{
-						emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
-						emp.x= rand()%mat.nbl;
-					}while(emp.y+(nouv.taille)-1 >= mat.nbc);
+					direction= DEFAULT_DIRECTION;
+					emp.y= rand()%mat.nbc; // choix des coordonnées aleatoires
+					emp.x= rand()%mat.nbl;
 				}
 			}
 			printf("direction : %i \n", direc);

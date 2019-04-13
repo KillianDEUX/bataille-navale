@@ -155,11 +155,11 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 	while(!hors_liste(&joueur)){
 		valeur_elt(&joueur, &bat);
 		if(bat.dir == HORIZONTAL){
-	    	fin_bat = fin_bateau_horizontal(&bat);
-	     	for(i = bat.coord.y; i <= fin_bat; i++){
-       			actuel.y = i;
-       			actuel.x=bat.coord.x;
-       			if(i==bat.coord.y){
+	    		fin_bat = fin_bateau_horizontal(&bat);
+	     		for(i = bat.coord.y; i <= fin_bat; i++){
+       				actuel.y = i;
+       				actuel.x=bat.coord.x;
+       				if(i==bat.coord.y){
 						actuel.x--;
 						if(danslagrille_joueur(matrice, actuel)){
 							case_nonlibres[compteur] = actuel;
@@ -240,9 +240,9 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 		}
 		else if(bat.dir == VERTICAL){
 			fin_bat = fin_bateau_vertical(&bat);
-    	  	for(i=bat.coord.x; i<=fin_bat; i++){
-      			actuel.x= i;
-      			actuel.y=bat.coord.y;
+    	  		for(i=bat.coord.x; i<=fin_bat; i++){
+      				actuel.x= i;
+      				actuel.y=bat.coord.y;
        			if(i==bat.coord.x){
 					actuel.y--;
 					if(danslagrille_joueur(matrice, actuel)){

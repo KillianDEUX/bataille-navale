@@ -75,240 +75,180 @@ int danslagrille(matrice_pion_t mat, coord_t pos ){
 }
 
 // Ajoute des pions Blancs autour d'un bateau coulé
-void eauautourcoule( coord_t cell, matrice_pion_t mat ){
-	fprintf(stderr, "je suis dans eauautourcoule \n");
-	// Lorsque le bateau est dirigé vers le sud
-	fprintf(stderr, "sud \n");
+void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
+	bateau_t bat;
 	coord_t celltemp;
-	celltemp.x=cell.x+1;
-	celltemp.y=cell.y;
-	if( danslagrille(mat, celltemp)){
-		fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x-1][cell.y].c != ROUGE){
-			mat.grille[celltemp.x][celltemp.y].c= BLANC;
-			fprintf(stderr, "oui");
-		}
-		else{
-			if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x-1][cell.y].c== ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui");
-			}
-			else{ //if (mat.grille[celltemp.x][celltemp.y].c== ROUGE && mat.grille[cell.x-1][cell.y].c== ROUGE){
-				while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
+	int fin_bat;
+	bat = recherche_bat(cell, joueur);
+	printf("bat : %i %i \n", bat.coord.x, bat.coord.y);
+	if(bat.taille == 0){
+		fprintf(stderr, "Erreur");
+	}
+	else{
+		if(bat.dir == VERTICAL){
+			fin_bat = fin_bateau_vertical(&bat);
+			fprintf(stderr, " fin bat = %i",fin_bat );
+			celltemp.y = bat.coord.y;
+			for(celltemp.x = bat.coord.x;  celltemp.x <= fin_bat; celltemp.x++){
+				fprintf(stderr, "boucle verti\n");
+				fprintf(stderr, " celltemp : %i %i ", celltemp.x, celltemp.y);
+				if(celltemp.x == bat.coord.x){
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y+=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+	       				celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+				}
+				else if(celltemp.x == fin_bat){
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y+=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
 					celltemp.x++;
-					fprintf(stderr, "coord finbat ou pas: %i %i \n",celltemp.x, celltemp.y );
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+	       				celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+				}
+				else{
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y+=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
 				}
 			}
-			celltemp.x--;
-			celltemp.y--;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui");
-			}
-			celltemp.y += 2;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui");
-			}
-			celltemp.x++;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui");
-			}
-			celltemp.y--;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui");
-			}
-			celltemp.y--;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui");
-			}
 		}
-	}
-	// Lorsque le bateau est dirigé vers le nord
-	fprintf(stderr, "nord\n");
-	celltemp.y=cell.y; 									
-	celltemp.x=cell.x-1;										// Changement
-	if ( danslagrille(mat, celltemp)){
-		fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x+1][cell.y].c != ROUGE){
-			mat.grille[celltemp.x][celltemp.y].c= BLANC;
-			fprintf(stderr, "oui\n");
-		}
-		else{
-			if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x+1][cell.y].c== ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui");
-			}
-			else{// (mat.grille[celltemp.x][celltemp.y].c== ROUGE && mat.grille[cell.x+1][cell.y].c== ROUGE){
-				while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
-					celltemp.x--; 									// Changement
-					fprintf(stderr, "coord finbat ou pas: %i %i \n",celltemp.x, celltemp.y );
+		else if(bat.dir == HORIZONTAL){
+			fin_bat = fin_bateau_horizontal(&bat);
+			celltemp.x = bat.coord.x;
+			for(celltemp.y = bat.coord.y; celltemp.y <= fin_bat; celltemp.y++){
+				fprintf(stderr, "boucle horti \n");
+       				if(celltemp.y == bat.coord.y){
+					celltemp.x--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x+=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+		       			celltemp.x--;
+					if(danslagrille(mat, celltemp)  && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x--;
+					if(danslagrille(mat, celltemp)  && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
 				}
-			}
-			celltemp.x++;
-			celltemp.y--;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				(mat.grille[celltemp.x][celltemp.y]).c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.y += 2;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.x--;                   					// Changement
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.y--;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.y--;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-		}
-	}
-	
-
-	// Lorsque le bateau est dirigé vers l'est
-	fprintf(stderr, "est \n");
-	fprintf(stderr, "coord debut ou pas: %i %i \n",cell.x, cell.y );
-	celltemp.x=cell.x;											 // Changement
-	celltemp.y=cell.y+1;										// Changement
-	fprintf(stderr, "valeur return dlg : %i \n", danslagrille(mat, celltemp)); 
-	if(danslagrille(mat, celltemp)){
-		fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x][cell.y-1].c != ROUGE){
-			mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui\n");
-		}
-		else{
-			if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x][cell.y-1].c== ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui");
-			}
-		 	else{//if(mat.grille[celltemp.x][celltemp.y].c== ROUGE &&  mat.grille[cell.x][cell.y-1].c== ROUGE){
-				while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
-					celltemp.y++;							// Changement
-					fprintf(stderr, "coord finbat ou pas: %i %i \n",celltemp.x, celltemp.y );
-				}	
-			}
-			celltemp.y--;
-			celltemp.x++; 
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.x -= 2;									// Changement
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.y++;										// Changement
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.x++; 										// Changement
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			
-			celltemp.x++; 										// Changement
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-		}
-	}
-	// Lorsque le bateau est dirigé vers l'ouest
-	fprintf(stderr, "ouest \n");
-	celltemp.y=cell.y-1;										// Changement
-	celltemp.x=cell.x;                  					                
-	if( danslagrille(mat, celltemp)){
-		fprintf(stderr, "coord rentrée ou pas: %i %i \n",celltemp.x, celltemp.y );
-		if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x][cell.y+1].c != ROUGE){
-			mat.grille[celltemp.x][celltemp.y].c= BLANC;
-		}
-		else{
-			if( mat.grille[celltemp.x][celltemp.y].c== AUCUNE && mat.grille[cell.x][cell.y+1].c== ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui");			
-			}else{// (mat.grille[celltemp.x][celltemp.y].c== ROUGE && mat.grille[cell.x][cell.y+1].c== ROUGE){
-				while((danslagrille(mat, celltemp)) && (mat.grille[celltemp.x][celltemp.y].c== ROUGE)){
-					celltemp.y--;							// Changement
-					fprintf(stderr, "coord finbat ou pas: %i %i \n",celltemp.x, celltemp.y );
+				else if(celltemp.y == fin_bat){
+					celltemp.x++;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x-=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y++;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+	       				celltemp.x--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+							mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
 				}
-			}
-			celltemp.y++;
-			celltemp.x++;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp)){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-					fprintf(stderr, "oui\n");
-			}
-			celltemp.x -= 2;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui\n");
-			}
-			celltemp.y--;										// Changement
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui\n");
-			}
-			celltemp.x++;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui\n");
-			}
-			celltemp.x++;
-			fprintf(stderr, "coord rentree ou pas: %i %i \n",celltemp.x, celltemp.y );
-			if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
-				mat.grille[celltemp.x][celltemp.y].c= BLANC;
-				fprintf(stderr, "oui\n");
+				else{
+					celltemp.x--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x += 2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+				}
 			}
 		}
 	}
 }
 
+//Renvoie la bateau auquel la coordonnée transmise appartient
+bateau_t recherche_bat(coord_t cell, t_liste joueur){
+	bateau_t bat;
+	bateau_t erreur;
+	nouveau_bateau(0, &erreur);
+	int fin_bat;
+	int i, j;
+	en_tete(&joueur);
+	while(!hors_liste(&joueur)){
+		valeur_elt(&joueur, &bat);
+		if(bat.dir == VERTICAL){
+			fin_bat = fin_bateau_vertical(&bat);
+			for(i = bat.coord.x, j = bat.coord.y; i <= fin_bat; i++){
+				fprintf(stderr, "boucle verti recherche \n");
+				if(cell.x == i && cell.y == j){
+					return bat;
+				}
+			}
+		}
+		else if(bat.dir == HORIZONTAL){
+			fin_bat = fin_bateau_horizontal(&bat);
+			for(i = bat.coord.x, j = bat.coord.y; j <= fin_bat; j++){
+				fprintf(stderr, "boucle hori recherche \n");
+				if(cell.x == i && cell.y == j){
+					return bat;
+				}
+			}
+		}
+	}
+	printf("pas normal");
+	return erreur;
+}
 
-	// Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t mat, t_liste joueur ){
+
+
+// Ajoute un pion à la grille suivant le tir
+int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t mat, t_liste joueur, t_liste joueur_attaque ){
 
   int etat=etat_tir( mat_case,cell, joueur);
 	if( etat == 0){        														// Si le tir tombe dans l'eau
@@ -319,7 +259,7 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t ma
 	}
 	else if( etat == 2){	 														// Si le tir coule une cible
 		(mat.grille[cell.x][cell.y]).c= ROUGE ; 				 // Placer un pion ROUGE sur la matrice
-		eauautourcoule(cell, mat);       							 // Placer des pion BLANCs tout autour sur la matrice
+		eauautourcoule(cell, mat, joueur_attaque);       							 // Placer des pion BLANCs tout autour sur la matrice
 	}
 	else{
 		return 1;

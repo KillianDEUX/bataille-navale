@@ -4,6 +4,7 @@
 #include "commun.h"
 #include "listebateau.h"
 
+
 typedef enum couleur { AUCUNE, BLANC, ROUGE } couleur_t;
 
 typedef struct case_s {
@@ -28,17 +29,20 @@ matrice_pion_t creer_matrice_adv (int, int);
 // Libère la mémoire de la matrice
 void detruire_matrice_adv( matrice_pion_t );
 
-// initialise la matrice avec "AUCUNE" couleur;
+// initialise la mastrice avec "AUCUNE" couleur;
 int init_matrice_adv( matrice_pion_t);
 
  /* Vérifie si les coordonnées passées en paramètres sont dans la grille*/
 int danslagrille(matrice_pion_t, coord_t);
 
 // Ajoute des pions Blancs autour d'un bateau coulé
-void eauautourcoule( coord_t, matrice_pion_t);
+void eauautourcoule( coord_t, matrice_pion_t, t_liste);
+
+//Renvoie la bateau auquel la coordonnée transmise appartient
+bateau_t recherche_bat(coord_t, t_liste);
 
 // Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t, matrice_case_t, matrice_pion_t, t_liste);
+int ajout_pion_matrice( coord_t, matrice_case_t, matrice_pion_t, t_liste, t_liste );
 
 // Remet tout les pions à "AUCUN"
 int vider_matrice(matrice_pion_t);
