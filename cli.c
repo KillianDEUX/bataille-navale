@@ -270,10 +270,8 @@ int main() {
                  recv(client_fd, &bat.nb_touche, sizeof(int), 0);
                  placement_bateau(batjoueur_np, &bat, bat.dir, bat.coord, mat_case2);
                }
-               affichage_flotte(batjoueur_np,mat_case2);
                init_matrice_joueur(mat_case2);
                placer_bateau(batjoueur_np, batjoueur2, mat_case2);
-               affichage_flotte(batjoueur2,mat_case2);
 
 
               break;
@@ -386,10 +384,6 @@ int main() {
         send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
       }
 
-          if(nb_joueur+1!=tour_atk){
-          send(client_fd, &ok, sizeof(int), 0);
-    }
-
       do{
 				printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
 				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
@@ -400,13 +394,11 @@ int main() {
 					printf("Cette case à déjà été selectionnée !");
 				}
 			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
-
 			send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
 			send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
 			printf("\n Envoyé \n");
 			printf(" ----------------------------------------------------------------------------- \n \n");
-		}
-		else{
+		}else{
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
 			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
@@ -418,6 +410,7 @@ int main() {
 				printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n", tour_atk, info_j_atk, info_c_atk, info_c_atk2);
 			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
+
 		}
 
 	}
