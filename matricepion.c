@@ -80,19 +80,50 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 	coord_t celltemp;
 	int fin_bat;
 	bat = recherche_bat(cell, joueur);
-	printf("bat : %i %i \n", bat.coord.x, bat.coord.y);
 	if(bat.taille == 0){
 		fprintf(stderr, "Erreur");
 	}
 	else{
-		if(bat.dir == VERTICAL){
+		if(bat.dir == VERTICAL){ //si le bateau est à la verticale
 			fin_bat = fin_bateau_vertical(&bat);
-			fprintf(stderr, " fin bat = %i",fin_bat );
-			celltemp.y = bat.coord.y;
-			for(celltemp.x = bat.coord.x;  celltemp.x <= fin_bat; celltemp.x++){
-				fprintf(stderr, "boucle verti\n");
-				fprintf(stderr, " celltemp : %i %i ", celltemp.x, celltemp.y);
-				if(celltemp.x == bat.coord.x){
+			for(int i = bat.coord.x;  i <= fin_bat; i++){  //on parcourt le x du bateau(car les y ne changent pas)
+				celltemp.y = bat.coord.y;
+				celltemp.x = i;
+				if(bat.taille == 1){ //si le bateau est de taille 1, on remplit de blanc toutes les cases autour(diagonales,nord,sud,est,ouest)
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y+=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+	       				celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y--;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.x+=2;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y++;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+					celltemp.y++;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
+						mat.grille[celltemp.x][celltemp.y].c= BLANC;
+					}
+				}
+				else if(celltemp.x == bat.coord.x){ //si on est au début du bateau on remplit de blanc les cases situées autour (gauche, droite, haut et diagonal)
 					celltemp.y--;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
@@ -114,7 +145,7 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
 				}
-				else if(celltemp.x == fin_bat){
+				else if(celltemp.x == fin_bat){  //si on est à la fin, meme chose  (gauche, droite, bas et diagonal)
 					celltemp.y--;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
@@ -136,7 +167,7 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
 				}
-				else{
+				else{ //sinon les cases qui l'entoure (droite et gauche)
 					celltemp.y--;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
@@ -147,13 +178,13 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 					}
 				}
 			}
-		}
-		else if(bat.dir == HORIZONTAL){
+		} 
+		else if(bat.dir == HORIZONTAL){//si le bateau est à l'horizontal
 			fin_bat = fin_bateau_horizontal(&bat);
-			celltemp.x = bat.coord.x;
-			for(celltemp.y = bat.coord.y; celltemp.y <= fin_bat; celltemp.y++){
-				fprintf(stderr, "boucle horti \n");
-       				if(celltemp.y == bat.coord.y){
+			for(int i = bat.coord.y; i <= fin_bat; i++){ //on parcours les y du bateaux (car les x ne changent pas)
+				celltemp.y = i;
+				celltemp.x = bat.coord.x;
+       				if(celltemp.y == bat.coord.y){ //si on est au début du bateau on remplit de blanc les cases situées autour (haut, bas, gauche et diagonal)
 					celltemp.x--;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
@@ -175,7 +206,7 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
 				}
-				else if(celltemp.y == fin_bat){
+				else if(celltemp.y == fin_bat){ //si on est à la fin, meme chose  (haut, bas, droite et diagonal)
 					celltemp.x++;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
@@ -188,21 +219,21 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
-	       				celltemp.x--;
+	       				celltemp.x++;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 							mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
-					celltemp.x--;
+					celltemp.x++;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
 				}
-				else{
+				else{ //sinon les cases qui l'entoure (haut et bas)
 					celltemp.x--;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
-					celltemp.x += 2;
+					celltemp.x+=2;
 					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c!= ROUGE){
 						mat.grille[celltemp.x][celltemp.y].c= BLANC;
 					}
@@ -216,50 +247,56 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 bateau_t recherche_bat(coord_t cell, t_liste joueur){
 	bateau_t bat;
 	bateau_t erreur;
+	coord_t celltemp;
 	nouveau_bateau(0, &erreur);
 	int fin_bat;
 	int i, j;
 	en_tete(&joueur);
-	while(!hors_liste(&joueur)){
+	while(!hors_liste(&joueur)){ //parcours de la liste
 		valeur_elt(&joueur, &bat);
-		if(bat.dir == VERTICAL){
+		if(bat.dir == VERTICAL){ //si le bateau est à la verticale
 			fin_bat = fin_bateau_vertical(&bat);
-			for(i = bat.coord.x, j = bat.coord.y; i <= fin_bat; i++){
-				fprintf(stderr, "boucle verti recherche \n");
-				if(cell.x == i && cell.y == j){
-					return bat;
+			for(i = bat.coord.x; i <= fin_bat; i++){  //parcours du bateau
+				celltemp.y = bat.coord.y;
+				celltemp.x = i;
+				if(celltemp.x == cell.x && celltemp.y == cell.y){ //si les coordonnées correspondent 
+					return bat; //on renvoit le bateau
 				}
 			}
 		}
-		else if(bat.dir == HORIZONTAL){
+		else if(bat.dir == HORIZONTAL){ //si le bateau est à l'horizontale
 			fin_bat = fin_bateau_horizontal(&bat);
-			for(i = bat.coord.x, j = bat.coord.y; j <= fin_bat; j++){
-				fprintf(stderr, "boucle hori recherche \n");
-				if(cell.x == i && cell.y == j){
-					return bat;
+			for(j = bat.coord.y; j <= fin_bat; j++){ //parcours du bateau
+				celltemp.y = j;
+				celltemp.x = bat.coord.x;
+				if(cell.x == celltemp.x && cell.y == celltemp.y){ //si les coordonnées correspondent
+					return bat; //on renvoit le bateau
 				}
 			}
 		}
 	}
-	printf("pas normal");
+	fprintf(stderr,"Ne correspond à aucun bateau : anormal");
 	return erreur;
 }
 
 
 
 // Ajoute un pion à la grille suivant le tir
-int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t mat, t_liste joueur, t_liste joueur_attaque ){
+int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t mat, t_liste joueur){
 
-  int etat=etat_tir( mat_case,cell, joueur);
-	if( etat == 0){        														// Si le tir tombe dans l'eau
-		(mat.grille[cell.x][cell.y]).c= BLANC ;    				// Placer un pion BLANC sur la matrice
+  	int etat=etat_tir( mat_case,cell, joueur);
+	if( etat == 0){        					// Si le tir tombe dans l'eau
+		(mat.grille[cell.x][cell.y]).c= BLANC ;    	// Placer un pion BLANC sur la matrice
+		printf("         RATÉ        ");
 	}
-	else if( etat == 1){  														 // Si le tir touche une cible
-		(mat.grille[cell.x][cell.y]).c= ROUGE ;    			   // Placer un pion ROUGE sur la matrice
+	else if( etat == 1){  					// Si le tir touche une cible
+		printf("         TOUCHÉ      ");
+		(mat.grille[cell.x][cell.y]).c= ROUGE ;    	// Placer un pion ROUGE sur la matrice
 	}
-	else if( etat == 2){	 														// Si le tir coule une cible
-		(mat.grille[cell.x][cell.y]).c= ROUGE ; 				 // Placer un pion ROUGE sur la matrice
-		eauautourcoule(cell, mat, joueur_attaque);       							 // Placer des pion BLANCs tout autour sur la matrice
+	else if( etat == 2){	 				// Si le tir coule une cible
+		printf("         COULÉ       ");
+		(mat.grille[cell.x][cell.y]).c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
+		eauautourcoule(cell, mat, joueur);       	// Placer des pion BLANCs tout autour sur la matrice
 	}
 	else{
 		return 1;

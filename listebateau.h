@@ -10,6 +10,9 @@
 // Transforme un type en chaine de caractère
 char * typebat_str(type_t); 
 
+//affiche la légende de la matrice
+void afficher_legende();
+
 // pour chaque bateau, verifie son l'état du tir
 int veriftouche(coord_t , matrice_case_t , t_liste );
 

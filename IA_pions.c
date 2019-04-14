@@ -11,13 +11,13 @@
 // transforme un numéro de case en coordonnées x,y
 coord_t case_tabtocoord(matrice_pion_t mat, int nb){
 	coord_t cellule;
-	if(nb%mat.nbc == 0){
+	if(nb%mat.nbc == 0){ //si on est en bout de colonne
 		cellule.y = mat.nbc-1;
 	}
 	else{
 		cellule.y = (nb%mat.nbc)-1;
 	}
-	if(nb%mat.nbl == 0){
+	if(nb%mat.nbl == 0){ //si on est en bout de ligne
 		cellule.x = (nb/mat.nbc)-1;
 	}
 	else{
@@ -34,11 +34,9 @@ int case_coordtotab(matrice_pion_t mat, coord_t cellule){
 }
 
 // Verifie si l'IA peut placer un pion à l'endoit cellule
-int autorisation_case(matrice_pion_t mat,/* int pluspetitbat,*/ coord_t cellule){
-	//int case_alea = case_coordtotab( mat , cellule);
-	if(/*(case_alea%pluspetitbat)!=0 &&*/ danslagrille(mat, cellule) && mat.grille[cellule.x][cellule.y].c != AUCUNE){
+int autorisation_case(matrice_pion_t mat, coord_t cellule){
+	if( danslagrille(mat, cellule) && mat.grille[cellule.x][cellule.y].c != AUCUNE){
 		return 0;
-		fprintf(stderr,"je return 0");
 	}
 	return 1;
 }
@@ -77,12 +75,12 @@ int pseudo_aleatoire_autorisation( matrice_pion_t mat, int pluspetitbat){
 coord_t aleatoire( matrice_pion_t mat){
 	srand(time(NULL));
 	coord_t cellule;
-	int case_alea=rand()%((mat.nbl*mat.nbc));
-	cellule= case_tabtocoord( mat, case_alea);
+	int case_alea=rand()%((mat.nbl*mat.nbc)); //choix d'un chiffre de la matrice aléatoire
+	cellule= case_tabtocoord( mat, case_alea); //le transforme en coordonnée
 	while(mat.grille[cellule.x][cellule.y].c!=AUCUNE ){
 		case_alea=rand()%((mat.nbl*mat.nbc));
 	}
-	cellule= case_tabtocoord( mat, case_alea);
+	cellule= case_tabtocoord( mat, case_alea); //le transforme en coordonnée
 	return cellule;
 }
 
@@ -94,19 +92,19 @@ coord_t est_autour( matrice_pion_t mat){
 	float moit_case;
 	int k=0;
 	coord_t cell;
-	for(int i=0;i<mat.nbl;i++){
-		for(int j=0; j<mat.nbc;j++){
-			if(mat.grille[i][j].c != AUCUNE){
+	for(int i=0;i<mat.nbl;i++){ //parcours des x de la matrice
+		for(int j=0; j<mat.nbc;j++){//parcours des y de la matrice
+			if(mat.grille[i][j].c != AUCUNE){ 
 				 cell.x = i;
 				 cell.y = j;
-				 compt += case_coordtotab(mat, cell);
+				 compt += case_coordtotab(mat, cell); //compte le nombre de case vide
 				 k++;
 			}
 		}
 	}
 	totalcase = mat.nbc * mat.nbl;
 	moit_case = totalcase/2;
-	compt /= 4;
+	compt /= k;
 	if(compt > moit_case){
 		compt /= 2;
 	}
@@ -121,7 +119,6 @@ coord_t est_autour( matrice_pion_t mat){
 		return cell;
 	}
 	cell = case_tabtocoord(mat, compt);
-	fprintf(stderr, " coord utilisée : %i %i \n", cell.x, cell.y);
 	return cell;
 }
 
@@ -129,24 +126,21 @@ coord_t est_autour( matrice_pion_t mat){
 /* vérifie si un bateau est touché quelque part, et essaye de viser une case qui est à coté */
 coord_t detection_touche (matrice_pion_t mat){
 	int ca=1;
-	direction_t dir;
 	coord_t celltemp;
 	coord_t cell;
-	for( cell.x=0; cell.x<mat.nbl ; cell.x++){
-       		for(cell.y=0; cell.y<mat.nbc ; cell.y++){
-			if(mat.grille[cell.x][cell.y].c==ROUGE){
-				fprintf(stderr, "oui c'est rouge ici : %i %i \n", cell.x, cell.y);
-				for(int i=0, dir = direction_debut(); i<4 ; i++, direction_suivante(dir)){
-					fprintf(stderr, "boucle direction\n");
-					celltemp=direction_avancer(dir, cell, ca );
-					while(danslagrille(mat,celltemp) && mat.grille[celltemp.x][celltemp.y].c==ROUGE){
-                  				ca++;
-                  				celltemp = direction_avancer( dir, cell, ca );
-						fprintf(stderr, "boucle ici\n");
+	for( cell.x=0; cell.x<mat.nbl ; cell.x++){ //parcours des x de la matrice
+       		for(cell.y=0; cell.y<mat.nbc ; cell.y++){//parcours des y de la matrice
+			if(mat.grille[cell.x][cell.y].c==ROUGE){ 
+				for(int i=0, dir = direction_debut(); i<=4 ; i++, dir = direction_suivante(dir)){ //parcours des 4 directions
+					celltemp=direction_avancer(dir, cell, ca ); //on avance celltemp d'un pas vers la direction actuelle
+					while(danslagrille(mat,celltemp) && mat.grille[celltemp.x][celltemp.y].c==ROUGE){ //tant que les cases sont rouges
+						ca++; //on incrémente la pas
+                  				celltemp = direction_avancer( dir, cell, ca );//on avance celltemp de ca pas vers la direction actuelle
                				}
-					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c==AUCUNE){
-						return celltemp;
+					if(danslagrille(mat, celltemp) && mat.grille[celltemp.x][celltemp.y].c==AUCUNE){ //si il n'y a pas de couleur
+						return celltemp; //choisir cette case 
 					}
+					ca = 1;
 				}
 			}
    		}
@@ -162,33 +156,27 @@ coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 	int compt = 0;
 	int pluspetitbat=bateau_plus_petit(joueur);
 
-	for(int i=0;i<mat.nbl;i++){
+	for(int i=0;i<mat.nbl;i++){ 
 		for(int j=0; j<mat.nbc;j++){
-			if(mat.grille[i][j].c==AUCUNE){
-				 compt++;
+			if(mat.grille[i][j].c==AUCUNE){ //si la couleur de la case est aucune
+				 compt++; //incrémente compt
 			}
 		}
 	}
-	printf(" compteur : %i ,total : %i \n", compt, mat.nbc*mat.nbl);
-	if(compt == (mat.nbc*mat.nbl)){
-		printf("1er tour \n");
-		return aleatoire(mat);
+	if(compt == (mat.nbc*mat.nbl)){ //si aucun pion n'a été posé (1er tour)
+		return aleatoire(mat); //choisir une case aléatoire
 	}
 	
-	cell = detection_touche(mat);
+	cell = detection_touche(mat); //si un bateau a été touché
 	if(cell.x != -1 || cell.y != -1){
-		fprintf(stderr, "bateau deja touche \n");
 		return cell;
 	}
-	cell=est_autour(mat);
+	cell=est_autour(mat); //choisir un pion éloigné
 	if(autorisation_case(mat, cell)){
-		fprintf(stderr, "case éloignee\n");
 		return cell;
 	}
-	if(pseudo_aleatoire_autorisation(mat, pluspetitbat)){
-		fprintf(stderr, "pseudo_alea\n");
+	if(pseudo_aleatoire_autorisation(mat, pluspetitbat)){ //choisir une case pseudo aléatoirement
 		return pseudo_aleatoire(mat, pluspetitbat);
 	}
-	fprintf(stderr, "alea\n");
-	return aleatoire(mat);
+	return aleatoire(mat); //choisir une case aléatoirement
 }

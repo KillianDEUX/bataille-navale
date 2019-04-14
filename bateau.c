@@ -20,20 +20,20 @@ int fin_bateau_horizontal(bateau_t *bateau){
 /*verifie si le bateau peut être placé au première coordonnée selon le tableau de case_t et retourne 0 si impossible */
 int verif_placement_bateau(bateau_t * bat,dir_t dir, coord_t emp, coord_t *casesprises){
 	int i, j;			
-	if(dir == VERTICAL){
-		for(i=emp.x; i <= (bat->taille + emp.x)-1; i++){
-			for(j=0; casesprises[j].y != -1; j++){
-				if(casesprises[j].x == i && casesprises[j].y == emp.y){
+	if(dir == VERTICAL){ //si le bateau est placé à la verticale
+		for(i=emp.x; i <= (bat->taille + emp.x)-1; i++){ //parcours le bateau
+			for(j=0; casesprises[j].y != -1; j++){ //parcoursle tableau de coord_t
+				if(casesprises[j].x == i && casesprises[j].y == emp.y){ //si les coord actuelles du bateau correspond à la case actuelle du tableau
 					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
 				}
 			}
 		}
 	}
-	else if(dir == HORIZONTAL){
-		for(i=emp.y; i <= (bat->taille + emp.x)-1; i++){
-			for(j=0; casesprises[j].x != -1; j++){
-				if(casesprises[j].y == i && casesprises[j].x == emp.x){
+	else if(dir == HORIZONTAL){//si le bateau est placé à l'horizontale
+		for(i=emp.y; i <= (bat->taille + emp.x)-1; i++){//parcours le bateau
+			for(j=0; casesprises[j].x != -1; j++){//parcoursle tableau de coord_t
+				if(casesprises[j].y == i && casesprises[j].x == emp.x){//si les coord actuelles du bateau correspond à la case actuelle du tableau
 					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
 				}
@@ -41,7 +41,7 @@ int verif_placement_bateau(bateau_t * bat,dir_t dir, coord_t emp, coord_t *cases
 		}
 	}
 	else{
-		fprintf(stderr, "erreur direciton");
+		fprintf(stderr, "erreur direction");
 	}
 	return 1;
 }
@@ -67,7 +67,6 @@ void modif_type(bateau_t * bat, type_t type){
 }
 /*incrémente le nombre de fois que le bateau a été touché*/
 void incrementer_nbtouche(bateau_t * bat){
-	fprintf(stderr, "j'incrémente \n");
 	bat->nb_touche++;
 }
 
@@ -85,7 +84,7 @@ void nouveau_bateau(int t, bateau_t * nouveau){
 
 // verifie si le bateau est coulé
 int bat_coul(bateau_t bateau){
-	if( bateau.etat==COULE){
+	if( bateau.etat == COULE){ //si le bateau est coulé
 		return 1;
 	}
 	return 0;

@@ -42,7 +42,7 @@ void eauautourcoule( coord_t, matrice_pion_t, t_liste);
 bateau_t recherche_bat(coord_t, t_liste);
 
 // Ajoute un pion à la gille suivant le tir
-int ajout_pion_matrice( coord_t, matrice_case_t, matrice_pion_t, t_liste, t_liste );
+int ajout_pion_matrice( coord_t, matrice_case_t, matrice_pion_t, t_liste);
 
 // Remet tout les pions à "AUCUN"
 int vider_matrice(matrice_pion_t);

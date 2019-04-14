@@ -41,6 +41,7 @@ int init_matrice_joueur(matrice_case_t mat){
 	return 0;
 }
 
+//la case donnée prend le nouvel état donné
 void update_case_mat(matrice_case_t mat, coord_t cell, etat_case_t etat){
 	mat.grille[cell.x][cell.y].etat = etat;
 }

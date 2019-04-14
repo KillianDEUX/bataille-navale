@@ -450,27 +450,25 @@ int main( ){
 	if(nbj==1){ // si le mode de jeu est solo
 		t_liste ia;
 		init_liste(&ia);
-		mat=choixgrille(mat);
-		init_matrice_adv(mat);
-		mat_ia=creer_matrice_adv (mat.nbl, mat.nbc);
-		init_matrice_adv(mat_ia);
-		mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
-		init_matrice_joueur(mat_case);
-		mat_case_ia=creer_matrice_joueur( mat.nbl, mat.nbc );
-		init_matrice_joueur(mat_case_ia);
-		afficher_matrice_pion(mat);
-		nb_bat=choixbateau(batjoueur1, mat_case);
-		placer_bateau_ia(batjoueur1 ,mat_case_ia, ia);
-		printf("Affichage de la grille de l'IA\n");
-		affichage_flotte(ia, mat_case_ia);
+		mat=choixgrille(mat);  //le joueur choisi la taille de la grille
+		init_matrice_adv(mat); //initilisation de cette matrice pion
+		mat_ia=creer_matrice_adv (mat.nbl, mat.nbc); //Creation de la matrice pion de l'ia
+		init_matrice_adv(mat_ia); //initilisation de cette matrice
+		mat_case=creer_matrice_joueur( mat.nbl, mat.nbc ); //Creation de la matrice du joueur
+		init_matrice_joueur(mat_case); //initilisation de cette matrice
+		mat_case_ia=creer_matrice_joueur( mat.nbl, mat.nbc ); //Creation de la matrice de l'ia
+		init_matrice_joueur(mat_case_ia); //Creation de la matrice de l'ia
+		afficher_matrice_pion(mat); //affichage de la matrice pion
+		nb_bat=choixbateau(batjoueur1, mat_case); //le joueur choisit les bateaux et leurs tailles
+		placer_bateau_ia(batjoueur1 ,mat_case_ia, ia); //le joueur choisit où les placer
+		//printf("Affichage de la grille de l'IA\n");
+		//affichage_flotte(ia, mat_case_ia);
 		en_tete(&batjoueur1);
 		bateau_t bateau;
 		valeur_elt(&batjoueur1,&bateau);
-
-
-		while( !bateaux_coules(batjoueur1, nb_bat) && !bateaux_coules(ia, nb_bat) ){
+		while(!bateaux_coules(batjoueur1, nb_bat) && !bateaux_coules(ia, nb_bat)){ //boucle tant que les bateaux du joueur OU de l'ia ne sont pas tous coulés
 			do{
-				printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
+				printf("\n A votre tour, \nQuelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
 				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
 				if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
 					printf("Cette case n'est pas dans la grille\n");
@@ -478,20 +476,32 @@ int main( ){
 				if( choix_c_atk>0 && choix_c_atk2>0 && choix_c_atk<=mat.nbl && choix_c_atk2<=mat.nbc && mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE){
 					printf("Cette case à déjà été selectionnée !");
 				}
-			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
+			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE); //Verification que le tir est dans les normes 
 			cell.x=choix_c_atk-1;
 			cell.y=choix_c_atk2-1;
+			afficher_legende();
 			printf("Affichage de votre tir :\n");
 			ajout_pion_matrice( cell, mat_case_ia, mat, ia );
 			afficher_matrice_pion(mat);
-			printf("Au niveau de l'IA\n");
+			printf("Au tour de l'IA\n");
 			tir=choisir_case(mat_ia,batjoueur1);
 			ajout_pion_matrice( tir , mat_case, mat_ia, batjoueur1 );
-			afficher_matrice_pion(mat_ia);
-			printf("bateaux_coules = %i \n", bateaux_coules(ia, nb_bat) );
+			printf("Affichage de votre plateau :\n");
+			affichage_flotte(batjoueur1, mat_case);
+			//afficher_matrice_pion(mat_ia);
+			//affichage_flotte(ia, mat_case_ia);
 		}
-
-	}else{
+		if(bateaux_coules(batjoueur1, nb_bat)){
+			printf("L'IA a gagnée \n");
+		}
+		else if(bateaux_coules(ia, nb_bat)){
+			printf("Bien joué vous avez gagné \n");
+		}
+		else{
+			printf("Il y a égalité");
+		}
+	}
+	else{
      		partie_reseau(nbj);
 	}
 	return 0;
