@@ -74,13 +74,24 @@ int pseudo_aleatoire_autorisation( matrice_pion_t mat, int pluspetitbat){
 // Place un pion de manière completement aleatoire
 coord_t aleatoire( matrice_pion_t mat){
 	srand(time(NULL));
+	fprintf(stderr, "aléa\n");
 	coord_t cellule;
-	int case_alea=rand()%((mat.nbl*mat.nbc)); //choix d'un chiffre de la matrice aléatoire
-	cellule= case_tabtocoord( mat, case_alea); //le transforme en coordonnée
-	while(mat.grille[cellule.x][cellule.y].c != AUCUNE ){;
-		case_alea=rand()%((mat.nbl*mat.nbc));
+	fprintf(stderr,"avant int\n");
+	int case_alea = rand()%((mat.nbl*mat.nbc)+1); //choix d'un chiffre de la matrice aléatoire
+	fprintf(stderr,"apres int\n");
+	cellule = case_tabtocoord(mat,case_alea); //le transforme en coordonnée
+	fprintf(stderr,"avant while \n");
+	fprintf(stderr," case_alea : %i\n", case_alea);
+	fprintf(stderr," actu : %i %i \n", cellule.x, cellule.y);
+	while( mat.grille[cellule.x][cellule.y].c != AUCUNE ){
+		fprintf(stderr," avant rand\n");
+		case_alea = rand()%(mat.nbl*mat.nbc)+1;
+		fprintf(stderr," apres rand\n");
+		fprintf(stderr," case_alea : %i\n", case_alea);
 		cellule = case_tabtocoord( mat, case_alea);
+		fprintf(stderr," actu : %i %i \n", cellule.x, cellule.y);
 	}
+	fprintf(stderr," renvoi : %i %i \n", cellule.x, cellule.y);
 	return cellule;
 }
 
@@ -97,17 +108,19 @@ coord_t est_autour( matrice_pion_t mat){
 			if(mat.grille[i][j].c != AUCUNE){ 
 				 cell.x = i;
 				 cell.y = j;
-				 compt += case_coordtotab(mat, cell); //compte le nombre de case vide
-				 k++;
+				 compt += case_coordtotab(mat, cell); //compte les numéros des cases vides
+				 k++;//compte le nombre de cases vides
 			}
 		}
 	}
 	totalcase = mat.nbc * mat.nbl;
 	moit_case = totalcase/2;
 	compt /= k;
+
 	if(compt > moit_case){
 		compt /= 2;
 	}
+
 	else if(compt < moit_case){
 		compt *= 2;
 	}
@@ -155,7 +168,6 @@ coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 	coord_t cell;
 	int compt = 0;
 	int pluspetitbat=bateau_plus_petit(joueur);
-
 	for(int i=0;i<mat.nbl;i++){ 
 		for(int j=0; j<mat.nbc;j++){
 			if(mat.grille[i][j].c==AUCUNE){ //si la couleur de la case est aucune
@@ -163,19 +175,24 @@ coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 			}
 		}
 	}
+	fprintf(stderr, "1");
 	if(compt == (mat.nbc*mat.nbl)){ //si aucun pion n'a été posé (1er tour)
 		return aleatoire(mat); //choisir une case aléatoire
 	}
+	fprintf(stderr, "2");
 	cell = detection_touche(mat); //si un bateau a été touché
 	if(cell.x != -1 || cell.y != -1){
 		return cell;
 	}
+	fprintf(stderr, "3");
 	cell=est_autour(mat); //choisir un pion éloigné
 	if(autorisation_case(mat, cell)){
 		return cell;
 	}
+	fprintf(stderr, "4");
 	if(pseudo_aleatoire_autorisation(mat, pluspetitbat)){ //choisir une case pseudo aléatoirement
 		return pseudo_aleatoire(mat, pluspetitbat);
 	}
+	fprintf(stderr, "5");
 	return aleatoire(mat); //choisir une case aléatoirement
 }
