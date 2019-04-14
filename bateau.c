@@ -22,7 +22,7 @@ int verif_placement_bateau(bateau_t * bat,dir_t dir, coord_t emp, coord_t *cases
 	int i, j;			
 	if(dir == VERTICAL){ //si le bateau est placé à la verticale
 		for(i=emp.x; i <= (bat->taille + emp.x)-1; i++){ //parcours le bateau
-			for(j=0; casesprises[j].y != -1; j++){ //parcoursle tableau de coord_t
+			for(j=0; casesprises[j].y != -1; j++){ //parcours le tableau de coord_t
 				if(casesprises[j].x == i && casesprises[j].y == emp.y){ //si les coord actuelles du bateau correspond à la case actuelle du tableau
 					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;
@@ -32,7 +32,7 @@ int verif_placement_bateau(bateau_t * bat,dir_t dir, coord_t emp, coord_t *cases
 	}
 	else if(dir == HORIZONTAL){//si le bateau est placé à l'horizontale
 		for(i=emp.y; i <= (bat->taille + emp.x)-1; i++){//parcours le bateau
-			for(j=0; casesprises[j].x != -1; j++){//parcoursle tableau de coord_t
+			for(j=0; casesprises[j].x != -1; j++){//parcours le tableau de coord_t
 				if(casesprises[j].y == i && casesprises[j].x == emp.x){//si les coord actuelles du bateau correspond à la case actuelle du tableau
 					//fprintf(stderr, "Erreur : le bateau ne peut pas être placé ici");
 					return 0;

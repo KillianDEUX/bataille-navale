@@ -287,14 +287,14 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t ma
   	int etat=etat_tir( mat_case,cell, joueur);
 	if( etat == 0){        					// Si le tir tombe dans l'eau
 		(mat.grille[cell.x][cell.y]).c= BLANC ;    	// Placer un pion BLANC sur la matrice
-		printf("         RATÉ        ");
+		printf("\n         RATÉ        \n");
 	}
 	else if( etat == 1){  					// Si le tir touche une cible
-		printf("         TOUCHÉ      ");
+		printf("\n         TOUCHÉ      \n");
 		(mat.grille[cell.x][cell.y]).c= ROUGE ;    	// Placer un pion ROUGE sur la matrice
 	}
 	else if( etat == 2){	 				// Si le tir coule une cible
-		printf("         COULÉ       ");
+		printf("\n         COULÉ       \n");
 		(mat.grille[cell.x][cell.y]).c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
 		eauautourcoule(cell, mat, joueur);       	// Placer des pion BLANCs tout autour sur la matrice
 	}

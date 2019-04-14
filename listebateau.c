@@ -248,7 +248,52 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
     	  		for(i=bat.coord.x; i<=fin_bat; i++){ //on parcourt le x du bateau(car les y ne changent pas)
       				actuel.x= i;
       				actuel.y=bat.coord.y;
-       				if(i==bat.coord.x){ //si on est au début du bateau on remplit des cases situées autour (gauche, droite, haut et diagonal)
+				if(bat.taille == 1){ //si le bateau est de taille 1, on remplit de blanc toutes les cases autour(diagonales,nord,sud,est,ouest)
+					actuel.y--;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					case_nonlibres[compteur] = actuel;
+					compteur++;
+					actuel.y++;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x--;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+	       				actuel.y--;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y--;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.x+=2;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+					actuel.y++;
+					if(danslagrille_joueur(matrice, actuel)){
+						case_nonlibres[compteur] = actuel;
+						compteur++;
+					}
+				}
+       				else if(i==bat.coord.x){ //si on est au début du bateau on remplit des cases situées autour (gauche, droite, haut et diagonal)
 					actuel.y--;
 					if(danslagrille_joueur(matrice, actuel)){ 
 						case_nonlibres[compteur] = actuel;
@@ -332,6 +377,10 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 	actuel.x = -1;
 	actuel.y = -1;
 	case_nonlibres[compteur] = actuel;
+	for(int j = 0; case_nonlibres[j].x != -1; j++){
+		printf("case non libres : %i %i \n", case_nonlibres[j].x+1, case_nonlibres[j].y+1);
+	}
+	printf("\n \n");
 }
 
 
@@ -404,11 +453,26 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 			do{
 				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n Numéro de ligne = ", matrice.nbl);
 				scanf("%i", &emp.x);
+				if(emp.x < 1){
+					printf("La ligne n'est pas dans la grille (inférieur à 1) \n");
+				}
+				else if( emp.x > matrice.nbl){
+					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbl);
+				}
+				else if((emp.x)+(nouv.taille)-1> matrice.nbl){
+					printf("La fin du bateau dépasse la grille : %i", (emp.x)+(nouv.taille)-1);
+				}
 			}while(emp.x <1 || emp.x > matrice.nbl || (emp.x)+(nouv.taille)-1> matrice.nbl);
 
 			do{
 				printf("\n Numéro de colonne = ");
 				scanf("%i", &emp.y);
+				if(emp.y < 1){
+					printf("La colonne n'est pas dans la grille (inférieur à 1) \n");
+				}
+				else if( emp.y > matrice.nbc){
+					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbc);
+				}
 			}while(emp.y < 1 || emp.y > matrice.nbc ); //Verification
 			emp.x -= 1 ;//on décrémente car la matrice va de 0 au nombre de ligne-1
 			emp.y -= 1 ;
@@ -416,11 +480,26 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 			do{
 				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n Numéro de ligne = ", matrice.nbl);
 				scanf("%i", &emp.x);
+				if(emp.x < 1){
+					printf("La ligne n'est pas dans la grille (inférieur à 1) \n");
+				}
+				else if( emp.x > matrice.nbl){
+					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbl);
+				}
 			}while(emp.x < 1 || emp.x > matrice.nbl); //Verification
 
 			do{
 				printf("\n Numéro de colonne = ");
 				scanf("%i", &emp.y);
+				if(emp.y < 1){
+					printf("La colonne n'est pas dans la grille (inférieur à 1) \n");
+				}
+				else if( emp.y > matrice.nbc){
+					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbc);
+				}
+				else if((emp.y)+(nouv.taille)-1> matrice.nbc){
+					printf("La fin du bateau dépasse la grille : %i", (emp.x)+(nouv.taille)-1);
+				}
 			}while(emp.y < 1 || emp.y > matrice.nbc || (emp.y)+(nouv.taille)-1> matrice.nbc);//Verification
 			emp.x -= 1 ;//on décrémente car la matrice va de 0 au nombre de ligne-1
 			emp.y -= 1 ;
@@ -448,7 +527,7 @@ int choixbateau(t_liste batjoueur, matrice_case_t matrice){
 	int calcul = (matrice.nbc+matrice.nbl)/2; 
 	float nbmaxbat = (0.06 * (calcul*calcul)) - (0.3 * calcul) +2;//Calcul du nombre de bateau max selon la taille de la matrice
 	while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bateau voulez-vous avoir ? (différent de 0 et inférieur à %0.f) : ", nbmaxbat);
+              printf("Combien de bateau voulez-vous avoir ? (entre 1 et %0.f) : ", nbmaxbat);
               scanf("%i", &nbbat);
 	}
 	en_tete(&bateau_nonplace);

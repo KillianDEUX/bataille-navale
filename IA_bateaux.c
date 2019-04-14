@@ -44,8 +44,8 @@ int placer_bateau_ia(t_liste joueur, matrice_case_t mat, t_liste ia){
 					emp.x= rand()%mat.nbl;
 				}
 			}
-			printf("direction : %i \n", direc);
-			printf("coord : %i %i \n", emp.x, emp.y);
+			//printf("direction : %i \n", direc);
+			//printf("coord : %i %i \n", emp.x, emp.y);
 		}while(!placement_bateau(ia, &nouv, direction, emp, mat)); // ajout du bateau dans la liste si le bateau peut être placé
 		suivant(&ia_nonplace); //on passe au bateau suivant
 	}
