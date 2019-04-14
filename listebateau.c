@@ -377,10 +377,6 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 	actuel.x = -1;
 	actuel.y = -1;
 	case_nonlibres[compteur] = actuel;
-	for(int j = 0; case_nonlibres[j].x != -1; j++){
-		printf("case non libres : %i %i \n", case_nonlibres[j].x+1, case_nonlibres[j].y+1);
-	}
-	printf("\n \n");
 }
 
 

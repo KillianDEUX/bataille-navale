@@ -10,14 +10,14 @@
 matrice_pion_t choixgrille(matrice_pion_t mat){
 	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes)
 	do{
-		printf("Quel est la largeur de la grille (entre 5 et 32)\n");
+		printf("Quelle largeur de la grille souhaitez-vous ? (entre 5 et 32)\n");
 		scanf("%d",&nbco);
 		if(nbco<5 || nbco>32){
 			printf("Largeur de la grille non conforme\n");
 		}
 	}while(nbco<5 || nbco>32);
 	do{
-		printf("Quel est la hauteur de la grille (entre 5 et 32)\n");
+		printf("Quelle hauteur de la grille souhaitez-vous ?(entre 5 et 32)\n");
 		scanf("%d",&nbli);
 		if(nbli<5 || nbli>32){
 			printf("Hauteur de la grille non conforme\n");
@@ -58,9 +58,9 @@ void detruire_matrice_adv( matrice_pion_t mat){
 int init_matrice_adv(matrice_pion_t mat){
 
 	for(int i=0; i<mat.nbl ; i++){
-       	for(int j=0; j<mat.nbc ; j++){
-           	mat.grille[i][j].c= AUCUNE;
-        }
+       		for(int j=0; j<mat.nbc ; j++){
+           		mat.grille[i][j].c= AUCUNE;
+		}
 	}
 	return 0;
 }
@@ -72,6 +72,7 @@ int danslagrille(matrice_pion_t mat, coord_t pos ){
 	if( pos.x >= mat.nbl || pos.y >= mat.nbc || pos.x < 0 || pos.y < 0 )
 		return 0;
 	return 1;
+
 }
 
 // Ajoute des pions Blancs autour d'un bateau coulé
@@ -274,6 +275,7 @@ bateau_t recherche_bat(coord_t cell, t_liste joueur){
 				}
 			}
 		}
+		suivant(&joueur);
 	}
 	fprintf(stderr,"Ne correspond à aucun bateau : anormal");
 	return erreur;
@@ -287,16 +289,16 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t ma
   	int etat=etat_tir( mat_case,cell, joueur);
 	if( etat == 0){        					// Si le tir tombe dans l'eau
 		(mat.grille[cell.x][cell.y]).c= BLANC ;    	// Placer un pion BLANC sur la matrice
-		printf("\n         RATÉ        \n");
+		printf("\n         RATÉ        \n\n");
 	}
 	else if( etat == 1){  					// Si le tir touche une cible
-		printf("\n         TOUCHÉ      \n");
+		printf("\n         TOUCHÉ      \n\n");
 		(mat.grille[cell.x][cell.y]).c= ROUGE ;    	// Placer un pion ROUGE sur la matrice
 	}
 	else if( etat == 2){	 				// Si le tir coule une cible
-		printf("\n         COULÉ       \n");
-		(mat.grille[cell.x][cell.y]).c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
-		eauautourcoule(cell, mat, joueur);       	// Placer des pion BLANCs tout autour sur la matrice
+		printf("\n         COULÉ       \n\n");
+		mat.grille[cell.x][cell.y].c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
+		eauautourcoule(cell, mat, joueur);      	// Placer des pion BLANCs tout autour sur la matrice
 	}
 	else{
 		return 1;
@@ -306,7 +308,7 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t ma
 
 // Remet tout les pions à "AUCUN"
 int vider_matrice(matrice_pion_t mat){
-	int i=init_matrice_adv( mat );
+	int i = init_matrice_adv( mat );
 	return i;
 }
 

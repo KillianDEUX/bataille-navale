@@ -77,10 +77,10 @@ coord_t aleatoire( matrice_pion_t mat){
 	coord_t cellule;
 	int case_alea=rand()%((mat.nbl*mat.nbc)); //choix d'un chiffre de la matrice aléatoire
 	cellule= case_tabtocoord( mat, case_alea); //le transforme en coordonnée
-	while(mat.grille[cellule.x][cellule.y].c!=AUCUNE ){
+	while(mat.grille[cellule.x][cellule.y].c != AUCUNE ){;
 		case_alea=rand()%((mat.nbl*mat.nbc));
+		cellule = case_tabtocoord( mat, case_alea);
 	}
-	cellule= case_tabtocoord( mat, case_alea); //le transforme en coordonnée
 	return cellule;
 }
 
@@ -166,7 +166,6 @@ coord_t choisir_case(matrice_pion_t mat, t_liste joueur){
 	if(compt == (mat.nbc*mat.nbl)){ //si aucun pion n'a été posé (1er tour)
 		return aleatoire(mat); //choisir une case aléatoire
 	}
-	
 	cell = detection_touche(mat); //si un bateau a été touché
 	if(cell.x != -1 || cell.y != -1){
 		return cell;
