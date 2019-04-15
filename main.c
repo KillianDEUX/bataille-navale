@@ -319,8 +319,16 @@ void partie_reseau( int nb_cli){
 	for(int i=1; i<nb_cli; i++){
 			recv(client_fd[i], &ok, sizeof(int), 0);
 	}
+	int ctrlpers=-1;
 
-	while(1){
+	for(int i=0; i<nb_cli; i++){
+			recv(client_fd[i], &ctrlpers, sizeof(int), 0);
+			printf("joueur %i = numéro %i\n", i+1, ctrlpers+1);
+	}
+
+	int ctrltour,cnt=0;
+	while(cnt!=5){
+
 
 	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
 	for(i=0; i<nb_cli; i++){
@@ -341,27 +349,34 @@ void partie_reseau( int nb_cli){
 
 		}
 	}
-
+	printf("Le joueur attaqué est le joueur %d \n", info_j_atk );
 	// Recoit l'action du tour :  case
+	printf("En attente du joueur %i\n", tour_atk);
 
-		recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
-		recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
-
+	recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
+	recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
 
 		info_c_atk=choix_c_atk;
 		info_c_atk2=choix_c_atk2;
 
 		for(j=0; j<nb_cli; j++){
-				send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
+				if(tour_atk-1!=j){
+					send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
+				}
+		}
+	/*	for(j=0; j<nb_cli; j++){
+				if(tour_atk-1!=j){
+					send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
+				}
 		}
 		for(j=0; j<nb_cli; j++){
-				send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
-		}
-		for(j=0; j<nb_cli; j++){
-				send(client_fd[j], &info_c_atk2, sizeof(info_c_atk2), 0);
-		}
+				if(tour_atk-1!=j){
+					send(client_fd[j], &info_c_atk2, sizeof(info_c_atk2), 0);
+				}
+		}*/
 
 	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2);
+	/*
 	cell.x=choix_c_atk-1;
 	cell.y=choix_c_atk2-1;
 
@@ -414,13 +429,14 @@ void partie_reseau( int nb_cli){
 				break;
 
 		default : break;
-	}
-
+	}*/
 	if(tour_atk<nb_cli){  // Changement de tour
 		tour_atk++;
+
 	}else{
 		tour_atk=1;
 	}
+	cnt++;
  }
 
 

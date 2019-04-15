@@ -13,11 +13,11 @@ matrice_case_t creer_matrice_joueur(int nbl, int nbc){
 
 	mat.grille = malloc(nbl * sizeof(*mat.grille));
 	if(mat.grille == NULL){
-		fprintf(stderr, "Code erreur : manque de mémoire");
+		fprintf(stderr, "Code erreur : manque de mémoire\n");
 	}
 	mat.grille[0]= malloc(nbl * nbc * sizeof(**mat.grille));
 	if(mat.grille[0]== NULL){
-		fprintf(stderr, "Code erreur : manque de mémoire");
+		fprintf(stderr, "Code erreur : manque de mémoire\n");
 	}
 	for(int i=1; i<nbl ; i++){
 		mat.grille[i]= mat.grille[i-1]+nbc;

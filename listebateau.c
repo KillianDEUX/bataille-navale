@@ -25,6 +25,10 @@ void afficher_legende(){
 	printf("- . : la case contient un bout de bateau non touché \n");
 	printf("- * : la case contient un bout de bateau touché \n");
 	printf("- ! : la case contient un bout de bateau coulé \n");
+	printf("Pour la grille de tir : \n");
+	printf("- . : la case n'a pas encore été visé \n");
+	printf("- 0 : Le tir est dans l'eau \n");
+	printf("- X : Le tir vient de toucher un bateau \n");
 	printf("\n");
 }
 
@@ -456,7 +460,7 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbl);
 				}
 				else if((emp.x)+(nouv.taille)-1> matrice.nbl){
-					printf("La fin du bateau dépasse la grille : %i", (emp.x)+(nouv.taille)-1);
+					printf("La fin du bateau dépasse la grille\n");
 				}
 			}while(emp.x <1 || emp.x > matrice.nbl || (emp.x)+(nouv.taille)-1> matrice.nbl);
 
@@ -536,7 +540,7 @@ int choixbateau(t_liste batjoueur, matrice_case_t matrice){
 				ajout_droit(&bateau_nonplace, nouveau);
 			}
 			else{
-				printf("Taille du bateau incorrecte");
+				printf("Taille du bateau incorrecte\n");
 			}
 		}while(t>5 || t<1); //Verification
        }

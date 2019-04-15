@@ -41,7 +41,7 @@ int verif_placement_bateau(bateau_t * bat,dir_t dir, coord_t emp, coord_t *cases
 		}
 	}
 	else{
-		fprintf(stderr, "erreur direction");
+		fprintf(stderr, "Erreur de direction\n");
 	}
 	return 1;
 }

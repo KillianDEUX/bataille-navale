@@ -36,11 +36,11 @@ matrice_pion_t creer_matrice_adv (int nbl, int nbc){
 
 	mat.grille = malloc(nbl * sizeof(*mat.grille));
 	if(mat.grille == NULL){
-		fprintf(stderr, "Code erreur : manque de mémoire");
+		fprintf(stderr, "Code erreur : manque de mémoire\n");
 	}
 	mat.grille[0]= malloc(nbl * nbc * sizeof(**mat.grille));
 	if(mat.grille[0]== NULL){
-		fprintf(stderr, "Code erreur : manque de mémoire");
+		fprintf(stderr, "Code erreur : manque de mémoire\n");
 	}
 	for(int i=1; i<nbl ; i++){
 		mat.grille[i]= mat.grille[i-1]+nbc;
@@ -82,7 +82,7 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 	int fin_bat;
 	bat = recherche_bat(cell, joueur);
 	if(bat.taille == 0){
-		fprintf(stderr, "Erreur");
+		fprintf(stderr, "Erreur de taille de bateau\n");
 	}
 	else{
 		if(bat.dir == VERTICAL){ //si le bateau est à la verticale
@@ -277,7 +277,7 @@ bateau_t recherche_bat(coord_t cell, t_liste joueur){
 		}
 		suivant(&joueur);
 	}
-	fprintf(stderr,"Ne correspond à aucun bateau : anormal");
+	fprintf(stderr,"Ne correspond à aucun bateau : anormal\n");
 	return erreur;
 }
 

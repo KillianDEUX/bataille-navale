@@ -361,10 +361,12 @@ int main() {
     if(nb_joueur+1!=1){
           send(client_fd, &ok, sizeof(int), 0);
     }
+    
+    send(client_fd, &nb_joueur, sizeof(int), 0);
 
+  int cnt=0;
 
-
-  	while (1){
+  	while (cnt!= 5){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
 		printf("\n \n ----------------------------------------------------------------------------- \n");
 		printf(" Tour de  %i \n", tour_atk);
@@ -382,25 +384,32 @@ int main() {
         }
   		}while(choix_j_atk<1 || choix_j_atk>nb_cli || choix_j_atk==nb_joueur+1);
         send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
+      }else{
+        if(tour_atk==1){
+          choix_j_atk=2;
+        }else{
+          choix_j_atk=1;
+        }
       }
 
-      do{
-				printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
-				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
-				if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
-					printf("Cette case n'est pas dans la grille\n");
-				}
-				if( choix_c_atk>0 && choix_c_atk2>0 && choix_c_atk<=mat.nbl && choix_c_atk2<=mat.nbc && mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE){
-					printf("Cette case à déjà été selectionnée !");
-				}
-			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
-			send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
-			send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
-			printf("\n Envoyé \n");
-			printf(" ----------------------------------------------------------------------------- \n \n");
+     do{
+		    		printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
+			     	scanf("%i %i", &choix_c_atk, &choix_c_atk2);
+			     	if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
+					     printf("Cette case n'est pas dans la grille\n");
+			     	}
+				    if( choix_c_atk>0 && choix_c_atk2>0 && choix_c_atk<=mat.nbl && choix_c_atk2<=mat.nbc && mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE){
+				    	printf("Cette case à déjà été selectionnée !");
+			     	}
+		  	}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
+  		send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
+	 	 	send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
+	   		printf("\n Envoyé \n");
+    	 printf(" ----------------------------------------------------------------------------- \n \n");
+       printf("\n Faire un fonction bloquante ? \n");
 		}else{
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
-			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
+			/*recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
 			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
 
 			if( info_j_atk == nb_joueur+1){
@@ -410,8 +419,9 @@ int main() {
 				printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n", tour_atk, info_j_atk, info_c_atk, info_c_atk2);
 			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
-
+    */
 		}
-
+    cnt++;
 	}
+
 }
