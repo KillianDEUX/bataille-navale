@@ -236,16 +236,6 @@ void partie_reseau( int nb_cli){
                     recv(client_fd[4], &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
                     recv(client_fd[4], mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
                     recv(client_fd[4], &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur5); !hors_liste(&batjoueur5); suivant(&batjoueur5)){
-                      valeur_elt(&batjoueur5, &bat);
-                      recv(client_fd[4], &bat.type, sizeof(type_t), 0);
-                      recv(client_fd[4], &bat.coord.x, sizeof(int), 0);
-                      recv(client_fd[4], &bat.coord.y, sizeof(int), 0);
-                      recv(client_fd[4], &bat.taille, sizeof(int), 0);
-                      recv(client_fd[4], &bat.dir, sizeof(dir_t), 0);
-                      recv(client_fd[4], &bat.etat, sizeof(etat_t), 0);
-                      recv(client_fd[4], &bat.nb_touche, sizeof(int), 0);
-                    }
                     printf("Affichage de la flotte du joueur 5 \n \n");
 					affichage_flotte(batjoueur5, mat_case5);
 
@@ -257,16 +247,6 @@ void partie_reseau( int nb_cli){
                     recv(client_fd[3], &mat_case4.nbl, sizeof(mat_case4.nbl), 0);
                     recv(client_fd[3], mat_case4.grille[0], sizeof(case_t)*mat_case4.nbl*mat_case4.nbc, 0);
                     recv(client_fd[3], &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur4); !hors_liste(&batjoueur4); suivant(&batjoueur4)){
-                      valeur_elt(&batjoueur4, &bat);
-                      recv(client_fd[3], &bat.type, sizeof(type_t), 0);
-                      recv(client_fd[3], &bat.coord.x, sizeof(int), 0);
-                      recv(client_fd[3], &bat.coord.y, sizeof(int), 0);
-                      recv(client_fd[3], &bat.taille, sizeof(int), 0);
-                      recv(client_fd[3], &bat.dir, sizeof(dir_t), 0);
-                      recv(client_fd[3], &bat.etat, sizeof(etat_t), 0);
-                      recv(client_fd[3], &bat.nb_touche, sizeof(int), 0);
-                    }
                     printf("Affichage de la flotte du joueur 4 \n \n");
 					affichage_flotte(batjoueur4, mat_case4);
           case 3 :
@@ -277,16 +257,6 @@ void partie_reseau( int nb_cli){
                     recv(client_fd[2], &mat_case3.nbl, sizeof(mat_case3.nbl), 0);
                     recv(client_fd[2], mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
                     recv(client_fd[2], &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur3); !hors_liste(&batjoueur3); suivant(&batjoueur3)){
-                      valeur_elt(&batjoueur3, &bat);
-                      recv(client_fd[2], &bat.type, sizeof(type_t), 0);
-                      recv(client_fd[2], &bat.coord.x, sizeof(int), 0);
-                      recv(client_fd[2], &bat.coord.y, sizeof(int), 0);
-                      recv(client_fd[2], &bat.taille, sizeof(int), 0);
-                      recv(client_fd[2], &bat.dir, sizeof(dir_t), 0);
-                      recv(client_fd[2], &bat.etat, sizeof(etat_t), 0);
-                      recv(client_fd[2], &bat.nb_touche, sizeof(int), 0);
-                    }
                     printf("Affichage de la flotte du joueur 3 \n \n");
 					affichage_flotte(batjoueur3, mat_case3);
 
@@ -298,17 +268,6 @@ void partie_reseau( int nb_cli){
                     recv(client_fd[1], &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
                     recv(client_fd[1], mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
                     recv(client_fd[1], &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur2); !hors_liste(&batjoueur2); suivant(&batjoueur2)){
-                      valeur_elt(&batjoueur2, &bat);
-                      recv(client_fd[1], &bat.type, sizeof(type_t), 0);
-                      recv(client_fd[1], &bat.coord.x, sizeof(int), 0);
-                      recv(client_fd[1], &bat.coord.y, sizeof(int), 0);
-                      recv(client_fd[1], &bat.taille, sizeof(int), 0);
-                      recv(client_fd[1], &bat.dir, sizeof(dir_t), 0);
-                      recv(client_fd[1], &bat.etat, sizeof(etat_t), 0);
-                      recv(client_fd[1], &bat.nb_touche, sizeof(int), 0);
-                    }
-
                     printf("Affichage de la flotte du joueur 2 \n \n");
 					affichage_flotte(batjoueur2, mat_case2);
               break;
@@ -322,15 +281,16 @@ void partie_reseau( int nb_cli){
 	int ctrlpers=-1;
 
 	for(int i=0; i<nb_cli; i++){
-			recv(client_fd[i], &ctrlpers, sizeof(int), 0);
-			printf("joueur %i = numéro %i\n", i+1, ctrlpers+1);
+			recv(client_fd[i], &ctrlpers, sizeof(int), 0); // Recoit nb_joueur de chaque client
+			printf(" Joueur %i = numéro %i\n", i+1, ctrlpers+1);
 	}
 
 	int ctrltour,cnt=0;
-	while(cnt!=5){
 
+	while(cnt!=10){
 
-	printf(" -- ENVOI DU TOUR AUX CLIENTS --\n\n");
+		printf("\n \n ----------------------------------------------------------------------------- \n");
+	printf("\n -- ENVOI DU TOUR AUX CLIENTS --\n\n");
 	for(i=0; i<nb_cli; i++){
 		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //ENVOI le numéro du tour
 	}
@@ -349,9 +309,8 @@ void partie_reseau( int nb_cli){
 
 		}
 	}
-	printf("Le joueur attaqué est le joueur %d \n", info_j_atk );
-	// Recoit l'action du tour :  case
-	printf("En attente du joueur %i\n", tour_atk);
+
+	printf(" En attente du joueur %i\n", tour_atk);
 
 	recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
 	recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
@@ -359,12 +318,15 @@ void partie_reseau( int nb_cli){
 		info_c_atk=choix_c_atk;
 		info_c_atk2=choix_c_atk2;
 
-		for(j=0; j<nb_cli; j++){
+	// printf("Le joueur attaqué est le joueur %d \n", info_j_atk );
+	// Recoit l'action du tour :  case
+	for(j=0; j<nb_cli; j++){
 				if(tour_atk-1!=j){
 					send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
 				}
 		}
-	/*	for(j=0; j<nb_cli; j++){
+
+	for(j=0; j<nb_cli; j++){
 				if(tour_atk-1!=j){
 					send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
 				}
@@ -373,16 +335,19 @@ void partie_reseau( int nb_cli){
 				if(tour_atk-1!=j){
 					send(client_fd[j], &info_c_atk2, sizeof(info_c_atk2), 0);
 				}
-		}*/
+		}
 
 	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2);
+printf(" ----------------------------------------------------------------------------- \n \n");
+
+
 	/*
 	cell.x=choix_c_atk-1;
 	cell.y=choix_c_atk2-1;
 
 	switch(choix_j_atk){
 		case 5 :switch (nb_cli){
-					case 5: 
+					case 5:
 					case 4: ajout_pion_matrice( cell, mat_case, mat4, batjoueur1 );
 					case 3: ajout_pion_matrice( cell, mat_case, mat3, batjoueur1 );
 					case 2: ajout_pion_matrice( cell, mat_case, mat2, batjoueur1 );
@@ -393,7 +358,7 @@ void partie_reseau( int nb_cli){
 
 		case 4 :switch (nb_cli){
 					case 5: ajout_pion_matrice( cell, mat_case, mat5, batjoueur1 );
-					case 4: 
+					case 4:
 					case 3: ajout_pion_matrice( cell, mat_case, mat3, batjoueur1 );
 					case 2: ajout_pion_matrice( cell, mat_case, mat2, batjoueur1 );
 							ajout_pion_matrice( cell, mat_case, mat, batjoueur1 );
@@ -492,7 +457,7 @@ int main( ){
 				if( choix_c_atk>0 && choix_c_atk2>0 && choix_c_atk<=mat.nbl && choix_c_atk2<=mat.nbc && mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE){
 					printf("Cette case à déjà été selectionnée !");
 				}
-			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE); //Verification que le tir est dans les normes 
+			}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE); //Verification que le tir est dans les normes
 			cell.x=choix_c_atk-1;
 			cell.y=choix_c_atk2-1;
 			afficher_legende();

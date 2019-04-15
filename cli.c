@@ -291,64 +291,24 @@ int main() {
                     send(client_fd, &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
                     send(client_fd, mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur5); !hors_liste(&batjoueur5); suivant(&batjoueur5)){
-                      valeur_elt(&batjoueur5, &bat);
-                      send(client_fd, &bat.type, sizeof(type_t), 0);
-                      send(client_fd, &bat.coord.x, sizeof(int), 0);
-                      send(client_fd, &bat.coord.y, sizeof(int), 0);
-                      send(client_fd, &bat.taille, sizeof(int), 0);
-                      send(client_fd, &bat.dir, sizeof(dir_t), 0);
-                      send(client_fd, &bat.etat, sizeof(etat_t), 0);
-                      send(client_fd, &bat.nb_touche, sizeof(int), 0);
-                    }
 
           case 4 :
                     send(client_fd, &mat_case4.nbc, sizeof(mat_case4.nbc), 0);
                     send(client_fd, &mat_case4.nbl, sizeof(mat_case4.nbl), 0);
                     send(client_fd, mat_case4.grille[0], sizeof(case_t)*mat_case4.nbl*mat_case4.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur4); !hors_liste(&batjoueur4); suivant(&batjoueur4)){
-                      valeur_elt(&batjoueur4, &bat);
-                      send(client_fd, &bat.type, sizeof(type_t), 0);
-                      send(client_fd, &bat.coord.x, sizeof(int), 0);
-                      send(client_fd, &bat.coord.y, sizeof(int), 0);
-                      send(client_fd, &bat.taille, sizeof(int), 0);
-                      send(client_fd, &bat.dir, sizeof(dir_t), 0);
-                      send(client_fd, &bat.etat, sizeof(etat_t), 0);
-                      send(client_fd, &bat.nb_touche, sizeof(int), 0);
-                    }
 
           case 3 :
                     send(client_fd, &mat_case3.nbc, sizeof(mat_case3.nbc), 0);
                     send(client_fd, &mat_case3.nbl, sizeof(mat_case3.nbl), 0);
                     send(client_fd, mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur3); !hors_liste(&batjoueur3); suivant(&batjoueur3)){
-                      valeur_elt(&batjoueur3, &bat);
-                      send(client_fd, &bat.type, sizeof(type_t), 0);
-                      send(client_fd, &bat.coord.x, sizeof(int), 0);
-                      send(client_fd, &bat.coord.y, sizeof(int), 0);
-                      send(client_fd, &bat.taille, sizeof(int), 0);
-                      send(client_fd, &bat.dir, sizeof(dir_t), 0);
-                      send(client_fd, &bat.etat, sizeof(etat_t), 0);
-                      send(client_fd, &bat.nb_touche, sizeof(int), 0);
-                    }
 
           case 2 :
                     send(client_fd, &mat_case2.nbc, sizeof(mat_case2.nbc), 0);
                     send(client_fd, &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
                     send(client_fd, mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
-                    for(en_tete(&batjoueur2); !hors_liste(&batjoueur2); suivant(&batjoueur2)){
-                      valeur_elt(&batjoueur2, &bat);
-                      send(client_fd, &bat.type, sizeof(type_t), 0);
-                      send(client_fd, &bat.coord.x, sizeof(int), 0);
-                      send(client_fd, &bat.coord.y, sizeof(int), 0);
-                      send(client_fd, &bat.taille, sizeof(int), 0);
-                      send(client_fd, &bat.dir, sizeof(dir_t), 0);
-                      send(client_fd, &bat.etat, sizeof(etat_t), 0);
-                      send(client_fd, &bat.nb_touche, sizeof(int), 0);
-                    }
 
 
               break;
@@ -361,28 +321,28 @@ int main() {
     if(nb_joueur+1!=1){
           send(client_fd, &ok, sizeof(int), 0);
     }
-    
+
     send(client_fd, &nb_joueur, sizeof(int), 0);
 
   int cnt=0;
 
-  	while (cnt!= 5){
+  	while (cnt!= 10){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
 		printf("\n \n ----------------------------------------------------------------------------- \n");
 		printf(" Tour de  %i \n", tour_atk);
 		if(tour_atk==nb_joueur+1){
       if(nb_cli!=2){
-          printf("Le nombre de joueurs est de %i",nb_cli);
+        printf("Le nombre de joueurs est de %i",nb_cli);
         do{
-        	printf("\n Qui voulez-vous attaquer ? ");
-  			scanf("%i", &choix_j_atk);
-  			if(choix_j_atk<1 || choix_j_atk>nb_cli){
-  				printf("Le numéro du joueur est inexistant. Veuillez entrer un numéro de joueur compris entre 1 et %d \n", nb_cli );
-  			}
-        if(choix_j_atk== nb_joueur+1){
-          printf("Vous ne pouvez vous attaquer vous-même !\n");
-        }
-  		}while(choix_j_atk<1 || choix_j_atk>nb_cli || choix_j_atk==nb_joueur+1);
+        	   printf("\n Qui voulez-vous attaquer ? ");
+  			     scanf("%i", &choix_j_atk);
+  			     if(choix_j_atk<1 || choix_j_atk>nb_cli){
+  				             printf("Le numéro du joueur est inexistant. Veuillez entrer un numéro de joueur compris entre 1 et %d \n", nb_cli );
+  			     }
+             if(choix_j_atk== nb_joueur+1){
+                    printf("Vous ne pouvez vous attaquer vous-même !\n");
+             }
+  		  }while(choix_j_atk<1 || choix_j_atk>nb_cli || choix_j_atk==nb_joueur+1);
         send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
       }else{
         if(tour_atk==1){
@@ -392,7 +352,7 @@ int main() {
         }
       }
 
-     do{
+      do{
 		    		printf("\n Quelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
 			     	scanf("%i %i", &choix_c_atk, &choix_c_atk2);
 			     	if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
@@ -404,12 +364,11 @@ int main() {
 		  	}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
   		send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
 	 	 	send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
-	   		printf("\n Envoyé \n");
-    	 printf(" ----------------------------------------------------------------------------- \n \n");
-       printf("\n Faire un fonction bloquante ? \n");
+	   	printf("\n Envoyé \n");
+    	printf(" ----------------------------------------------------------------------------- \n \n");
 		}else{
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
-			/*recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
+			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
 			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
 
 			if( info_j_atk == nb_joueur+1){
@@ -419,7 +378,6 @@ int main() {
 				printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n", tour_atk, info_j_atk, info_c_atk, info_c_atk2);
 			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
-    */
 		}
     cnt++;
 	}
