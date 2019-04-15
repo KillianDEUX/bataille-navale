@@ -88,8 +88,8 @@ int main() {
 
 
     tcp_connection_client(&client_fd);
-    recv(client_fd, &nb_joueur, sizeof(nb_joueur), 0);
-    recv(client_fd, &nb_cli, sizeof(nb_cli), 0);
+    recv(client_fd, &nb_joueur, sizeof(nb_joueur), 0);  // Recoit le numero du joeur
+    recv(client_fd, &nb_cli, sizeof(nb_cli), 0);  // Recoit le nombre total de joeur
 
 
 
@@ -161,7 +161,7 @@ int main() {
 				}
 		default : break;
 	}
-   if(nb_joueur+1==1){
+   if(nb_joueur+1==1){  // Si joueur 1, choix bateaux+grille et envoi
       mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
       init_matrice_joueur(mat_case);
       nb_bat=choixbateau(batjoueur1, mat_case);
@@ -281,9 +281,10 @@ int main() {
 
       }
 
-    if(nb_joueur+1!=1){
+    if(nb_joueur+1!=1){ // A VOIR
           send(client_fd, &ok, sizeof(int), 0);
     }
+
     if(nb_joueur+1!=1){
       switch(nb_cli){
           case 5 :
@@ -318,16 +319,16 @@ int main() {
     }
 
 
-    if(nb_joueur+1!=1){
+    if(nb_joueur+1!=1){ // Message envoyé après le placement
           send(client_fd, &ok, sizeof(int), 0);
     }
 
-    send(client_fd, &nb_joueur, sizeof(int), 0);
+    send(client_fd, &nb_joueur, sizeof(int), 0);  // Envoi le numero du joueur
 
   int cnt=0;
 
   	while (cnt!= 10){
-		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);
+		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);  // Recoit le numero du tour
 		printf("\n \n ----------------------------------------------------------------------------- \n");
 		printf(" Tour de  %i \n", tour_atk);
 		if(tour_atk==nb_joueur+1){
@@ -343,7 +344,7 @@ int main() {
                     printf("Vous ne pouvez vous attaquer vous-même !\n");
              }
   		  }while(choix_j_atk<1 || choix_j_atk>nb_cli || choix_j_atk==nb_joueur+1);
-        send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);
+        send(client_fd, &choix_j_atk, sizeof(choix_j_atk), 0);  // Envoi le joueur attaque
       }else{
         if(tour_atk==1){
           choix_j_atk=2;
@@ -362,12 +363,12 @@ int main() {
 				    	printf("Cette case à déjà été selectionnée !");
 			     	}
 		  	}while( choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc || mat.grille[choix_c_atk-1][choix_c_atk2-1].c!= AUCUNE);
-  		send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);
+  		send(client_fd, &choix_c_atk, sizeof(choix_c_atk), 0);  // Envoi les coordonnes de l'attaque
 	 	 	send(client_fd, &choix_c_atk2, sizeof(choix_c_atk2), 0);
 	   	printf("\n Envoyé \n");
     	printf(" ----------------------------------------------------------------------------- \n \n");
 		}else{
-			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);
+			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);   // Recoit les infos du tour
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
 			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
 

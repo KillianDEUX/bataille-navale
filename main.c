@@ -223,7 +223,7 @@ void partie_reseau( int nb_cli){
 	}
 	printf(" -- ENVOI TERMINEE --\n\n");
 
-	for(int i=1; i<nb_cli; i++){
+	for(int i=1; i<nb_cli; i++){	// A VOIR
 			recv(client_fd[i], &ok, sizeof(int), 0);
 	}
 
@@ -275,7 +275,7 @@ void partie_reseau( int nb_cli){
           default : break;
         }
 
-	for(int i=1; i<nb_cli; i++){
+	for(int i=1; i<nb_cli; i++){ // Attente du placement
 			recv(client_fd[i], &ok, sizeof(int), 0);
 	}
 	int ctrlpers=-1;
@@ -295,11 +295,11 @@ void partie_reseau( int nb_cli){
 		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //ENVOI le numéro du tour
 	}
 
-	// Recoit l'action du tour : joueur qui attaque
+
 	if(nb_cli!=2){
-		recv(client_fd[tour_atk-1], &choix_j_atk, sizeof(choix_j_atk), 0);
+		recv(client_fd[tour_atk-1], &choix_j_atk, sizeof(choix_j_atk), 0);  // Recoit le numéro du joueur attaqué
 		info_j_atk=choix_j_atk;
-	}else{
+	}else{	// Dans le cas d'une partie à deux joueurs
 		if(tour_atk==1){
 			info_j_atk=2;
 			choix_j_atk=2;
@@ -312,20 +312,20 @@ void partie_reseau( int nb_cli){
 
 	printf(" En attente du joueur %i\n", tour_atk);
 
+	// Recoit les coordonnes de l'attaque
 	recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
 	recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
 
 		info_c_atk=choix_c_atk;
 		info_c_atk2=choix_c_atk2;
 
-	// printf("Le joueur attaqué est le joueur %d \n", info_j_atk );
-	// Recoit l'action du tour :  case
+
+	// Envoi des informations du tour aux clients en attente
 	for(j=0; j<nb_cli; j++){
 				if(tour_atk-1!=j){
 					send(client_fd[j], &info_j_atk, sizeof(info_j_atk), 0);
 				}
 		}
-
 	for(j=0; j<nb_cli; j++){
 				if(tour_atk-1!=j){
 					send(client_fd[j], &info_c_atk, sizeof(info_c_atk), 0);
@@ -338,7 +338,7 @@ void partie_reseau( int nb_cli){
 		}
 
 	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2);
-printf(" ----------------------------------------------------------------------------- \n \n");
+	printf(" ----------------------------------------------------------------------------- \n \n");
 
 
 	/*
@@ -395,6 +395,7 @@ printf(" -----------------------------------------------------------------------
 
 		default : break;
 	}*/
+
 	if(tour_atk<nb_cli){  // Changement de tour
 		tour_atk++;
 
