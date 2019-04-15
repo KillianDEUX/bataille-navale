@@ -299,8 +299,8 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t ma
 		printf("\n         COULÉ       \n\n");
 		mat.grille[cell.x][cell.y].c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
 		eauautourcoule(cell, mat, joueur);      	// Placer des pion BLANCs tout autour sur la matrice
-	}
-	else{
+	}else{
+		printf("Etat non reconnu\n");
 		return 1;
 	}
 	return 0;

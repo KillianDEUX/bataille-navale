@@ -325,9 +325,7 @@ int main() {
 
     send(client_fd, &nb_joueur, sizeof(int), 0);  // Envoi le numero du joueur
 
-  int cnt=0;
-
-  	while (cnt!= 10){
+  	while (1){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);  // Recoit le numero du tour
 		printf("\n \n ----------------------------------------------------------------------------- \n");
 		printf(" Tour de  %i \n", tour_atk);
@@ -368,6 +366,7 @@ int main() {
 	   	printf("\n Envoyé \n");
     	printf(" ----------------------------------------------------------------------------- \n \n");
 		}else{
+      printf("Veuillez patienter, vous pourrez bientôt attaquer !\n");
 			recv(client_fd, &info_j_atk, sizeof(info_j_atk), 0);   // Recoit les infos du tour
 			recv(client_fd, &info_c_atk, sizeof(info_c_atk), 0);
 			recv(client_fd, &info_c_atk2, sizeof(info_c_atk2), 0);
@@ -380,7 +379,8 @@ int main() {
 			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
 		}
-    cnt++;
+    /* Il faut recevoir les nouvelles données du serveur et les afficher */
+    /* Puis si une flotte est coulée, faire quitter le programme en annonçant le perdant */
 	}
 
 }
