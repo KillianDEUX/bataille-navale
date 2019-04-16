@@ -271,6 +271,16 @@ int partie_reseau( int nb_cli){
                     recv(client_fd[1], &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
                     recv(client_fd[1], mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
                     recv(client_fd[1], &nb_bat, sizeof(int), 0);
+										for(int i=0; i<nb_bat; i++){
+									 		recv(client_fd[1], &bat.type, sizeof(type_t), 0);
+									 		recv(client_fd[1], &bat.coord.x, sizeof(int), 0);
+									 		recv(client_fd[1], &bat.coord.y, sizeof(int), 0);
+									 		recv(client_fd[1], &bat.taille, sizeof(int), 0);
+									 		recv(client_fd[1], &bat.dir, sizeof(dir_t), 0);
+									 		recv(client_fd[1], &bat.etat, sizeof(etat_t),0);
+									 		recv(client_fd[1], &bat.nb_touche, sizeof(int), 0);
+									 		placement_bateau( batjoueur2, &bat, bat.dir, bat.coord, mat_case2);
+									 	}
 
                     printf("Affichage de la flotte du joueur 2 \n \n");
 					affichage_flotte(batjoueur2, mat_case2);
@@ -386,27 +396,43 @@ int partie_reseau( int nb_cli){
 				affichage_flotte(batjoueur3, mat_case3);
 				break;
 
-		case 2 :switch (nb_cli){
-					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat5, batjoueur2 );
-					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat4, batjoueur2 );
-					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat3, batjoueur2 );
+		case 2 :switch (tour_atk){
+					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat5, batjoueur2 );	break;
+					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat4, batjoueur2 );	break;
+					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat3, batjoueur2 );	break;
 					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat2, batjoueur2 );
-					printf("hello \n");
+									printf("Affichage des pions du joueur 2\n");
+									afficher_matrice_pion(mat2);
+									break;
+					case 1: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat, batjoueur2 );
+									printf("Affichage des pions du joueur 1\n");
+									afficher_matrice_pion(mat);
+									break;
+
 				}
 				printf("Affichage de la flotte du joueur 2\n");
 				affichage_flotte(batjoueur2, mat_case2);
-				afficher_matrice_pion(mat);
+				printf("Affichage des pions du joueur 2 \n");
+				afficher_matrice_pion(mat2);
 				break;
 
-		case 1 : switch (nb_cli){
-					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat5, batjoueur1 );
-					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat4, batjoueur1 );
-					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat3, batjoueur1 );
+		case 1 : switch (tour_atk){
+					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat5, batjoueur1 ); break;
+					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat4, batjoueur1 ); break;
+					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat3, batjoueur1 ); break;
 					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat2, batjoueur1 );
+									printf("Affichage des pions du joueur 2\n");
+									afficher_matrice_pion(mat2);
+									break;
+					case 1: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat, batjoueur1 );
+									printf("Affichage des pions du joueur 1\n");
+									afficher_matrice_pion(mat);
+									break;
 				}
 				printf("Affichage de la flotte du joueur 1\n");
 				affichage_flotte(batjoueur1, mat_case);
-				afficher_matrice_pion(mat2);
+				printf("Affichage des pions du joueur 1\n");
+				afficher_matrice_pion(mat);
 				break;
 
 		default : break;

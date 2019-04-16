@@ -313,6 +313,16 @@ int main() {
                     send(client_fd, &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
                     send(client_fd, mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
+                    for(en_tete(&batjoueur2); !hors_liste(&batjoueur2); suivant(&batjoueur2)){
+                      valeur_elt(&batjoueur2, &bat);
+                      send(client_fd, &bat.type, sizeof(type_t), 0);
+                      send(client_fd, &bat.coord.x, sizeof(int), 0);
+                      send(client_fd, &bat.coord.y, sizeof(int), 0);
+                      send(client_fd, &bat.taille, sizeof(int), 0);
+                      send(client_fd, &bat.dir, sizeof(dir_t), 0);
+                      send(client_fd, &bat.etat, sizeof(etat_t), 0);
+                      send(client_fd, &bat.nb_touche, sizeof(int), 0);
+                    }
 
 
 

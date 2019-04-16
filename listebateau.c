@@ -38,7 +38,6 @@ int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	bateau_t actueltemp;
 	en_tete(&batjoueur);
 	while(!hors_liste(&batjoueur)){
-						printf("HELLO veriftouche2 \n");
 		valeur_elt(&batjoueur,&actueltemp);
 		touche = toucheunbateau(matrice, cell, batjoueur);
 		if(touche != 0){
