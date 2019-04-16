@@ -48,7 +48,7 @@ matrice_pion_t creer_matrice_adv (int nbl, int nbc){
 	return mat;
 }
 
-// Libère la mémoire de la matrice 
+// Libère la mémoire de la matrice
 void detruire_matrice_adv( matrice_pion_t mat){
 	free(mat.grille[0]);
 	free(mat.grille);
@@ -179,7 +179,7 @@ void eauautourcoule( coord_t cell, matrice_pion_t mat, t_liste joueur){
 					}
 				}
 			}
-		} 
+		}
 		else if(bat.dir == HORIZONTAL){//si le bateau est à l'horizontal
 			fin_bat = fin_bateau_horizontal(&bat);
 			for(int i = bat.coord.y; i <= fin_bat; i++){ //on parcours les y du bateaux (car les x ne changent pas)
@@ -260,7 +260,7 @@ bateau_t recherche_bat(coord_t cell, t_liste joueur){
 			for(i = bat.coord.x; i <= fin_bat; i++){  //parcours du bateau
 				celltemp.y = bat.coord.y;
 				celltemp.x = i;
-				if(celltemp.x == cell.x && celltemp.y == cell.y){ //si les coordonnées correspondent 
+				if(celltemp.x == cell.x && celltemp.y == cell.y){ //si les coordonnées correspondent
 					return bat; //on renvoit le bateau
 				}
 			}
@@ -299,6 +299,31 @@ int ajout_pion_matrice( coord_t cell, matrice_case_t mat_case, matrice_pion_t ma
 		printf("\n         COULÉ       \n\n");
 		mat.grille[cell.x][cell.y].c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
 		eauautourcoule(cell, mat, joueur);      	// Placer des pion BLANCs tout autour sur la matrice
+	}else{
+		printf("Etat non reconnu\n");
+		return 1;
+	}
+	return 0;
+}
+
+int ajout_pion_matrice_res( coord_t cell, matrice_case_t mat_case, matrice_pion_t mat, t_liste joueur){
+
+  	int etat=etat_tir( mat_case,cell, joueur);
+	if( etat == 0){        					// Si le tir tombe dans l'eau
+		(mat.grille[cell.x][cell.y]).c= BLANC ;    	// Placer un pion BLANC sur la matrice
+		printf("\n         RATÉ        \n\n");
+		return etat;
+	}
+	else if( etat == 1){  					// Si le tir touche une cible
+		printf("\n         TOUCHÉ      \n\n");
+		(mat.grille[cell.x][cell.y]).c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
+		return etat;
+	}
+	else if( etat == 2){	 				// Si le tir coule une cible
+		printf("\n         COULÉ       \n\n");
+		mat.grille[cell.x][cell.y].c= ROUGE ; 	// Placer un pion ROUGE sur la matrice
+		eauautourcoule(cell, mat, joueur);      	// Placer des pion BLANCs tout autour sur la matrice
+		return etat;
 	}else{
 		printf("Etat non reconnu\n");
 		return 1;

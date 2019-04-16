@@ -105,6 +105,9 @@ int partie_reseau( int nb_cli){
 		bateau_t bat;
 		coord_t cell;
 
+		int etat_tour_res;
+		int quitte=0;
+
 	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0);
 	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0);
 	mat=creer_matrice_adv(mat.nbl, mat.nbc);
@@ -268,6 +271,7 @@ int partie_reseau( int nb_cli){
                     recv(client_fd[1], &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
                     recv(client_fd[1], mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
                     recv(client_fd[1], &nb_bat, sizeof(int), 0);
+
                     printf("Affichage de la flotte du joueur 2 \n \n");
 					affichage_flotte(batjoueur2, mat_case2);
               break;
@@ -285,6 +289,8 @@ int partie_reseau( int nb_cli){
 			printf(" Joueur %i = numéro %i\n", i+1, ctrlpers+1);
 	}
 	afficher_legende();
+
+
 	while(1){
 
 		printf("\n \n ----------------------------------------------------------------------------- \n");
@@ -339,16 +345,16 @@ int partie_reseau( int nb_cli){
 	printf(" ----------------------------------------------------------------------------- \n \n");
 
 
-	
+
 	cell.x=choix_c_atk-1;
 	cell.y=choix_c_atk2-1;
 	switch(choix_j_atk){
 		case 5 :switch (nb_cli){
 					case 5:
-					case 4: ajout_pion_matrice( cell, mat_case5, mat4, batjoueur5 );
-					case 3: ajout_pion_matrice( cell, mat_case5, mat3, batjoueur5 );
-					case 2: ajout_pion_matrice( cell, mat_case5, mat2, batjoueur5 );
-							ajout_pion_matrice( cell, mat_case5, mat, batjoueur5 );
+					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat4, batjoueur5 );
+					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat3, batjoueur5 );
+					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat2, batjoueur5 );
+							etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat, batjoueur5 );
 
 				}
 				printf("Affichage de la flotte du joueur 5\n");
@@ -356,11 +362,11 @@ int partie_reseau( int nb_cli){
 				break;
 
 		case 4 :switch (nb_cli){
-					case 5: ajout_pion_matrice( cell, mat_case4, mat5, batjoueur4 );
+					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat5, batjoueur4 );
 					case 4:
-					case 3: ajout_pion_matrice( cell, mat_case4, mat3, batjoueur4 );
-					case 2: ajout_pion_matrice( cell, mat_case4, mat2, batjoueur4 );
-							ajout_pion_matrice( cell, mat_case4, mat, batjoueur4 );
+					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat3, batjoueur4 );
+					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat2, batjoueur4 );
+							etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat, batjoueur4 );
 
 				}
 				printf("Affichage de la flotte du joueur 4\n");
@@ -369,11 +375,11 @@ int partie_reseau( int nb_cli){
 
 
 		case 3 :switch (nb_cli){
-					case 5: ajout_pion_matrice( cell, mat_case3, mat5, batjoueur3 );
-					case 4: ajout_pion_matrice( cell, mat_case3, mat4, batjoueur3 );
+					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat5, batjoueur3 );
+					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat4, batjoueur3 );
 					case 3:
-					case 2: ajout_pion_matrice( cell, mat_case3, mat2, batjoueur3 );
-							ajout_pion_matrice( cell, mat_case3, mat, batjoueur3 );
+					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat2, batjoueur3 );
+							etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat, batjoueur3 );
 
 				}
 				printf("Affichage de la flotte du joueur 3\n");
@@ -381,10 +387,11 @@ int partie_reseau( int nb_cli){
 				break;
 
 		case 2 :switch (nb_cli){
-					case 5: ajout_pion_matrice( cell, mat_case2, mat5, batjoueur2 );
-					case 4: ajout_pion_matrice( cell, mat_case2, mat4, batjoueur2 );
-					case 3: ajout_pion_matrice( cell, mat_case2, mat3, batjoueur2 );
-					case 2: ajout_pion_matrice( cell, mat_case2, mat, batjoueur2 );
+					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat5, batjoueur2 );
+					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat4, batjoueur2 );
+					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat3, batjoueur2 );
+					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat2, batjoueur2 );
+					printf("hello \n");
 				}
 				printf("Affichage de la flotte du joueur 2\n");
 				affichage_flotte(batjoueur2, mat_case2);
@@ -392,10 +399,10 @@ int partie_reseau( int nb_cli){
 				break;
 
 		case 1 : switch (nb_cli){
-					case 5: ajout_pion_matrice( cell, mat_case, mat5, batjoueur1 );
-					case 4: ajout_pion_matrice( cell, mat_case, mat4, batjoueur1 );
-					case 3: ajout_pion_matrice( cell, mat_case, mat3, batjoueur1 );
-					case 2: ajout_pion_matrice( cell, mat_case, mat2, batjoueur1 );
+					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat5, batjoueur1 );
+					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat4, batjoueur1 );
+					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat3, batjoueur1 );
+					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat2, batjoueur1 );
 				}
 				printf("Affichage de la flotte du joueur 1\n");
 				affichage_flotte(batjoueur1, mat_case);
@@ -403,6 +410,10 @@ int partie_reseau( int nb_cli){
 				break;
 
 		default : break;
+	}
+
+	for(i=0; i<nb_cli; i++){
+		send(client_fd[i], &etat_tour_res, sizeof(int), 0);
 	}
 
 	/*Il faut envoyer les nouvelles modifications aux clients pour qu'il puissent afficher ses tirs envoyés et reçus*/
@@ -415,34 +426,61 @@ int partie_reseau( int nb_cli){
 	}
 	switch (nb_cli){
         case 5 : if(bateaux_coules(batjoueur5, nb_bat)){
+					quitte=5;
+					for(i=0; i<nb_cli; i++){
+						send(client_fd[i], &quitte, sizeof(int), 0);
+					}
                    return 5;
                  }
         case 4 :if(bateaux_coules(batjoueur4, nb_bat)){
+					quitte=4;
+					for(i=0; i<nb_cli; i++){
+						send(client_fd[i], &quitte, sizeof(int), 0);
+					}
                     return 4;
                 }
         case 3 : if(bateaux_coules(batjoueur3, nb_bat)){
+					quitte=3;
+					for(i=0; i<nb_cli; i++){
+						send(client_fd[i], &quitte, sizeof(int), 0);
+					}
                    return 3;
+
                 }
         case 2 : if(bateaux_coules(batjoueur2, nb_bat)){
+					quitte=2;
+					for(i=0; i<nb_cli; i++){
+						send(client_fd[i], &quitte, sizeof(int), 0);
+					}
                    return 2;
+
                 }
                 if(bateaux_coules(batjoueur1, nb_bat)){
-                   return 1;
+
+									 quitte=1;
+									 for(i=0; i<nb_cli; i++){
+										 send(client_fd[i], &quitte, sizeof(int), 0);
+									 }
+									 return 1;
                 }
         default: break;
    }
+	 for(i=0; i<nb_cli; i++){
+		 send(client_fd[i], &quitte, sizeof(int), 0);
+	 }
  }
 
 
 }
 
 int main( ){
+	system("clear");
 
 	int nbj;// nombre de joueurs
 	int fin;
 
 	do{			// demande du nb de joueurs
-		printf("Quel est le nombre de joueurs ?(inferieur à 5)\n");
+		printf("Quel est le nombre de joueurs ? (inferieur à 5) : ");
 		scanf("%d",&nbj);
 	}while( nbj<1 || nbj>5);
 

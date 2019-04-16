@@ -23,7 +23,7 @@ typedef struct matrice_s {
 // creer la grille en fonction des choix du joueur
 matrice_pion_t choixgrille(matrice_pion_t);
 
-// Creer une matrice de taille nbl sur nbc et lui alloue de la mémoire 
+// Creer une matrice de taille nbl sur nbc et lui alloue de la mémoire
 matrice_pion_t creer_matrice_adv (int, int);
 
 // Libère la mémoire de la matrice
@@ -43,6 +43,9 @@ bateau_t recherche_bat(coord_t, t_liste);
 
 // Ajoute un pion à la gille suivant le tir
 int ajout_pion_matrice( coord_t, matrice_case_t, matrice_pion_t, t_liste);
+
+// Ajoute un pion à la gille suivant le tir (version reseau)
+int ajout_pion_matrice_res( coord_t , matrice_case_t , matrice_pion_t , t_liste);
 
 // Remet tout les pions à "AUCUN"
 int vider_matrice(matrice_pion_t);

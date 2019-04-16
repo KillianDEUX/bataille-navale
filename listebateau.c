@@ -38,6 +38,7 @@ int veriftouche(coord_t cell, matrice_case_t matrice, t_liste batjoueur){
 	bateau_t actueltemp;
 	en_tete(&batjoueur);
 	while(!hors_liste(&batjoueur)){
+						printf("HELLO veriftouche2 \n");
 		valeur_elt(&batjoueur,&actueltemp);
 		touche = toucheunbateau(matrice, cell, batjoueur);
 		if(touche != 0){
@@ -139,7 +140,7 @@ void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 					}
        			}
        			switch(matrice.grille[i][j].etat){
-				case CASEVIDE : printf("[ ]");break; //si la case n'a jamais été visée 
+				case CASEVIDE : printf("[ ]");break; //si la case n'a jamais été visée
 				case CASETOUCHEE : printf("[o]");break; //si la case a été touché
 				case BATEAUVIDE : printf("[.]");break; // si la case contient un "bout" de bateau non touché
 				case BATEAUTOUCHE : printf("[*]");break; // si la case contient un "bout" de bateau touché
@@ -299,7 +300,7 @@ void parcours_matrice(t_liste joueur, coord_t* case_nonlibres, matrice_case_t ma
 				}
        				else if(i==bat.coord.x){ //si on est au début du bateau on remplit des cases situées autour (gauche, droite, haut et diagonal)
 					actuel.y--;
-					if(danslagrille_joueur(matrice, actuel)){ 
+					if(danslagrille_joueur(matrice, actuel)){
 						case_nonlibres[compteur] = actuel;
 						compteur++;
 					}
@@ -524,7 +525,7 @@ int choixbateau(t_liste batjoueur, matrice_case_t matrice){
 	t_liste bateau_nonplace;
 	init_liste(&bateau_nonplace);
 	bateau_t nouveau;
-	int calcul = (matrice.nbc+matrice.nbl)/2; 
+	int calcul = (matrice.nbc+matrice.nbl)/2;
 	float nbmaxbat = (0.06 * (calcul*calcul)) - (0.3 * calcul) +2;//Calcul du nombre de bateau max selon la taille de la matrice
 	while(nbbat<= 0 || nbbat > nbmaxbat){
               printf("Combien de bateau voulez-vous avoir ? (entre 1 et %0.f) : ", nbmaxbat);
@@ -606,7 +607,7 @@ int toucheunbateau(matrice_case_t mat, coord_t cell, t_liste batjoueur){
 						actuel.x = actueltemp.coord.x;
 						for(actuel.y = actueltemp.coord.y; actuel.y  <= fin_bat; actuel.y++){ //on modifie la matrice pour que le bateau soit désormais coulé
 							update_case_mat(mat, actuel, BATEAUCOULE);
-						}		
+						}
 						return 2;
 					}
 					else{
@@ -618,7 +619,7 @@ int toucheunbateau(matrice_case_t mat, coord_t cell, t_liste batjoueur){
 		}
 		else
 			printf("Direction incorrecte\n");
-			
+
 		update_case_mat(mat, cell, CASETOUCHEE);
 		return 0;
 }

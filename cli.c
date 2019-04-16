@@ -82,6 +82,8 @@ int main() {
     t_liste batjoueur3;
     t_liste batjoueur2;
     int ok=1;
+    int etat_tour_res;
+    int quitte;
 
 
 
@@ -305,11 +307,13 @@ int main() {
                     send(client_fd, mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
 
+
           case 2 :
                     send(client_fd, &mat_case2.nbc, sizeof(mat_case2.nbc), 0);
                     send(client_fd, &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
                     send(client_fd, mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
                     send(client_fd, &nb_bat, sizeof(int), 0);
+
 
 
               break;
@@ -327,6 +331,7 @@ int main() {
 
   	while (1){
 		recv(client_fd, &tour_atk, sizeof(tour_atk), 0);  // Recoit le numero du tour
+
 		printf("\n \n ----------------------------------------------------------------------------- \n");
 		printf(" Tour de  %i \n", tour_atk);
 		if(tour_atk==nb_joueur+1){
@@ -378,9 +383,32 @@ int main() {
 				printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n", tour_atk, info_j_atk, info_c_atk, info_c_atk2);
 			}
 			printf(" ----------------------------------------------------------------------------- \n \n");
+
 		}
     /* Il faut recevoir les nouvelles données du serveur et les afficher */
+    recv(client_fd, &etat_tour_res, sizeof(int), 0);
+    if(tour_atk==nb_joueur+1 || info_j_atk == nb_joueur+1){
+      if( etat_tour_res == 0){
+    		printf("                                        RATE                                    ");
+        printf(" ----------------------------------------------------------------------------- \n \n");
+    	}
+    	else if( etat_tour_res == 1){
+    		printf("                                        TOUCHE                                  ");
+        printf(" ----------------------------------------------------------------------------- \n \n");
+    	}
+    	else if( etat_tour_res == 2){	 				// Si le tir coule une cible
+    		printf("                                        COULÉ                                   ");
+        printf(" ----------------------------------------------------------------------------- \n \n");
+      }
+    }
     /* Puis si une flotte est coulée, faire quitter le programme en annonçant le perdant */
+    recv(client_fd, &quitte, sizeof(int), 0);  // Recoit le numero du tour
+    if(quitte!=0){
+      printf("Le joueur perdant est le joueur %i\n",quitte);
+      printf("AU REVOIR ! \n");
+      break;
+    }
 	}
+
 
 }
