@@ -174,6 +174,8 @@ int main() {
    if(nb_joueur+1==1){  // Si joueur 1, choix bateaux+grille et envoi
       mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
       init_matrice_joueur(mat_case);
+      printf("Voici votre grille \n");
+      affichage_flotte(batjoueur1, mat_case);
       nb_bat=choixbateau(batjoueur1, mat_case);
       send(client_fd, &mat_case.nbc, sizeof(mat_case.nbc), 0);
       send(client_fd, &mat_case.nbl, sizeof(mat_case.nbl), 0);
@@ -214,6 +216,8 @@ int main() {
                      placement_bateau(batjoueur_np5, &bat, bat.dir, bat.coord, mat_case5);
                    }
                    init_matrice_joueur(mat_case5);
+                   printf("Voici votre grille \n");
+                   affichage_flotte(batjoueur5, mat_case5);
                    placer_bateau(batjoueur_np5, batjoueur5, mat_case5);
                    break;
                 }
@@ -239,6 +243,8 @@ int main() {
                      placement_bateau(batjoueur_np4, &bat, bat.dir, bat.coord, mat_case4);
                    }
                    init_matrice_joueur(mat_case4);
+                   printf("Voici votre grille \n");
+                   affichage_flotte(batjoueur4, mat_case4);
                    placer_bateau(batjoueur_np4, batjoueur4, mat_case4);
                 }
 
@@ -263,6 +269,8 @@ int main() {
                  }
 
                  init_matrice_joueur(mat_case3);
+                 printf("Voici votre grille \n");
+                 affichage_flotte(batjoueur3, mat_case3);
                  placer_bateau(batjoueur_np3, batjoueur3, mat_case3);
 
               }
@@ -288,6 +296,8 @@ int main() {
                    placement_bateau(batjoueur_np2, &bat, bat.dir, bat.coord, mat_case2);
                  }
                  init_matrice_joueur(mat_case2);
+                 printf("Voici votre grille \n");
+                 affichage_flotte(batjoueur2, mat_case2);
                  placer_bateau(batjoueur_np2, batjoueur2, mat_case2);
               }
 
