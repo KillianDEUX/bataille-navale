@@ -17,7 +17,7 @@
 int partie_reseau( int nb_cli){
 
 
-	/************************************* Connection ********************************************/
+	/************************************* Connexion ********************************************/
 
 
 	struct sockaddr_in server_addr, client_addr;
@@ -31,6 +31,7 @@ int partie_reseau( int nb_cli){
 
 	system("clear");
 	printf("\n -- BATAILLE NAVALE EN RESEAU - DEMARRAGE DU SERVEUR --\n");
+	printf("\n Dans ce mode de jeu, la grille des pions des joueurs ne varie pas en fonction \n du joueur attaquant mais en fonction du joueur attaqué.\n \n Ainsi chaque participant a une vue d'ensemble des coups de ses adversaires. \n \n");
 
 
 	// Definition du socket
@@ -46,12 +47,12 @@ int partie_reseau( int nb_cli){
         server_addr.sin_port = htons(port_no);
     }
 
-    printf("\n -- PRET - EN ATTENTE DES JOUEURS--\n\n");
+    printf("\n -- PRET - EN ATTENTE DES JOUEURS --\n\n");
 
 
     if( listen(*server_fd, nb_cli) < 0)
     {
-        perror("Erorr in Listen()\n");
+        perror("\n -- ERREUR --\n\n");
         exit(0);
     }
 
@@ -61,19 +62,19 @@ int partie_reseau( int nb_cli){
 
 	nb_joueur=i;
 	    client_fd[i] = accept(*server_fd, (struct sockaddr*)&client_addr, &client_addr_len);
-	    send(client_fd[i], &nb_joueur, sizeof(nb_joueur), 0); //ENVOI le no du joueur
+	    send(client_fd[i], &nb_joueur, sizeof(nb_joueur), 0); //Envoie le numero du joueur
 	    printf(" -- NOUVEAU CLIENT CONNNECTE --\n\n");
 	}
 	printf(" -- YES ! TOUS LES JOUEURS SONT CONNECTES --\n\n");
+
 	for(i=0; i<nb_cli; i++){
-		send(client_fd[i], &nb_cli, sizeof(nb_cli), 0); //ENVOI le le nbre total de joueur
+		send(client_fd[i], &nb_cli, sizeof(nb_cli), 0); //Envoie le le nombre total de joueur aux clients
 	}
-	printf(" -- ENVOI DE NB_CLI AUX CLIENTS --\n\n");
 
 
 
 
-/********************************Debut de la partie en réseau **********************************/
+		/********************************Debut de la partie en réseau **********************************/
 
 		int tour_atk=1; // Le 1er joueur commence
 		int info_j_atk;
@@ -85,9 +86,9 @@ int partie_reseau( int nb_cli){
 		int j;
 		matrice_pion_t mat;
 		matrice_pion_t mat2;
-   		matrice_pion_t mat3;
+   	matrice_pion_t mat3;
  		matrice_pion_t mat4;
-  		matrice_pion_t mat5;
+  	matrice_pion_t mat5;
 		matrice_case_t mat_case;
 		matrice_case_t mat_case2;
 		matrice_case_t mat_case3;
@@ -98,13 +99,10 @@ int partie_reseau( int nb_cli){
 		t_liste batjoueur3;
 		t_liste batjoueur4;
 		t_liste batjoueur5;
-
+		coord_t cell;
 		int ok;
-
 		int nb_bat;
 		bateau_t bat;
-		coord_t cell;
-
 		int etat_tour_res;
 		int quitte=0;
 
@@ -118,66 +116,66 @@ int partie_reseau( int nb_cli){
 	switch(nb_cli){
 		case 5 : mat5=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat5);
-				printf(" -- CREATION DE LA MATRICE 5 EFFECTUEE --\n\n");
+				printf(" -- CREATION DE LA MATRICE 5 EFFECTUE --\n\n");
 				for(i=0; i<nb_cli; i++){
 					send(client_fd[i], &mat5.nbc, sizeof(mat5.nbc), 0);
 					send(client_fd[i], &mat5.nbl, sizeof(mat5.nbl), 0);
 					send(client_fd[i], mat5.grille[0], sizeof(case_t)*mat5.nbl*mat5.nbc, 0);
 				}
-				printf(" -- ENVOI DE LA MATRICE 5 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 5 EFFECTUE --\n\n");
 		case 4 : mat4=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat4);
-				printf(" -- CREATION DE LA MATRICE 4 EFFECTUEE --\n\n");
+				printf(" -- CREATION DE LA MATRICE 4 EFFECTUE --\n\n");
 				for(i=0; i<nb_cli; i++){
 					send(client_fd[i], &mat4.nbc, sizeof(mat4.nbc), 0);
 					send(client_fd[i], &mat4.nbl, sizeof(mat4.nbl), 0);
 					send(client_fd[i], mat4.grille[0], sizeof(case_t)*mat4.nbl*mat4.nbc, 0);
 				}
-				printf(" -- ENVOI DE LA MATRICE 4 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 4 EFFECTUE --\n\n");
 		case 3 : mat3=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat3);
-				printf(" -- CREATION DE LA MATRICE 3 EFFECTUEE --\n\n");
+				printf(" -- CREATION DE LA MATRICE 3 EFFECTUE --\n\n");
 				for(i=0; i<nb_cli; i++){
 					send(client_fd[i], &mat3.nbc, sizeof(mat3.nbc), 0);
 					send(client_fd[i], &mat3.nbl, sizeof(mat3.nbl), 0);
 					send(client_fd[i], mat3.grille[0], sizeof(case_t)*mat3.nbl*mat3.nbc, 0);
 				}
-				printf(" -- ENVOI DE LA MATRICE 3 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 3 EFFECTUE --\n\n");
 		case 2 : mat2=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat2);
-				printf(" -- CREATION DE LA MATRICE 2 EFFECTUEE --\n\n");
+				printf(" -- CREATION DE LA MATRICE 2 EFFECTUE --\n\n");
 				for(i=0; i<nb_cli; i++){
 					send(client_fd[i], &mat2.nbc, sizeof(mat2.nbc), 0);
 					send(client_fd[i], &mat2.nbl, sizeof(mat2.nbl), 0);
 					send(client_fd[i], mat2.grille[0], sizeof(case_t)*mat2.nbl*mat2.nbc, 0);
 				}
-				printf(" -- ENVOI DE LA MATRICE 2 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 2 EFFECTUE --\n\n");
 				for(i=0; i<nb_cli; i++){
 					send(client_fd[i], &mat.nbc, sizeof(mat.nbc), 0);
 					send(client_fd[i], &mat.nbl, sizeof(mat.nbl), 0);
 					send(client_fd[i], mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
 				}
-				printf(" -- ENVOI DE LA MATRICE 1 EFFECTUEE --\n\n");
+				printf(" -- ENVOI DE LA MATRICE 1 EFFECTUE --\n\n");
 		default : break;
 	}
 
-	printf(" -- ENVOI DES MATRICES TERMINEE --\n\n");
+	printf(" -- ENVOI DES MATRICES TERMINE --\n\n");
 
-	printf(" -- AFFICHAGE DES MATRICES--\n\n");
+	printf(" -- AFFICHAGE DES GRILLES DES PIONS --\n\n");
 
 	switch(nb_cli){
-		case 5 :printf(" Affichage de la grille de l'adversaire 5 \n\n");
+		case 5 :printf("\n Affichage de la grille de l'adversaire 5 \n\n");
 				afficher_matrice_pion(mat5);
 
-		case 4 :printf(" Affichage de la grille de l'adversaire 4 \n\n");
+		case 4 :printf("\n Affichage de la grille de l'adversaire 4 \n\n");
 				afficher_matrice_pion(mat4);
 
-		case 3 :printf(" Affichage de la grille de l'adversaire 3 \n\n");
+		case 3 :printf("\n Affichage de la grille de l'adversaire 3 \n\n");
 				afficher_matrice_pion(mat3);
 
-		case 2 :printf(" Affichage de la grille de l'adversaire 2 \n\n");
+		case 2 :printf("\n Affichage de la grille de l'adversaire 2 \n\n");
 				afficher_matrice_pion(mat2);
-				printf(" Affichage de la grille de l'adversaire 1 \n\n");
+				printf("\n Affichage de la grille de l'adversaire 1 \n\n");
 				afficher_matrice_pion(mat);
 
 		default : break;
@@ -204,7 +202,7 @@ int partie_reseau( int nb_cli){
 		placement_bateau( batjoueur1, &bat, bat.dir, bat.coord, mat_case);
 	}
 
-	printf("Affichage de la flotte du joueur 1 \n \n");
+	printf(" Affichage de la flotte du joueur 1 \n \n");
 	affichage_flotte(batjoueur1, mat_case);
 
 	printf(" -- ENVOI DES LISTES DE BATEAUX AUX CLIENTS --\n\n");
@@ -224,7 +222,7 @@ int partie_reseau( int nb_cli){
 			send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
 		}
 	}
-	printf(" -- ENVOI TERMINEE --\n\n");
+	printf(" -- ENVOI TERMINE --\n\n");
 
 	for(int i=1; i<nb_cli; i++){	// A VOIR
 			recv(client_fd[i], &ok, sizeof(int), 0);
@@ -239,7 +237,17 @@ int partie_reseau( int nb_cli){
                     recv(client_fd[4], &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
                     recv(client_fd[4], mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
                     recv(client_fd[4], &nb_bat, sizeof(int), 0);
-                    printf("Affichage de la flotte du joueur 5 \n \n");
+										for(int i=0; i<nb_bat; i++){
+											recv(client_fd[4], &bat.type, sizeof(type_t), 0);
+											recv(client_fd[4], &bat.coord.x, sizeof(int), 0);
+											recv(client_fd[4], &bat.coord.y, sizeof(int), 0);
+											recv(client_fd[4], &bat.taille, sizeof(int), 0);
+											recv(client_fd[4], &bat.dir, sizeof(dir_t), 0);
+											recv(client_fd[4], &bat.etat, sizeof(etat_t),0);
+											recv(client_fd[4], &bat.nb_touche, sizeof(int), 0);
+											placement_bateau( batjoueur5, &bat, bat.dir, bat.coord, mat_case5);
+										}
+                    printf("\n Affichage de la flotte du joueur 5 \n \n");
 					affichage_flotte(batjoueur5, mat_case5);
 
           case 4 :
@@ -250,7 +258,17 @@ int partie_reseau( int nb_cli){
                     recv(client_fd[3], &mat_case4.nbl, sizeof(mat_case4.nbl), 0);
                     recv(client_fd[3], mat_case4.grille[0], sizeof(case_t)*mat_case4.nbl*mat_case4.nbc, 0);
                     recv(client_fd[3], &nb_bat, sizeof(int), 0);
-                    printf("Affichage de la flotte du joueur 4 \n \n");
+										for(int i=0; i<nb_bat; i++){
+											recv(client_fd[3], &bat.type, sizeof(type_t), 0);
+											recv(client_fd[3], &bat.coord.x, sizeof(int), 0);
+											recv(client_fd[3], &bat.coord.y, sizeof(int), 0);
+											recv(client_fd[3], &bat.taille, sizeof(int), 0);
+											recv(client_fd[3], &bat.dir, sizeof(dir_t), 0);
+											recv(client_fd[3], &bat.etat, sizeof(etat_t),0);
+											recv(client_fd[3], &bat.nb_touche, sizeof(int), 0);
+											placement_bateau( batjoueur4, &bat, bat.dir, bat.coord, mat_case4);
+										}
+                    printf("\n Affichage de la flotte du joueur 4 \n \n");
 					affichage_flotte(batjoueur4, mat_case4);
           case 3 :
                     mat_case3=creer_matrice_joueur( mat3.nbl, mat3.nbc );
@@ -260,7 +278,17 @@ int partie_reseau( int nb_cli){
                     recv(client_fd[2], &mat_case3.nbl, sizeof(mat_case3.nbl), 0);
                     recv(client_fd[2], mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
                     recv(client_fd[2], &nb_bat, sizeof(int), 0);
-                    printf("Affichage de la flotte du joueur 3 \n \n");
+										for(int i=0; i<nb_bat; i++){
+											recv(client_fd[2], &bat.type, sizeof(type_t), 0);
+											recv(client_fd[2], &bat.coord.x, sizeof(int), 0);
+											recv(client_fd[2], &bat.coord.y, sizeof(int), 0);
+											recv(client_fd[2], &bat.taille, sizeof(int), 0);
+											recv(client_fd[2], &bat.dir, sizeof(dir_t), 0);
+											recv(client_fd[2], &bat.etat, sizeof(etat_t),0);
+											recv(client_fd[2], &bat.nb_touche, sizeof(int), 0);
+											placement_bateau( batjoueur3, &bat, bat.dir, bat.coord, mat_case3);
+										}
+                    printf("\n Affichage de la flotte du joueur 3 \n \n");
 					affichage_flotte(batjoueur3, mat_case3);
 
           case 2 :
@@ -282,7 +310,7 @@ int partie_reseau( int nb_cli){
 									 		placement_bateau( batjoueur2, &bat, bat.dir, bat.coord, mat_case2);
 									 	}
 
-                    printf("Affichage de la flotte du joueur 2 \n \n");
+                    printf("\n Affichage de la flotte du joueur 2 \n \n");
 					affichage_flotte(batjoueur2, mat_case2);
               break;
 
@@ -294,6 +322,7 @@ int partie_reseau( int nb_cli){
 	}
 	int ctrlpers=-1;
 
+	printf("\n -- REPARTITION DES JOUEURS -- \n");
 	for(int i=0; i<nb_cli; i++){
 			recv(client_fd[i], &ctrlpers, sizeof(int), 0); // Recoit nb_joueur de chaque client
 			printf(" Joueur %i = numéro %i\n", i+1, ctrlpers+1);
@@ -352,104 +381,181 @@ int partie_reseau( int nb_cli){
 		}
 
 	printf("\n Le joueur %i attaque le joueur %i en case n° %i %i\n \n", tour_atk, choix_j_atk, choix_c_atk, choix_c_atk2);
-	printf(" ----------------------------------------------------------------------------- \n \n");
 
 
 
 	cell.x=choix_c_atk-1;
 	cell.y=choix_c_atk2-1;
+
+	// Met a jour la flotte et la matrice pions en fonction du joueur attaque
 	switch(choix_j_atk){
-		case 5 :switch (nb_cli){
-					case 5:
-					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat4, batjoueur5 );
-					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat3, batjoueur5 );
-					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat2, batjoueur5 );
-							etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat, batjoueur5 );
+		case 5 :
+			etat_tour_res=ajout_pion_matrice_res( cell, mat_case5, mat5, batjoueur5 );
+			printf("Affichage de la flotte du joueur 5\n");
+			affichage_flotte(batjoueur5, mat_case5);
+			break;
 
-				}
-				printf("Affichage de la flotte du joueur 5\n");
-				affichage_flotte(batjoueur5, mat_case5);
-				break;
-
-		case 4 :switch (nb_cli){
-					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat5, batjoueur4 );
-					case 4:
-					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat3, batjoueur4 );
-					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat2, batjoueur4 );
-							etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat, batjoueur4 );
-
-				}
-				printf("Affichage de la flotte du joueur 4\n");
-				affichage_flotte(batjoueur4, mat_case4);
-				break;
+		case 4 :
+			etat_tour_res=ajout_pion_matrice_res( cell, mat_case4, mat4, batjoueur4 );
+			printf("Affichage de la flotte du joueur 4\n");
+			affichage_flotte(batjoueur4, mat_case4);
+			break;
 
 
-		case 3 :switch (nb_cli){
-					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat5, batjoueur3 );
-					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat4, batjoueur3 );
-					case 3:
-					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat2, batjoueur3 );
-							etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat, batjoueur3 );
+		case 3 :
+			etat_tour_res=ajout_pion_matrice_res( cell, mat_case3, mat3, batjoueur3 );
+			printf("Affichage de la flotte du joueur 3\n");
+			affichage_flotte(batjoueur3, mat_case3);
+			break;
 
-				}
-				printf("Affichage de la flotte du joueur 3\n");
-				affichage_flotte(batjoueur3, mat_case3);
-				break;
-
-		case 2 :switch (tour_atk){
-					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat5, batjoueur2 );	break;
-					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat4, batjoueur2 );	break;
-					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat3, batjoueur2 );	break;
-					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat2, batjoueur2 );
-									printf("Affichage des pions du joueur 2\n");
-									afficher_matrice_pion(mat2);
-									break;
-					case 1: etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat, batjoueur2 );
-									printf("Affichage des pions du joueur 1\n");
-									afficher_matrice_pion(mat);
-									break;
-
-				}
+		case 2 :
+				etat_tour_res=ajout_pion_matrice_res( cell, mat_case2, mat2, batjoueur2 );
 				printf("Affichage de la flotte du joueur 2\n");
 				affichage_flotte(batjoueur2, mat_case2);
-				printf("Affichage des pions du joueur 2 \n");
-				afficher_matrice_pion(mat2);
 				break;
 
-		case 1 : switch (tour_atk){
-					case 5: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat5, batjoueur1 ); break;
-					case 4: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat4, batjoueur1 ); break;
-					case 3: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat3, batjoueur1 ); break;
-					case 2: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat2, batjoueur1 );
-									printf("Affichage des pions du joueur 2\n");
-									afficher_matrice_pion(mat2);
-									break;
-					case 1: etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat, batjoueur1 );
-									printf("Affichage des pions du joueur 1\n");
-									afficher_matrice_pion(mat);
-									break;
-				}
+		case 1 :
+				etat_tour_res=ajout_pion_matrice_res( cell, mat_case, mat, batjoueur1 );
 				printf("Affichage de la flotte du joueur 1\n");
 				affichage_flotte(batjoueur1, mat_case);
-				printf("Affichage des pions du joueur 1\n");
-				afficher_matrice_pion(mat);
 				break;
 
 		default : break;
 	}
 
+	// Envoi aux clients l'etat de la case attaquee
 	for(i=0; i<nb_cli; i++){
 		send(client_fd[i], &etat_tour_res, sizeof(int), 0);
 	}
 
-	/*Il faut envoyer les nouvelles modifications aux clients pour qu'il puissent afficher ses tirs envoyés et reçus*/
+
+	// Envoi à chaque client les flottes mises a jour + les matrices pions
+	for(i=0; i<nb_cli; i++){
+		switch(nb_cli){
+				case 5 :
+				//Envoi de la matrice pion
+				send(client_fd[i], &mat5.nbc, sizeof(mat5.nbc), 0);
+				send(client_fd[i], &mat5.nbl, sizeof(mat5.nbl), 0);
+				send(client_fd[i], mat5.grille[0], sizeof(case_t)*mat5.nbl*mat5.nbc, 0);
+
+				//Envoi de la flotte
+				send(client_fd[i], &mat_case5.nbc, sizeof(mat_case5.nbc), 0);
+				send(client_fd[i], &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
+				send(client_fd[i], mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
+				send(client_fd[i], &nb_bat, sizeof(int), 0);
+				for(en_tete(&batjoueur5); !hors_liste(&batjoueur5); suivant(&batjoueur5)){
+					valeur_elt(&batjoueur5, &bat);
+						send(client_fd[i], &bat.type, sizeof(type_t), 0);
+						send(client_fd[i], &bat.coord.x, sizeof(int), 0);
+						send(client_fd[i], &bat.coord.y, sizeof(int), 0);
+						send(client_fd[i], &bat.taille, sizeof(int), 0);
+						send(client_fd[i], &bat.dir, sizeof(dir_t), 0);
+						send(client_fd[i], &bat.etat, sizeof(etat_t),0);
+						send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
+
+				}
+
+					case 4 :
+						//Envoi de la matrice pion
+						send(client_fd[i], &mat4.nbc, sizeof(mat4.nbc), 0);
+						send(client_fd[i], &mat4.nbl, sizeof(mat4.nbl), 0);
+						send(client_fd[i], mat4.grille[0], sizeof(case_t)*mat4.nbl*mat4.nbc, 0);
+
+						//Envoi de la flotte
+						send(client_fd[i], &mat_case4.nbc, sizeof(mat_case4.nbc), 0);
+						send(client_fd[i], &mat_case4.nbl, sizeof(mat_case4.nbl), 0);
+						send(client_fd[i], mat_case4.grille[0], sizeof(case_t)*mat_case4.nbl*mat_case4.nbc, 0);
+						send(client_fd[i], &nb_bat, sizeof(int), 0);
+						for(en_tete(&batjoueur4); !hors_liste(&batjoueur4); suivant(&batjoueur4)){
+							valeur_elt(&batjoueur4, &bat);
+								send(client_fd[i], &bat.type, sizeof(type_t), 0);
+								send(client_fd[i], &bat.coord.x, sizeof(int), 0);
+								send(client_fd[i], &bat.coord.y, sizeof(int), 0);
+								send(client_fd[i], &bat.taille, sizeof(int), 0);
+								send(client_fd[i], &bat.dir, sizeof(dir_t), 0);
+								send(client_fd[i], &bat.etat, sizeof(etat_t),0);
+								send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
+
+						}
+
+					case 3 :
+							//Envoi de la matrice pion
+							send(client_fd[i], &mat3.nbc, sizeof(mat3.nbc), 0);
+							send(client_fd[i], &mat3.nbl, sizeof(mat3.nbl), 0);
+							send(client_fd[i], mat3.grille[0], sizeof(case_t)*mat3.nbl*mat3.nbc, 0);
+
+							//Envoi de la flotte
+							send(client_fd[i], &mat_case3.nbc, sizeof(mat_case3.nbc), 0);
+							send(client_fd[i], &mat_case3.nbl, sizeof(mat_case3.nbl), 0);
+							send(client_fd[i], mat_case3.grille[0], sizeof(case_t)*mat_case3.nbl*mat_case3.nbc, 0);
+							send(client_fd[i], &nb_bat, sizeof(int), 0);
+							for(en_tete(&batjoueur3); !hors_liste(&batjoueur3); suivant(&batjoueur3)){
+								valeur_elt(&batjoueur3, &bat);
+									send(client_fd[i], &bat.type, sizeof(type_t), 0);
+									send(client_fd[i], &bat.coord.x, sizeof(int), 0);
+									send(client_fd[i], &bat.coord.y, sizeof(int), 0);
+									send(client_fd[i], &bat.taille, sizeof(int), 0);
+									send(client_fd[i], &bat.dir, sizeof(dir_t), 0);
+									send(client_fd[i], &bat.etat, sizeof(etat_t),0);
+									send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
+
+							}
+
+					case 2 :
+								//Envoi de la matrice pion (joueur 2)
+								send(client_fd[i], &mat2.nbc, sizeof(mat2.nbc), 0);
+								send(client_fd[i], &mat2.nbl, sizeof(mat2.nbl), 0);
+								send(client_fd[i], mat2.grille[0], sizeof(case_t)*mat2.nbl*mat2.nbc, 0);
+
+								//Envoi de la matrice pion (joueur 1)
+								send(client_fd[i], &mat.nbc, sizeof(mat.nbc), 0);
+								send(client_fd[i], &mat.nbl, sizeof(mat.nbl), 0);
+								send(client_fd[i], mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
+
+								//Envoi de la flotte (joueur 2)
+								send(client_fd[i], &mat_case2.nbc, sizeof(mat_case2.nbc), 0);
+								send(client_fd[i], &mat_case2.nbl, sizeof(mat_case2.nbl), 0);
+								send(client_fd[i], mat_case2.grille[0], sizeof(case_t)*mat_case2.nbl*mat_case2.nbc, 0);
+								send(client_fd[i], &nb_bat, sizeof(int), 0);
+								for(en_tete(&batjoueur2); !hors_liste(&batjoueur2); suivant(&batjoueur2)){
+					        valeur_elt(&batjoueur2, &bat);
+										send(client_fd[i], &bat.type, sizeof(type_t), 0);
+										send(client_fd[i], &bat.coord.x, sizeof(int), 0);
+										send(client_fd[i], &bat.coord.y, sizeof(int), 0);
+										send(client_fd[i], &bat.taille, sizeof(int), 0);
+										send(client_fd[i], &bat.dir, sizeof(dir_t), 0);
+										send(client_fd[i], &bat.etat, sizeof(etat_t),0);
+										send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
+
+								}
+
+										//Envoi de la flotte (joueur 1)
+								send(client_fd[i], &mat_case.nbc, sizeof(mat_case.nbc), 0);
+								send(client_fd[i], &mat_case.nbl, sizeof(mat_case.nbl), 0);
+								send(client_fd[i], mat_case.grille[0], sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
+								send(client_fd[i], &nb_bat, sizeof(int), 0);
+								for(en_tete(&batjoueur1); !hors_liste(&batjoueur1); suivant(&batjoueur1)){
+					        valeur_elt(&batjoueur1, &bat);
+										send(client_fd[i], &bat.type, sizeof(type_t), 0);
+										send(client_fd[i], &bat.coord.x, sizeof(int), 0);
+										send(client_fd[i], &bat.coord.y, sizeof(int), 0);
+										send(client_fd[i], &bat.taille, sizeof(int), 0);
+										send(client_fd[i], &bat.dir, sizeof(dir_t), 0);
+										send(client_fd[i], &bat.etat, sizeof(etat_t),0);
+										send(client_fd[i], &bat.nb_touche, sizeof(int), 0);
+
+								}
+
+							}
+		}
 
 	if(tour_atk<nb_cli){  // Changement de tour
 		tour_atk++;
-
 	}else{
 		tour_atk=1;
 	}
+
+	// Signal de fin de partie (= un joueur a perdu toute sa flotte)
 	switch (nb_cli){
         case 5 : if(bateaux_coules(batjoueur5, nb_bat)){
 					quitte=5;
@@ -491,6 +597,8 @@ int partie_reseau( int nb_cli){
                 }
         default: break;
    }
+
+	 // Envoi du signal de fin de partie
 	 for(i=0; i<nb_cli; i++){
 		 send(client_fd[i], &quitte, sizeof(int), 0);
 	 }
@@ -501,12 +609,14 @@ int partie_reseau( int nb_cli){
 
 int main( ){
 	system("clear");
+	printf("\n -- BATAILLE NAVALE --\n");
+	printf("\n -- Par DEUX Killian, DEROUET Corentin & GERARD Jules --\n");
 
 	int nbj;// nombre de joueurs
 	int fin;
 
 	do{			// demande du nb de joueurs
-		printf("Quel est le nombre de joueurs ? (inferieur à 5) : ");
+		printf("\n Quel est le nombre de joueurs ? (compris entre 1 et 5) : ");
 		scanf("%d",&nbj);
 	}while( nbj<1 || nbj>5);
 
@@ -578,7 +688,7 @@ int main( ){
 	}
 	else{
      		fin=partie_reseau(nbj);
-     		printf("Le joueur perdant est le joueur %i\n",fin );
+     		printf("Le joueur perdant est le joueur %i\n \n",fin );
 	}
 	return 0;
 }
