@@ -4,25 +4,26 @@
 #include "liste.h"
 #include "listebateau.h"
 #include "matricepion.h"
+#include "lettre.h"
 
 
 // creer la grille pion en fonction des choix du joueur
 matrice_pion_t choixgrille(matrice_pion_t mat){
 	int nbli,nbco; // taille de la grille de jeu (nb de lignes/ nb de colonnes)
 	do{
-		printf("Quelle largeur de la grille souhaitez-vous ? (entre 5 et 32)\n");
+		printf("Quelle largeur de la grille souhaitez-vous ? (entre 5 et 26)\n");
 		scanf("%d",&nbco);
-		if(nbco<5 || nbco>32){
+		if(nbco<5 || nbco>26){
 			printf("Largeur de la grille non conforme\n");
 		}
-	}while(nbco<5 || nbco>32);
+	}while(nbco<5 || nbco>26);
 	do{
-		printf("Quelle hauteur de la grille souhaitez-vous ?(entre 5 et 32)\n");
+		printf("Quelle hauteur de la grille souhaitez-vous ?(entre 5 et 26)\n");
 		scanf("%d",&nbli);
-		if(nbli<5 || nbli>32){
+		if(nbli<5 || nbli>26){
 			printf("Hauteur de la grille non conforme\n");
 		}
-	}while(nbli<5 || nbli>32); // pour une taille max de grille de 1024
+	}while(nbli<5 || nbli>26); // pour une taille max de grille de 1024
 	mat=creer_matrice_adv(nbli, nbco);
 	return mat;
 }
@@ -339,6 +340,7 @@ int vider_matrice(matrice_pion_t mat){
 
 // Voir avec la SDL. Ici affichage version terminal
 void afficher_matrice_pion( matrice_pion_t mat){
+	char c;
 	printf("   ");
 	for(int k=1; k<=mat.nbc; k++){
 		if(k<10){
@@ -351,11 +353,8 @@ void afficher_matrice_pion( matrice_pion_t mat){
 	for(int i=0; i<mat.nbl ; i++){
        		for(int j=0; j<mat.nbc ; j++){
        			if (j== 0){
-       				if((i+1)<10){
-						printf("%d  ", i+1);
-					}else{
-						printf("%d ", i+1);
-					}
+       				c = nombre_to_lettre(i);
+       				printf("%c ", c);
        			}
            		if(mat.grille[i][j].c == AUCUNE){
 				printf(".  ");

@@ -5,6 +5,7 @@
 #include "matricepion.h"
 #include "matrice.h"
 #include "bateau.h"
+#include "lettre.h"
 
 #define DEFAULT_DIRECTION VERTICAL
 
@@ -120,8 +121,10 @@ int appliquer_bateau(t_liste batjoueur1, t_liste batjoueur2){
 
 //affiche la flotte d'un joueur
 void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
+	char c;
 	printf("   ");
 	for(int k=1; k<=matrice.nbc; k++){
+		
 		if(k<10){
 			printf("%d  ", k );
 		}else{
@@ -131,12 +134,9 @@ void affichage_flotte(t_liste batjoueur, matrice_case_t matrice){
 	printf("\n");
 	for(int i=0; i<matrice.nbl ; i++){
        		for(int j=0; j<matrice.nbc ; j++){
+			c = nombre_to_lettre(i);
        			if (j== 0){
-       				if((i+1)<10){
-						printf("%d ", i+1);
-					}else{
-						printf("%d", i+1);
-					}
+       				printf("%c ", c);
        			}
        			switch(matrice.grille[i][j].etat){
 				case CASEVIDE : printf("[ ]");break; //si la case n'a jamais été visée
@@ -426,6 +426,7 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 	coord_t emp;
 	bateau_t nouv;
 	char * nomdutype;
+	char c;
 	en_tete(&bateau_nonplace);
 	for(int i=1;!hors_liste(&bateau_nonplace);){
 		valeur_elt(&bateau_nonplace, &nouv);
@@ -451,13 +452,16 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 		}
 		if(direction == VERTICAL){
 			do{
-				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n Numéro de ligne = ", matrice.nbl);
-				scanf("%i", &emp.x);
+			printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre A et %c) \n Coordonnée lettre  = ", nombre_to_lettre(matrice.nbl));
+				scanf("%c", &c);//scanf poubelle
+				scanf("%c", &c);
+				emp.x = lettre_to_nombre(c);
+				emp.x++;
 				if(emp.x < 1){
 					printf("La ligne n'est pas dans la grille (inférieur à 1) \n");
 				}
 				else if( emp.x > matrice.nbl){
-					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbl);
+					printf("La ligne n'est pas dans la grille (supérieur à %c) \n",nombre_to_lettre(matrice.nbl-1));
 				}
 				else if((emp.x)+(nouv.taille)-1> matrice.nbl){
 					printf("La fin du bateau dépasse la grille\n");
@@ -465,7 +469,7 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 			}while(emp.x <1 || emp.x > matrice.nbl || (emp.x)+(nouv.taille)-1> matrice.nbl);
 
 			do{
-				printf("\n Numéro de colonne = ");
+				printf("\n Coordonnée chiffre = ");
 				scanf("%i", &emp.y);
 				if(emp.y < 1){
 					printf("La colonne n'est pas dans la grille (inférieur à 1) \n");
@@ -478,18 +482,21 @@ void placer_bateau(t_liste bateau_nonplace, t_liste batjoueur, matrice_case_t ma
 			emp.y -= 1 ;
 		}else{
 			do{
-				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre 1 et %i) \n Numéro de ligne = ", matrice.nbl);
-				scanf("%i", &emp.x);
+				printf("Quelles sont les coordonnees a laquelle vous voulez placer le bateau ?(entre A et %c) \n Coordonnée lettre = ", nombre_to_lettre(matrice.nbl));
+				scanf("%c", &c);//scanf poubelle
+				scanf("%c", &c);
+				emp.x = lettre_to_nombre(c);
+				emp.x++;
 				if(emp.x < 1){
 					printf("La ligne n'est pas dans la grille (inférieur à 1) \n");
 				}
 				else if( emp.x > matrice.nbl){
-					printf("La colonne n'est pas dans la grille (supérieur à %i) \n",matrice.nbl);
+					printf("La ligne n'est pas dans la grille (supérieur à %c) \n",nombre_to_lettre(matrice.nbl-1));
 				}
 			}while(emp.x < 1 || emp.x > matrice.nbl); //Verification
 
 			do{
-				printf("\n Numéro de colonne = ");
+				printf("\n Coordonnée chiffre = ");
 				scanf("%i", &emp.y);
 				if(emp.y < 1){
 					printf("La colonne n'est pas dans la grille (inférieur à 1) \n");
