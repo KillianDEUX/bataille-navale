@@ -534,7 +534,7 @@ int choixbateau(t_liste batjoueur, matrice_case_t matrice){
 	int calcul = (matrice.nbc+matrice.nbl)/2;
 	float nbmaxbat = (0.06 * (calcul*calcul)) - (0.3 * calcul) +2;//Calcul du nombre de bateau max selon la taille de la matrice
 	while(nbbat<= 0 || nbbat > nbmaxbat){
-              printf("Combien de bateau voulez-vous avoir ? (entre 1 et %0.f) : ", nbmaxbat);
+              printf("Combien de bateau voulez-vous avoir ? (entre 1 et %d) : ",(int)nbmaxbat);
               scanf("%i", &nbbat);
 	}
 	en_tete(&bateau_nonplace);
