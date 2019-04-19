@@ -6,7 +6,7 @@ all : serveur client
 serveur : liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o lettre.o matrice.o main.o
 		gcc ${OPTS} -o serveur liste.o bateau.o lettre.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o main.o
 
-client : liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o cli.o
+client : liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o cli.o lettre.o
 		gcc ${OPTS} -o client liste.o bateau.o listebateau.o matricepion.o IA_pions.o IA_bateaux.o direction.o matrice.o lettre.o cli.o
 
 liste.o : liste.c liste.h bateau.h
@@ -33,7 +33,7 @@ direction.o : direction.c direction.h
 matrice.o : matrice.c matrice.h
 		gcc -c matrice.c -o matrice.o ${OPTS}
 
-main.o : main.c liste.h listebateau.h matricepion.h bateau.h matrice.h
+main.o : main.c liste.h listebateau.h matricepion.h bateau.h matrice.h lettre.h
 		gcc -c main.c -o main.o ${OPTS}
 
 lettre.o : lettre.c lettre.h

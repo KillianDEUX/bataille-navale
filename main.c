@@ -12,6 +12,7 @@
 #include "IA_bateaux.h"
 #include "IA_pions.h"
 #include "matrice.h"
+#include "lettre.h"
 
 
 int partie_reseau( int nb_cli){
@@ -650,11 +651,14 @@ int main( ){
 		//affichage_flotte(ia, mat_case_ia);
 		en_tete(&batjoueur1);
 		bateau_t bateau;
+		char c;
 		valeur_elt(&batjoueur1,&bateau);
 		while(!bateaux_coules(batjoueur1, nb_bat) && !bateaux_coules(ia, nb_bat)){ //boucle tant que les bateaux du joueur OU de l'ia ne sont pas tous coulés
 			do{
 				printf("\n A votre tour, \nQuelle case voulez-vous attaquer ( de la forme \"ligne colonne\")? ");
-				scanf("%i %i", &choix_c_atk, &choix_c_atk2);
+				scanf("%c %i", &c, &choix_c_atk2);
+				choix_c_atk = lettre_to_int(c);
+			    choix_c_atk++;
 				if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
 					printf("Cette case n'est pas dans la grille\n");
 				}
