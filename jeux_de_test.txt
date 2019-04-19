@@ -1,0 +1,31 @@
+Jeux de tests pour le débogage : 
+
+Jeux de test 1, IA : 
+
+1 4 -> erreur taille de la matrice
+
+Jeux de test 2, IA : 
+
+1 5 5 3 -> erreur trop de bateaux
+
+Jeux de test 3, IA : 
+
+1 5 5 2 6 -> erreur taille de bateau trop grand
+
+Jeux de test 4, IA : 
+
+1 5 5 2 5 3 2 A 5 -> erreur la bateau sort de la grille
+
+
+Jeux de test 5, IA : 
+
+1 5 5 2 5 3 2 A 1 C 3 Z 3 -> erreur case en dehors de la grille
+
+Jeux de test 6, Réseau : 
+
+2 joueurs,
+rentrer adresse IP
+
+joueur 1 : 5 5 1 1 A 1 -attendre- B 3
+
+joueur 2 : B 3 -attendre- 
