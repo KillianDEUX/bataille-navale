@@ -14,7 +14,7 @@
 #include "IA_bateaux.h"
 #include "IA_pions.h"
 #include "matrice.h"
-
+#include "lettre.h"
 
 
 void tcp_connection_client(int * client_fd)

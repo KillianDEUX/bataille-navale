@@ -341,7 +341,7 @@ int vider_matrice(matrice_pion_t mat){
 // Voir avec la SDL. Ici affichage version terminal
 void afficher_matrice_pion( matrice_pion_t mat){
 	char c;
-	printf("   ");
+	printf("  ");
 	for(int k=1; k<=mat.nbc; k++){
 		if(k<10){
 			printf("%d  ", k );
