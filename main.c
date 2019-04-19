@@ -35,7 +35,7 @@ int partie_reseau( int nb_cli){
 	printf("\n Dans ce mode de jeu, la grille des pions des joueurs ne varie pas en fonction \n du joueur attaquant mais en fonction du joueur attaqué.\n \n Ainsi chaque participant a une vue d'ensemble des coups de ses adversaires. \n \n");
 
 
-	// Definition du socket
+		// Definition du socket
     *server_fd = socket(AF_INET, SOCK_STREAM, 0);
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
@@ -107,21 +107,22 @@ int partie_reseau( int nb_cli){
 		int etat_tour_res;
 		int quitte=0;
 
-	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0);
-	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0);
+	//Reception de la matrice du client 1
+	recv(client_fd[0], &mat.nbc, sizeof(mat.nbc), 0); // nombre de colonne
+	recv(client_fd[0], &mat.nbl, sizeof(mat.nbl), 0); // nombre de ligne
 	mat=creer_matrice_adv(mat.nbl, mat.nbc);
-	recv(client_fd[0], mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
+	recv(client_fd[0], mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);	// grille
 
 	printf(" -- RECEPTION DE LA MATRICE --\n\n");
 
-	switch(nb_cli){
+	switch(nb_cli){		//Envoi des matrices aux clients en fonction de leur nombre
 		case 5 : mat5=creer_matrice_adv (mat.nbl, mat.nbc);
 				init_matrice_adv(mat5);
 				printf(" -- CREATION DE LA MATRICE 5 EFFECTUE --\n\n");
 				for(i=0; i<nb_cli; i++){
-					send(client_fd[i], &mat5.nbc, sizeof(mat5.nbc), 0);
-					send(client_fd[i], &mat5.nbl, sizeof(mat5.nbl), 0);
-					send(client_fd[i], mat5.grille[0], sizeof(case_t)*mat5.nbl*mat5.nbc, 0);
+					send(client_fd[i], &mat5.nbc, sizeof(mat5.nbc), 0);  //Envoi nombre de colonne
+					send(client_fd[i], &mat5.nbl, sizeof(mat5.nbl), 0);	//Envoi nombre de ligne
+					send(client_fd[i], mat5.grille[0], sizeof(case_t)*mat5.nbl*mat5.nbc, 0);	//Envoi nombre de la grille
 				}
 				printf(" -- ENVOI DE LA MATRICE 5 EFFECTUE --\n\n");
 		case 4 : mat4=creer_matrice_adv (mat.nbl, mat.nbc);
@@ -163,8 +164,7 @@ int partie_reseau( int nb_cli){
 	printf(" -- ENVOI DES MATRICES TERMINE --\n\n");
 
 	printf(" -- AFFICHAGE DES GRILLES DES PIONS --\n\n");
-
-	switch(nb_cli){
+	switch(nb_cli){  //Affiche les matrices pion de l'ensemble de joueur
 		case 5 :printf("\n Affichage de la grille de l'adversaire 5 \n\n");
 				afficher_matrice_pion(mat5);
 
@@ -183,8 +183,10 @@ int partie_reseau( int nb_cli){
 	}
 
 	printf(" -- AFFICHAGE DES MATRICES TERMINEE --\n\n");
-		printf(" -- EN ATTENTE DE RECEPTION BATEAU JOUEUR 1 --\n\n");
 
+	printf(" -- EN ATTENTE DE RECEPTION BATEAU JOUEUR 1 --\n\n");
+
+	// On recoit les choix du joueur 1 (celui qui definit la grille à la liste de bateaux)
 	mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
 	init_matrice_joueur(mat_case);
 	init_liste(&batjoueur1);
@@ -193,7 +195,7 @@ int partie_reseau( int nb_cli){
 	recv(client_fd[0], mat_case.grille[0], sizeof(case_t)*mat_case.nbl*mat_case.nbc, 0);
 	recv(client_fd[0], &nb_bat, sizeof(int), 0);
  for(int i=0; i<nb_bat; i++){
-		recv(client_fd[0], &bat.type, sizeof(type_t), 0);
+		recv(client_fd[0], &bat.type, sizeof(type_t), 0);		//Pour chaque bateau, on recoit ces informations
 		recv(client_fd[0], &bat.coord.x, sizeof(int), 0);
 		recv(client_fd[0], &bat.coord.y, sizeof(int), 0);
 		recv(client_fd[0], &bat.taille, sizeof(int), 0);
@@ -207,6 +209,8 @@ int partie_reseau( int nb_cli){
 	affichage_flotte(batjoueur1, mat_case);
 
 	printf(" -- ENVOI DES LISTES DE BATEAUX AUX CLIENTS --\n\n");
+
+	// Envoi de la grille et de la liste des bateaux aux autres clients
 	for(i=1; i<nb_cli; i++){
 		send(client_fd[i], &mat_case.nbc, sizeof(mat_case.nbc), 0);
 		send(client_fd[i], &mat_case.nbl, sizeof(mat_case.nbl), 0);
@@ -214,7 +218,7 @@ int partie_reseau( int nb_cli){
 		send(client_fd[i], &nb_bat, sizeof(int), 0);
 		for(en_tete(&batjoueur1); !hors_liste(&batjoueur1); suivant(&batjoueur1)){
 			valeur_elt(&batjoueur1, &bat);
-			send(client_fd[i], &bat.type, sizeof(type_t), 0);
+			send(client_fd[i], &bat.type, sizeof(type_t), 0);		//Pour chaque bateau, on envoie ces informations
 			send(client_fd[i], &bat.coord.x, sizeof(int), 0);
 			send(client_fd[i], &bat.coord.y, sizeof(int), 0);
 			send(client_fd[i], &bat.taille, sizeof(int), 0);
@@ -225,15 +229,15 @@ int partie_reseau( int nb_cli){
 	}
 	printf(" -- ENVOI TERMINE --\n\n");
 
-	for(int i=1; i<nb_cli; i++){	// A VOIR
+	for(int i=1; i<nb_cli; i++){	// Confirmation
 			recv(client_fd[i], &ok, sizeof(int), 0);
 	}
 
-     switch(nb_cli){
+     switch(nb_cli){ //En fonction du nombre de clients, on recoit at affiche la flotte de tous les joueurs.
           case 5 :
                     mat_case5=creer_matrice_joueur( mat5.nbl, mat5.nbc );
-              		init_matrice_joueur(mat_case5);
-              		init_liste(&batjoueur5);
+              			init_matrice_joueur(mat_case5);
+              			init_liste(&batjoueur5);
                     recv(client_fd[4], &mat_case5.nbc, sizeof(mat_case5.nbc), 0);
                     recv(client_fd[4], &mat_case5.nbl, sizeof(mat_case5.nbl), 0);
                     recv(client_fd[4], mat_case5.grille[0], sizeof(case_t)*mat_case5.nbl*mat_case5.nbc, 0);
@@ -331,35 +335,36 @@ int partie_reseau( int nb_cli){
 	afficher_legende();
 
 
-	while(1){
+	while(1){ // Boucle de jeu
 
 		printf("\n \n ----------------------------------------------------------------------------- \n");
-	printf("\n -- ENVOI DU TOUR AUX CLIENTS --\n\n");
-	for(i=0; i<nb_cli; i++){
-		send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //ENVOI le numéro du tour
-	}
-
-
-	if(nb_cli!=2){
-		recv(client_fd[tour_atk-1], &choix_j_atk, sizeof(choix_j_atk), 0);  // Recoit le numéro du joueur attaqué
-		info_j_atk=choix_j_atk;
-	}else{	// Dans le cas d'une partie à deux joueurs
-		if(tour_atk==1){
-			info_j_atk=2;
-			choix_j_atk=2;
-		}else{
-			info_j_atk=1;
-			choix_j_atk=1;
-
+		printf("\n -- ENVOI DU TOUR AUX CLIENTS --\n\n");
+		for(i=0; i<nb_cli; i++){
+			send(client_fd[i], &tour_atk, sizeof(tour_atk), 0);  //Envoi du numéro du tour
 		}
-	}
 
-	printf(" En attente du joueur %i\n", tour_atk);
 
-	// Recoit les coordonnes de l'attaque
-	recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
-	recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
+		if(nb_cli!=2){
+			recv(client_fd[tour_atk-1], &choix_j_atk, sizeof(choix_j_atk), 0);  // Recoit le numéro du joueur attaqué
+			info_j_atk=choix_j_atk;
+		}else{	// Sauf dans le cas d'une partie à deux joueurs
+			if(tour_atk==1){
+				info_j_atk=2;
+				choix_j_atk=2;
+			}else{
+				info_j_atk=1;
+				choix_j_atk=1;
 
+			}
+		}
+
+		printf(" En attente du joueur %i\n", tour_atk);
+
+		// Recoit les coordonnes de l'attaque
+		recv(client_fd[tour_atk-1], &choix_c_atk, sizeof(choix_c_atk), 0);
+		recv(client_fd[tour_atk-1], &choix_c_atk2, sizeof(choix_c_atk2), 0);
+
+		// Variables d'informations
 		info_c_atk=choix_c_atk;
 		info_c_atk2=choix_c_atk2;
 

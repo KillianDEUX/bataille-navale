@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #define PORT 32000
-#define ip "127.0.0.1"
 #include "bateau.h"
 #include "matricepion.h"
 #include "liste.h"
@@ -22,14 +21,14 @@ void tcp_connection_client(int * client_fd)
 {
     struct sockaddr_in serv_addr;
     int port_no=PORT;
-    //char *ip = malloc(200);
+    char *ip = malloc(200);
 
-    printf("\n Entrez l'@IP du serveur : DEJA FAIT \n");
-	//scanf("%s", ip);
-
-
+    printf("\n Entrez l'@IP du serveur : ");
+	  scanf("%s", ip);
 
 
+
+    // Definition du socket
     *client_fd = socket(AF_INET, SOCK_STREAM, 0);
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = inet_addr(ip);
@@ -108,7 +107,7 @@ int main() {
     printf("\n Tu es le joueur %i \n \n", nb_joueur+1);
 
      //Choix de la grille
-    if(nb_joueur+1==1){
+    if(nb_joueur+1==1){ // Si on est le joueur 1
       mat=choixgrille(mat);
       init_matrice_adv(mat);
       send(client_fd, &mat.nbc, sizeof(mat.nbc), 0);
@@ -117,6 +116,7 @@ int main() {
     }
     printf(" \n ----------------------------------------------------------------------------- \n");
 
+    // Réception des grilles des autres joueurs
     switch(nb_cli){
 		case 5 :recv(client_fd, &mat5.nbc, sizeof(mat5.nbc), 0);
 				recv(client_fd, &mat5.nbl, sizeof(mat5.nbl), 0);
@@ -144,33 +144,8 @@ int main() {
 				recv(client_fd, mat.grille[0], sizeof(case_t)*mat.nbl*mat.nbc, 0);
 
 		default : break;
-	}
-	switch(nb_cli){
-		case 5 : if(nb_joueur+1!=5){
-					// printf(" Affichage de la grille de l'adversaire 5 \n\n");
-					// afficher_matrice_pion(mat5);
-				}
+	  }
 
-		case 4 :if(nb_joueur+1!=4){
-					// printf(" Affichage de la grille de l'adversaire 4 \n\n");
-					// afficher_matrice_pion(mat4);
-				}
-
-		case 3 :if(nb_joueur+1!=3){
-					// printf(" Affichage de la grille de l'adversaire 3 \n\n");
-					// afficher_matrice_pion(mat3);
-				}
-
-		case 2 :if(nb_joueur+1!=2){
-					// printf(" Affichage de la grille de l'adversaire 2 \n\n");
-					// afficher_matrice_pion(mat2);
-				}
-				if(nb_joueur+1!=1){
-					// printf(" Affichage de la grille de l'adversaire 1 \n\n");
-					// afficher_matrice_pion(mat);
-				}
-		default : break;
-	}
    if(nb_joueur+1==1){  // Si joueur 1, choix bateaux+grille et envoi
       mat_case=creer_matrice_joueur( mat.nbl, mat.nbc );
       init_matrice_joueur(mat_case);
@@ -193,7 +168,7 @@ int main() {
       }
 
       }else{
-        switch(nb_cli){
+        switch(nb_cli){  // Reception des grilles et des bateaux depuis le serveur, affichage et placement des bateaux
       		case 5 :
               if(nb_joueur+1==5){
                     mat_case5=creer_matrice_joueur( mat5.nbl, mat5.nbc );
@@ -211,7 +186,7 @@ int main() {
                      recv(client_fd, &bat.coord.y, sizeof(int), 0);
                      recv(client_fd, &bat.taille, sizeof(int), 0);
                      recv(client_fd, &bat.dir, sizeof(dir_t), 0);
-                    recv(client_fd, &bat.etat, sizeof(etat_t), 0);
+                     recv(client_fd, &bat.etat, sizeof(etat_t), 0);
                      recv(client_fd, &bat.nb_touche, sizeof(int), 0);
                      placement_bateau(batjoueur_np5, &bat, bat.dir, bat.coord, mat_case5);
                    }
@@ -308,11 +283,11 @@ int main() {
 
       }
 
-    if(nb_joueur+1!=1){ // A VOIR
+    if(nb_joueur+1!=1){ //Confirmation
           send(client_fd, &ok, sizeof(int), 0);
     }
 
-    if(nb_joueur+1!=1){
+    if(nb_joueur+1!=1){  // Envoi grilles avec bateaux places pour les clients autres que le 1
       switch(nb_cli){
           case 5 :
                     if(nb_joueur+1==5){
