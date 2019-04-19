@@ -430,7 +430,7 @@ int main() {
       do{
 		    		printf("\n Quelle case voulez-vous attaquer (de la forme \"ligne colonne\")? ");
 			     	scanf("%c %i", &c, &choix_c_atk2);
-			     	choix_c_atk = lettre_to_int(c);
+			     	choix_c_atk =  lettre_to_nombre(c);
 			     	choix_c_atk++;
 			     	if(choix_c_atk<=0 || choix_c_atk2<=0 || choix_c_atk>mat.nbl || choix_c_atk2>mat.nbc){
 					     printf("Cette case n'est pas dans la grille\n");
